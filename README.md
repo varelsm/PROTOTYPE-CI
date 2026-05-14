@@ -1,2 +1,2 @@
 # PROTOTYPE-CI
-CEK 1
+"REGIST.ZIP" is first patch before first finish
