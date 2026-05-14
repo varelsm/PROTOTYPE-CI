@@ -8,12 +8,33 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+  // Prevent dark mode flash - execute BEFORE page renders
+  (function() {
+    const saved = localStorage.getItem('theme');
+    if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    }
+  })();
+</script>
 <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
             theme: {
                 extend: {
                     "colors": {
+                        "brand": {
+                          "50": "#fff7ed",
+                          "100": "#ffedd5",
+                          "200": "#fed7aa",
+                          "300": "#fdba74",
+                          "400": "#fb923c",
+                          "500": "#f97316",
+                          "600": "#ea580c",
+                          "700": "#c2410c",
+                          "800": "#a33a0f",
+                          "900": "#7c2d12"
+                        },
                         "surface-container-low": "#eff4ff",
                         "on-primary": "#ffffff",
                         "tertiary-fixed-dim": "#66df75",
@@ -104,6 +125,10 @@
         }
     </script>
 <style>
+        .glass-card,
+        .glass-card * {
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
         .glass-card {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
@@ -116,54 +141,101 @@
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
             transform: translateY(-2px);
         }
+        html.dark .glass-card {
+            background: rgba(15, 23, 42, 0.9);
+            border-color: #334155;
+        }
+        html.dark .glass-card:hover {
+            border-color: #f97316;
+        }
+        .toggle-icon {
+            width: 20px;
+            height: 20px;
+            display: inline-block;
+        }
+        .sun-icon { display: block; }
+        html.dark .sun-icon { display: none; }
+        .moon-icon { display: none; }
+        html.dark .moon-icon { display: block; }
     </style>
 </head>
-<body class="bg-background min-h-screen flex flex-col font-sans">
+<body class="bg-background min-h-screen flex flex-col font-sans dark:bg-slate-950" style="scrollbar-gutter: stable; overflow-y: scroll;">
 <!-- TopNavBar (Linear intent - minimized) -->
-<header class="bg-surface-container-lowest shadow-sm flex justify-center items-center w-full px-margin-mobile md:px-margin-desktop py-unit max-w-container-max mx-auto z-10 relative">
-<div class="text-primary font-headline-md text-headline-md font-black tracking-tight">GASPOLL</div>
+<header class="bg-surface-container-lowest shadow-sm flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-unit z-10 relative dark:bg-slate-900 dark:border-b dark:border-slate-700">
+<div class="flex items-center">
+<div class="text-primary font-headline-md text-headline-md font-black tracking-tight dark:text-brand-600">GASPOLL</div>
+</div>
+<button id="theme-toggle" class="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors" aria-label="Toggle dark mode">
+<svg class="sun-icon w-5 h-5 text-primary dark:text-brand-400" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="5"></circle><line x1="12" x2="12" y1="1" y2="3"></line><line x1="12" x2="12" y1="21" y2="23"></line><line x1="4.22" x2="5.64" y1="4.22" y2="5.64"></line><line x1="18.36" x2="19.78" y1="18.36" y2="19.78"></line><line x1="1" x2="3" y1="12" y2="12"></line><line x1="21" x2="23" y1="12" y2="12"></line><line x1="4.22" x2="5.64" y1="19.78" y2="18.36"></line><line x1="18.36" x2="19.78" y1="5.64" y2="4.22"></line></svg>
+<svg class="moon-icon w-5 h-5 text-brand-400 fill-current" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+</button>
 </header>
 <!-- Main Content Canvas -->
 <main class="flex-grow flex items-center justify-center p-margin-mobile md:p-margin-desktop relative">
 <!-- Abstract Background Decoration -->
 <div class="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-<div class="absolute -top-[20%] -right-[10%] w-[50%] h-[50%] rounded-full bg-surface-container-high opacity-50 blur-3xl"></div>
-<div class="absolute -bottom-[20%] -left-[10%] w-[50%] h-[50%] rounded-full bg-secondary-container opacity-50 blur-3xl"></div>
+<div class="absolute -top-[20%] -right-[10%] w-[50%] h-[50%] rounded-full bg-surface-container-high opacity-50 blur-3xl dark:bg-brand-900 dark:opacity-30"></div>
+<div class="absolute -bottom-[20%] -left-[10%] w-[50%] h-[50%] rounded-full bg-secondary-container opacity-50 blur-3xl dark:bg-slate-800 dark:opacity-30"></div>
 </div>
 <div class="w-full max-w-4xl z-10 flex flex-col items-center">
 <!-- Header Text -->
 <div class="text-center mb-12 max-w-2xl">
-<h1 class="font-headline-xl text-headline-xl-mobile md:text-headline-xl text-on-surface mb-4">Pilih Peran Pendaftaran</h1>
-<p class="font-body-lg text-body-lg text-on-surface-variant">Silakan pilih jenis akun yang sesuai dengan profil bisnis Anda.</p>
+<h1 class="font-headline-xl text-headline-xl-mobile md:text-headline-xl text-on-surface mb-4 dark:text-slate-100">Pilih Peran Pendaftaran</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant dark:text-slate-300">Silakan pilih jenis akun yang sesuai dengan profil bisnis Anda.</p>
 </div>
 <!-- Bento Grid / Cards Container -->
 <div class="grid grid-cols-1 md:grid-cols-2 gap-gutter w-full">
 <!-- Card A: UMKM -->
-<a href="CUSTOMER/stepOne.html" class="glass-card rounded-xl p-8 flex flex-col items-start text-left group w-full focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background no-underline">
-<div class="w-16 h-16 rounded-full bg-secondary-container flex items-center justify-center mb-6 group-hover:bg-primary-container group-hover:text-on-primary-container transition-colors">
-<span class="material-symbols-outlined text-[32px] text-secondary group-hover:text-on-primary-container" style="font-variation-settings: 'FILL' 1;">storefront</span>
+<a href="CUSTOMER/stepOne.html" class="glass-card rounded-xl p-8 flex flex-col items-start text-left group w-full focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background no-underline dark:focus:ring-offset-slate-950">
+<div class="w-16 h-16 rounded-full bg-secondary-container flex items-center justify-center mb-6 group-hover:bg-primary-container group-hover:text-on-primary-container transition-colors dark:bg-slate-800 dark:group-hover:bg-brand-700">
+<span class="material-symbols-outlined text-[32px] text-secondary group-hover:text-on-primary-container dark:text-slate-400 dark:group-hover:text-white" style="font-variation-settings: 'FILL' 1;">storefront</span>
 </div>
-<h2 class="font-headline-md text-headline-md text-on-surface mb-3 group-hover:text-primary transition-colors">Daftar sebagai Customer UMKM</h2>
-<p class="font-body-md text-body-md text-on-surface-variant mb-8 flex-grow">Untuk pemilik usaha kecil dan menengah yang ingin berbelanja stok barang langsung dari supplier.</p>
-<div class="w-full bg-white border border-outline-variant text-primary font-label-md text-label-md py-3 px-6 rounded-lg text-center group-hover:bg-primary group-hover:text-white transition-colors">
+<h2 class="font-headline-md text-headline-md text-on-surface mb-3 group-hover:text-primary transition-colors dark:text-slate-100 dark:group-hover:text-brand-400">Daftar sebagai Customer UMKM</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-8 flex-grow dark:text-slate-400">Untuk pemilik usaha kecil dan menengah yang ingin berbelanja stok barang langsung dari supplier.</p>
+<div class="w-full bg-white border border-outline-variant text-primary font-label-md text-label-md py-3 px-6 rounded-lg text-center group-hover:bg-primary group-hover:text-white transition-colors dark:bg-brand-800 dark:border-brand-700 dark:text-white dark:group-hover:bg-brand-700">
                         Pilih UMKM
                     </div>
 </a>
 <!-- Card B: Supplier -->
-<button class="glass-card rounded-xl p-8 flex flex-col items-start text-left group w-full focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background">
-<div class="w-16 h-16 rounded-full bg-surface-container-high flex items-center justify-center mb-6 group-hover:bg-primary-container group-hover:text-on-primary-container transition-colors">
-<span class="material-symbols-outlined text-[32px] text-secondary group-hover:text-on-primary-container" style="font-variation-settings: 'FILL' 1;">factory</span>
+<a href="SUPPLIER/stepOne.html" class="glass-card rounded-xl p-8 flex flex-col items-start text-left group w-full focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background no-underline dark:focus:ring-offset-slate-950">
+<div class="w-16 h-16 rounded-full bg-surface-container-high flex items-center justify-center mb-6 group-hover:bg-primary-container group-hover:text-on-primary-container transition-colors dark:bg-slate-800 dark:group-hover:bg-brand-700">
+<span class="material-symbols-outlined text-[32px] text-secondary group-hover:text-on-primary-container dark:text-slate-400 dark:group-hover:text-white" style="font-variation-settings: 'FILL' 1;">factory</span>
 </div>
-<h2 class="font-headline-md text-headline-md text-on-surface mb-3 group-hover:text-primary transition-colors">Daftar sebagai Supplier</h2>
-<p class="font-body-md text-body-md text-on-surface-variant mb-8 flex-grow">Untuk produsen atau distributor yang ingin memasarkan produk ke jaringan UMKM yang luas.</p>
-<div class="w-full bg-white border border-outline-variant text-primary font-label-md text-label-md py-3 px-6 rounded-lg text-center group-hover:bg-primary group-hover:text-white transition-colors">
+<h2 class="font-headline-md text-headline-md text-on-surface mb-3 group-hover:text-primary transition-colors dark:text-slate-100 dark:group-hover:text-brand-400">Daftar sebagai Supplier</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-8 flex-grow dark:text-slate-400">Untuk produsen atau distributor yang ingin memasarkan produk ke jaringan UMKM yang luas.</p>
+<div class="w-full bg-white border border-outline-variant text-primary font-label-md text-label-md py-3 px-6 rounded-lg text-center group-hover:bg-primary group-hover:text-white transition-colors dark:bg-brand-800 dark:border-brand-700 dark:text-white dark:group-hover:bg-brand-700">
                         Pilih Supplier
                     </div>
-</button>
+</a>
 </div>
 <div class="mt-8">
-<a class="text-secondary hover:text-primary underline font-body-sm text-body-sm transition-colors" href="#">Kembali ke Beranda</a>
+<a class="text-secondary hover:text-primary underline font-body-sm text-body-sm transition-colors dark:text-slate-400 dark:hover:text-brand-400" href="#">Kembali ke Beranda</a>
 </div>
 </div>
 </main>
+<script>
+    // Dark mode toggle with localStorage
+    const html = document.documentElement;
+    const themeToggle = document.getElementById('theme-toggle');
+    
+    // Check localStorage or system preference
+    function initTheme() {
+      const saved = localStorage.getItem('theme');
+      if (saved) {
+        html.classList.toggle('dark', saved === 'dark');
+      } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        html.classList.add('dark');
+      }
+    }
+    
+    // Toggle theme with smooth transition
+    themeToggle.addEventListener('click', (e) => {
+      e.preventDefault();
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+    
+    // Initialize on load
+    initTheme();
+</script>
 </body></html>

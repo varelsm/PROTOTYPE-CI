@@ -1,9 +1,9 @@
-﻿<!DOCTYPE html>
-
-<html lang="id"><head>
+<!DOCTYPE html>
+<html lang="id">
+<head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Register Customer UMKM - Step 5: Persetujuan</title>
+<title>Register Supplier - Step 5: Verifikasi Produk</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
 <script src="https://unpkg.com/lucide@latest"></script>
@@ -82,56 +82,56 @@
 <!-- Step 1: Completed -->
 <li class="relative pb-8">
 <div aria-hidden="true" class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-slate-200"></div>
-<a class="relative flex items-start group" href="#">
+<a class="relative flex items-start group" href="stepOne.html">
 <span class="h-9 flex items-center">
-<span class="relative z-10 w-8 h-8 flex items-center justify-center bg-green-500 rounded-full group-hover:bg-green-600 transition-colors">
-<i class="w-5 h-5 text-white" data-lucide="check"></i>
+<span class="relative z-10 w-8 h-8 flex items-center justify-center bg-slate-100 border-2 border-slate-300 rounded-full group-hover:border-slate-400 transition-colors">
+<span class="text-slate-500 font-medium">1</span>
 </span>
 </span>
 <span class="ml-4 min-w-0 flex flex-col justify-center h-8">
-<span class="text-sm font-semibold tracking-wide text-slate-500">Data Akun Dasar</span>
+<span class="text-sm font-medium tracking-wide text-slate-500">Data Akun PIC</span>
 </span>
 </a>
 </li>
 <!-- Step 2: Completed -->
 <li class="relative pb-8">
 <div aria-hidden="true" class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-slate-200"></div>
-<a class="relative flex items-start group" href="#">
+<a class="relative flex items-start group" href="stepTwo.html">
 <span class="h-9 flex items-center">
-<span class="relative z-10 w-8 h-8 flex items-center justify-center bg-green-500 rounded-full group-hover:bg-green-600 transition-colors">
-<i class="w-5 h-5 text-white" data-lucide="check"></i>
+<span class="relative z-10 w-8 h-8 flex items-center justify-center bg-slate-100 border-2 border-slate-300 rounded-full group-hover:border-slate-400 transition-colors">
+<span class="text-slate-500 font-medium">2</span>
 </span>
 </span>
 <span class="ml-4 min-w-0 flex flex-col justify-center h-8">
-<span class="text-sm font-semibold tracking-wide text-slate-500">Data Usaha</span>
+<span class="text-sm font-medium tracking-wide text-slate-500">Profil Perusahaan</span>
 </span>
 </a>
 </li>
 <!-- Step 3: Completed -->
 <li class="relative pb-8">
 <div aria-hidden="true" class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-slate-200"></div>
-<a class="relative flex items-start group" href="#">
+<a class="relative flex items-start group" href="stepThree.html">
 <span class="h-9 flex items-center">
-<span class="relative z-10 w-8 h-8 flex items-center justify-center bg-green-500 rounded-full group-hover:bg-green-600 transition-colors">
-<i class="w-5 h-5 text-white" data-lucide="check"></i>
+<span class="relative z-10 w-8 h-8 flex items-center justify-center bg-slate-100 border-2 border-slate-300 rounded-full group-hover:border-slate-400 transition-colors">
+<span class="text-slate-500 font-medium">3</span>
 </span>
 </span>
 <span class="ml-4 min-w-0 flex flex-col justify-center h-8">
-<span class="text-sm font-semibold tracking-wide text-slate-500">Verifikasi Bisnis</span>
+<span class="text-sm font-medium tracking-wide text-slate-500">Dokumen Legalitas</span>
 </span>
 </a>
 </li>
 <!-- Step 4: Completed -->
 <li class="relative pb-8">
 <div aria-hidden="true" class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-slate-200"></div>
-<a class="relative flex items-start group" href="#">
+<a class="relative flex items-start group" href="stepFour.html">
 <span class="h-9 flex items-center">
-<span class="relative z-10 w-8 h-8 flex items-center justify-center bg-green-500 rounded-full group-hover:bg-green-600 transition-colors">
-<i class="w-5 h-5 text-white" data-lucide="check"></i>
+<span class="relative z-10 w-8 h-8 flex items-center justify-center bg-slate-100 border-2 border-slate-300 rounded-full group-hover:border-slate-400 transition-colors">
+<span class="text-slate-500 font-medium">4</span>
 </span>
 </span>
 <span class="ml-4 min-w-0 flex flex-col justify-center h-8">
-<span class="text-sm font-semibold tracking-wide text-slate-500">Preferensi Pembelian</span>
+<span class="text-sm font-medium tracking-wide text-slate-500">Info Operasional</span>
 </span>
 </a>
 </li>
@@ -144,8 +144,8 @@
 </span>
 </span>
 <span class="ml-4 min-w-0 flex flex-col">
-<span class="text-sm font-semibold tracking-wide text-brand-800">Persetujuan</span>
-<span class="text-xs text-slate-500 mt-0.5">Setujui syarat & ketentuan</span>
+<span class="text-sm font-semibold tracking-wide text-brand-800">Verifikasi Produk</span>
+<span class="text-xs text-slate-500 mt-0.5">Persetujuan dan konfirmasi</span>
 </span>
 </a>
 </li>
@@ -158,45 +158,53 @@
 <div class="flex-1 max-w-3xl">
 <div class="bg-white border border-slate-200 rounded-xl p-8 shadow-sm dark:bg-slate-900 dark:border-slate-700">
 <div class="mb-8 border-b border-slate-200 pb-6 dark:border-slate-700">
-<h2 class="text-2xl font-bold text-slate-900 mb-2 dark:text-slate-100">Persetujuan Akhir</h2>
-<p class="text-slate-500 text-sm dark:text-slate-300">Pastikan semua data sudah benar sebelum mengirimkan pendaftaran.</p>
+<h2 class="text-2xl font-bold text-slate-900 mb-2 dark:text-slate-100">Verifikasi & Persetujuan</h2>
+<p class="text-slate-500 text-sm dark:text-slate-400">Sebelum menyelesaikan pendaftaran, mohon setujui syarat dan ketentuan kami.</p>
 </div>
 <form action="#" class="space-y-6" method="POST">
-<!-- Summary Box -->
-<div class="bg-slate-50 border border-slate-200 rounded-lg p-6 dark:bg-slate-800 dark:border-slate-700">
-<p class="text-slate-700 text-sm dark:text-slate-300">
-                            Dengan menekan tombol "Selesaikan Pendaftaran", Anda menyetujui bahwa data yang diberikan adalah benar dan valid untuk keperluan B2B GASPOLL Marketplace.
-                        </p>
-</div>
-<!-- Checkboxes -->
-<div class="space-y-4">
-<label class="flex items-start gap-3 cursor-pointer group">
-<div class="relative flex items-center mt-1">
-<input class="peer h-5 w-5 border-slate-300 rounded text-brand-800 focus:ring-brand-500 focus:ring-offset-0 bg-white transition-all cursor-pointer dark:bg-slate-700 dark:border-slate-600 dark:focus:ring-offset-slate-950" type="checkbox" required/>
-</div>
-<span class="text-sm text-slate-700 group-hover:text-brand-800 transition-colors dark:text-slate-300 dark:group-hover:text-brand-400">Saya menyetujui <a class="underline" href="#">Syarat &amp; Ketentuan (Terms &amp; Conditions)</a></span>
+<!-- Agreement 1 -->
+<div class="flex items-start gap-3 p-4 bg-slate-50 rounded-lg dark:bg-slate-800">
+<input class="h-5 w-5 text-brand-800 focus:ring-brand-500 rounded mt-0.5 cursor-pointer dark:bg-slate-700 dark:border-slate-600" id="agree1" name="agree1" required="" type="checkbox"/>
+<label class="cursor-pointer flex-1" for="agree1">
+<span class="text-sm font-medium text-slate-900 dark:text-slate-100">Saya menyetujui Syarat & Ketentuan GASPOLL B2B Marketplace</span>
+<p class="text-xs text-slate-500 mt-1 dark:text-slate-400">Termasuk kebijakan privasi dan penggunaan data bisnis</p>
 </label>
-<label class="flex items-start gap-3 cursor-pointer group">
-<div class="relative flex items-center mt-1">
-<input class="peer h-5 w-5 border-slate-300 rounded text-brand-800 focus:ring-brand-500 focus:ring-offset-0 bg-white transition-all cursor-pointer dark:bg-slate-700 dark:border-slate-600 dark:focus:ring-offset-slate-950" type="checkbox" required/>
 </div>
-<span class="text-sm text-slate-700 group-hover:text-brand-800 transition-colors dark:text-slate-300 dark:group-hover:text-brand-400">Saya menyetujui <a class="underline" href="#">Kebijakan Privasi</a></span>
+<!-- Agreement 2 -->
+<div class="flex items-start gap-3 p-4 bg-slate-50 rounded-lg dark:bg-slate-800">
+<input class="h-5 w-5 text-brand-800 focus:ring-brand-500 rounded mt-0.5 cursor-pointer dark:bg-slate-700 dark:border-slate-600" id="agree2" name="agree2" required="" type="checkbox"/>
+<label class="cursor-pointer flex-1" for="agree2">
+<span class="text-sm font-medium text-slate-900 dark:text-slate-100">Informasi yang saya berikan adalah akurat dan terbukti</span>
+<p class="text-xs text-slate-500 mt-1 dark:text-slate-400">Saya bertanggung jawab atas kebenaran semua data yang diberikan</p>
 </label>
-<label class="flex items-start gap-3 cursor-pointer group">
-<div class="relative flex items-center mt-1">
-<input class="peer h-5 w-5 border-slate-300 rounded text-brand-800 focus:ring-brand-500 focus:ring-offset-0 bg-white transition-all cursor-pointer dark:bg-slate-700 dark:border-slate-600 dark:focus:ring-offset-slate-950" type="checkbox" required/>
 </div>
-<span class="text-sm text-slate-700 group-hover:text-brand-800 transition-colors dark:text-slate-300 dark:group-hover:text-brand-400">Saya memahami bahwa data saya akan diverifikasi oleh tim GASPOLL</span>
+<!-- Agreement 3 -->
+<div class="flex items-start gap-3 p-4 bg-slate-50 rounded-lg dark:bg-slate-800">
+<input class="h-5 w-5 text-brand-800 focus:ring-brand-500 rounded mt-0.5 cursor-pointer dark:bg-slate-700 dark:border-slate-600" id="agree3" name="agree3" required="" type="checkbox"/>
+<label class="cursor-pointer flex-1" for="agree3">
+<span class="text-sm font-medium text-slate-900 dark:text-slate-100">Saya menerima Kode Etik Supplier GASPOLL</span>
+<p class="text-xs text-slate-500 mt-1 dark:text-slate-400">Berkomitmen untuk transaksi yang jujur dan profesional</p>
 </label>
+</div>
+<!-- Info Alert -->
+<div class="bg-brand-50 border border-brand-200 rounded-lg p-4 dark:bg-slate-800 dark:border-slate-700">
+<div class="flex gap-3">
+<i class="h-5 w-5 text-brand-800 dark:text-brand-400 flex-shrink-0" data-lucide="info"></i>
+<div>
+<p class="text-sm font-medium text-brand-900 dark:text-slate-100">Tim GASPOLL akan melakukan verifikasi data Anda</p>
+<p class="text-xs text-brand-700 mt-1 dark:text-slate-400">Proses verifikasi biasanya memerlukan waktu 2-5 hari kerja. Kami akan mengirimkan notifikasi via email.</p>
+</div>
+</div>
 </div>
 <!-- Actions -->
-<div class="pt-6 mt-8 border-t border-slate-200 flex items-center justify-between dark:border-slate-700">
-<a href="stepFour.html" class="text-sm font-medium text-slate-500 hover:text-brand-800 transition-colors no-underline dark:text-slate-400 dark:hover:text-brand-400">
-              Kembali
-            </a>
-<button class="inline-flex items-center justify-center rounded-md border border-transparent bg-brand-800 px-6 py-3 text-sm font-medium text-white shadow-sm hover:bg-brand-900 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 transition-colors" type="submit">
-              Selesaikan Pendaftaran
-              <i class="ml-2 -mr-1 h-4 w-4" data-lucide="check"></i>
+<div class="pt-6 mt-8 border-t border-slate-200 flex items-center justify-between gap-4 dark:border-slate-700">
+<a href="stepFour.html" class="text-sm font-medium text-slate-500 hover:text-brand-800 transition-colors dark:text-slate-400 dark:hover:text-brand-400 flex items-center">
+<i class="mr-1 h-4 w-4" data-lucide="arrow-left"></i>
+Kembali
+</a>
+<button class="inline-flex items-center justify-center rounded-md border border-transparent bg-brand-800 px-8 py-3 text-sm font-medium text-white shadow-sm hover:bg-brand-900 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 transition-colors" type="submit">
+<i class="mr-2 h-4 w-4" data-lucide="check"></i>
+Selesaikan Pendaftaran Supplier
 </button>
 </div>
 </form>
@@ -212,7 +220,7 @@
 <span class="text-lg font-bold text-slate-900 tracking-wide uppercase dark:text-slate-100">GASPOLL</span>
 </div>
 <p class="text-sm text-slate-500 text-center md:text-left dark:text-slate-400">
-        © 2024 GASPOLL B2B Marketplace. All rights reserved.
+        Â© 2024 GASPOLL B2B Marketplace. All rights reserved.
       </p>
 <div class="flex space-x-6 text-sm text-slate-500 dark:text-slate-400">
 <a class="hover:text-slate-900 transition-colors dark:hover:text-slate-200" href="#">Terms of Service</a>
@@ -251,3 +259,5 @@
     initTheme();
     lucide.createIcons();
 </script>
+</body>
+</html>
