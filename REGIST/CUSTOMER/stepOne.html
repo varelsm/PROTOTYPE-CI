@@ -1,0 +1,217 @@
+﻿<!DOCTYPE html>
+
+<html lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Register Customer UMKM - Step 1: Data Akun Dasar</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<script src="https://unpkg.com/lucide@latest"></script>
+<style data-purpose="custom-fonts">
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f8fafc;
+    }
+  </style>
+<script>
+    tailwind.config = {
+      darkMode: 'media',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#fff7ed',
+              100: '#ffedd5',
+              200: '#fed7aa',
+              300: '#fdba74',
+              400: '#fb923c',
+              500: '#f97316',
+              600: '#ea580c',
+              700: '#c2410c',
+              800: '#a33a0f',
+              900: '#7c2d12',
+            }
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="min-h-screen flex flex-col text-slate-800 dark:bg-slate-950 dark:text-slate-100" style="scrollbar-gutter: stable; overflow-y: scroll;">
+<!-- BEGIN: MainHeader -->
+<header class="bg-white border-b border-slate-200 px-6 py-4 flex items-center shadow-sm sticky top-0 z-10 dark:bg-slate-900 dark:border-slate-700">
+<a class="text-brand-800 hover:bg-slate-50 p-2 rounded-full transition-colors mr-4" href="../registMain.html">
+<i class="w-5 h-5" data-lucide="arrow-left"></i>
+</a>
+<h1 class="text-xl font-bold text-brand-800 tracking-wide uppercase">GASPOLL</h1>
+</header>
+<!-- END: MainHeader -->
+<!-- BEGIN: MainContent -->
+<main class="flex-grow max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 flex flex-col md:flex-row gap-8">
+<!-- BEGIN: Sidebar Stepper -->
+<aside class="md:w-80 flex-shrink-0">
+<div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm sticky top-24 dark:bg-slate-900 dark:border-slate-700">
+<h2 class="text-lg font-semibold mb-6 dark:text-slate-100">Proses Pendaftaran</h2>
+<nav aria-label="Progress">
+<ol class="overflow-hidden" role="list">
+<!-- Step 1: Active -->
+<li class="relative pb-8">
+<div aria-hidden="true" class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-slate-200"></div>
+<a aria-current="step" class="relative flex items-start group" href="#">
+<span class="h-9 flex items-center">
+<span class="relative z-10 w-8 h-8 flex items-center justify-center bg-brand-800 rounded-full border-2 border-brand-800">
+<span class="text-white font-semibold">1</span>
+</span>
+</span>
+<span class="ml-4 min-w-0 flex flex-col">
+<span class="text-sm font-semibold tracking-wide text-brand-800">Data Akun Dasar</span>
+<span class="text-xs text-slate-500 mt-0.5">Lengkapi informasi dasar akun</span>
+</span>
+</a>
+</li>
+<!-- Step 2: Upcoming -->
+<li class="relative pb-8">
+<div aria-hidden="true" class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-slate-200"></div>
+<a class="relative flex items-start group" href="#">
+<span class="h-9 flex items-center">
+<span class="relative z-10 w-8 h-8 flex items-center justify-center bg-slate-100 border-2 border-slate-300 rounded-full group-hover:border-slate-400 transition-colors">
+<span class="text-slate-500 font-medium">2</span>
+</span>
+</span>
+<span class="ml-4 min-w-0 flex flex-col justify-center h-8">
+<span class="text-sm font-medium tracking-wide text-slate-500">Data Usaha</span>
+</span>
+</a>
+</li>
+<!-- Step 3: Upcoming -->
+<li class="relative pb-8">
+<div aria-hidden="true" class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-slate-200"></div>
+<a class="relative flex items-start group" href="#">
+<span class="h-9 flex items-center">
+<span class="relative z-10 w-8 h-8 flex items-center justify-center bg-slate-100 border-2 border-slate-300 rounded-full group-hover:border-slate-400 transition-colors">
+<span class="text-slate-500 font-medium">3</span>
+</span>
+</span>
+<span class="ml-4 min-w-0 flex flex-col justify-center h-8">
+<span class="text-sm font-medium tracking-wide text-slate-500">Verifikasi Bisnis</span>
+</span>
+</a>
+</li>
+<!-- Step 4: Upcoming -->
+<li class="relative pb-8">
+<div aria-hidden="true" class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-slate-200"></div>
+<a class="relative flex items-start group" href="#">
+<span class="h-9 flex items-center">
+<span class="relative z-10 w-8 h-8 flex items-center justify-center bg-slate-100 border-2 border-slate-300 rounded-full group-hover:border-slate-400 transition-colors">
+<span class="text-slate-500 font-medium">4</span>
+</span>
+</span>
+<span class="ml-4 min-w-0 flex flex-col justify-center h-8">
+<span class="text-sm font-medium tracking-wide text-slate-500">Preferensi Pembelian</span>
+</span>
+</a>
+</li>
+<!-- Step 5: Upcoming -->
+<li class="relative">
+<a class="relative flex items-start group" href="#">
+<span class="h-9 flex items-center">
+<span class="relative z-10 w-8 h-8 flex items-center justify-center bg-slate-100 border-2 border-slate-300 rounded-full group-hover:border-slate-400 transition-colors">
+<span class="text-slate-500 font-medium">5</span>
+</span>
+</span>
+<span class="ml-4 min-w-0 flex flex-col justify-center h-8">
+<span class="text-sm font-medium tracking-wide text-slate-500">Persetujuan</span>
+</span>
+</a>
+</li>
+</ol>
+</nav>
+</div>
+</aside>
+<!-- END: Sidebar Stepper -->
+<!-- BEGIN: Form Area -->
+<div class="flex-1 max-w-3xl">
+<div class="bg-white border border-slate-200 rounded-xl p-8 shadow-sm dark:bg-slate-900 dark:border-slate-700">
+<div class="mb-8 border-b border-slate-200 pb-6 dark:border-slate-700">
+<h2 class="text-2xl font-bold text-slate-900 mb-2 dark:text-slate-100">Data Akun Dasar</h2>
+<p class="text-slate-500 text-sm dark:text-slate-400">Lengkapi informasi dasar akun Anda untuk memulai proses pendaftaran.</p>
+</div>
+<form action="#" class="space-y-6" method="POST">
+<!-- Field: Nama Lengkap PIC -->
+<div>
+<label class="block text-xs font-semibold text-slate-700 tracking-wide uppercase mb-2 dark:text-slate-300" for="nama_pic">NAMA LENGKAP PIC</label>
+<div class="relative mt-1 rounded-md shadow-sm">
+<div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+<i class="h-5 w-5 text-slate-400 dark:text-slate-500" data-lucide="user"></i>
+</div>
+<input class="block w-full rounded-md border-slate-300 pl-10 py-3 text-slate-900 focus:border-brand-500 focus:ring-brand-500 sm:text-sm dark:bg-slate-800 dark:text-slate-100 dark:border-slate-600 dark:focus:border-brand-500" id="nama_pic" name="nama_pic" placeholder="Masukkan nama lengkap" type="text"/>
+</div>
+</div>
+<!-- Field: Email -->
+<div>
+<label class="block text-xs font-semibold text-slate-700 tracking-wide uppercase mb-2 dark:text-slate-300" for="email">EMAIL (WORK)</label>
+<div class="relative mt-1 rounded-md shadow-sm">
+<div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+<i class="h-5 w-5 text-slate-400 dark:text-slate-500" data-lucide="mail"></i>
+</div>
+<input class="block w-full rounded-md border-slate-300 pl-10 py-3 text-slate-900 focus:border-brand-500 focus:ring-brand-500 sm:text-sm dark:bg-slate-800 dark:text-slate-100 dark:border-slate-600 dark:focus:border-brand-500" id="email" name="email" placeholder="contoh@perusahaan.com" type="email"/>
+</div>
+</div>
+<!-- Field: No. WhatsApp -->
+<div>
+<label class="block text-xs font-semibold text-slate-700 tracking-wide uppercase mb-2 dark:text-slate-300" for="whatsapp">NO. WHATSAPP</label>
+<div class="relative mt-1 rounded-md shadow-sm">
+<div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+<span class="text-slate-500 sm:text-sm dark:text-slate-400">+62</span>
+</div>
+<input class="block w-full rounded-md border-slate-300 pl-14 py-3 text-slate-900 focus:border-brand-500 focus:ring-brand-500 sm:text-sm dark:bg-slate-800 dark:text-slate-100 dark:border-slate-600 dark:focus:border-brand-500" id="whatsapp" name="whatsapp" placeholder="81234567890" type="tel"/>
+</div>
+</div>
+<!-- Field: Password -->
+<div>
+<label class="block text-xs font-semibold text-slate-700 tracking-wide uppercase mb-2 dark:text-slate-300" for="password">PASSWORD</label>
+<div class="relative mt-1 rounded-md shadow-sm">
+<div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+<i class="h-5 w-5 text-slate-400 dark:text-slate-500" data-lucide="lock"></i>
+</div>
+<input class="block w-full rounded-md border-slate-300 pl-10 py-3 text-slate-900 focus:border-brand-500 focus:ring-brand-500 sm:text-sm dark:bg-slate-800 dark:text-slate-100 dark:border-slate-600 dark:focus:border-brand-500" id="password" name="password" placeholder="Minimal 8 karakter" type="password"/>
+</div>
+<p class="text-xs text-slate-500 mt-2 dark:text-slate-300">Gunakan kombinasi huruf dan angka.</p>
+</div>
+<!-- Actions -->
+<div class="pt-6 mt-8 border-t border-slate-200 flex items-center justify-between dark:border-slate-700">
+<button class="text-sm font-medium text-slate-500 hover:text-brand-800 transition-colors dark:text-slate-400 dark:hover:text-brand-400" type="button">
+              Simpan Draft
+            </button>
+<a href="stepTwo.html" class="inline-flex items-center justify-center rounded-md border border-transparent bg-brand-800 px-6 py-3 text-sm font-medium text-white shadow-sm hover:bg-brand-900 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 transition-colors no-underline">
+              Lanjutkan ke Data Usaha
+              <i class="ml-2 -mr-1 h-4 w-4" data-lucide="arrow-right"></i>
+</a>
+</div>
+</form>
+</div>
+</div>
+<!-- END: Form Area -->
+</main>
+<!-- END: MainContent -->
+<!-- BEGIN: Footer -->
+<footer class="bg-white border-t border-slate-200 mt-auto dark:bg-slate-900 dark:border-slate-700">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col md:flex-row justify-between items-center gap-4">
+<div class="flex items-center">
+<span class="text-lg font-bold text-slate-900 tracking-wide uppercase dark:text-slate-100">GASPOLL</span>
+</div>
+<p class="text-sm text-slate-500 text-center md:text-left dark:text-slate-400">
+        © 2024 GASPOLL B2B Marketplace. All rights reserved.
+      </p>
+<div class="flex space-x-6 text-sm text-slate-500 dark:text-slate-400">
+<a class="hover:text-slate-900 transition-colors dark:hover:text-slate-200" href="#">Terms of Service</a>
+<a class="hover:text-slate-900 transition-colors dark:hover:text-slate-200" href="#">Privacy Policy</a>
+<a class="hover:text-slate-900 transition-colors dark:hover:text-slate-200" href="#">Contact Support</a>
+</div>
+</div>
+</footer>
+<!-- END: Footer -->
+<script data-purpose="icon-initialization">
+    lucide.createIcons();
+  </script>
+</body></html>
