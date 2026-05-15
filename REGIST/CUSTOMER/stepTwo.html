@@ -58,12 +58,12 @@
 </head>
 <body class="min-h-screen flex flex-col text-slate-800 dark:bg-slate-950 dark:text-slate-100" style="scrollbar-gutter: stable; overflow-y: scroll;">
 <!-- BEGIN: MainHeader -->
-<header class="bg-white border-b border-slate-200 px-6 py-4 flex items-center justify-between shadow-sm sticky top-0 z-10 dark:bg-slate-900 dark:border-slate-700">
+<header class="bg-white border-b border-slate-200 px-6 py-5 flex items-center justify-between shadow-sm sticky top-0 z-10 dark:bg-slate-900 dark:border-slate-700">
 <div class="flex items-center">
-<a class="text-brand-800 hover:bg-slate-50 p-2 rounded-full transition-colors mr-4 dark:hover:bg-slate-800" href="stepOne.html">
+<a class="text-brand-800 dark:text-brand-400 hover:bg-slate-50 dark:hover:bg-slate-800 p-2 rounded-full transition-colors mr-4" href="stepOne.html">
 <i class="w-5 h-5" data-lucide="arrow-left"></i>
 </a>
-<h1 class="text-xl font-bold text-brand-800 tracking-wide uppercase">GASPOLL</h1>
+<h1 class="text-xl font-black text-brand-500 tracking-wide">GASPOLL</h1>
 </div>
 <button id="theme-toggle" class="p-2 rounded-full hover:bg-slate-100 transition-colors dark:hover:bg-slate-800" aria-label="Toggle dark mode">
 <svg class="sun-icon w-5 h-5 text-brand-800" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><circle cx="12" cy="12" r="5"></circle><line x1="12" x2="12" y1="1" y2="3"></line><line x1="12" x2="12" y1="21" y2="23"></line><line x1="4.22" x2="5.64" y1="4.22" y2="5.64"></line><line x1="18.36" x2="19.78" y1="18.36" y2="19.78"></line><line x1="1" x2="3" y1="12" y2="12"></line><line x1="21" x2="23" y1="12" y2="12"></line><line x1="4.22" x2="5.64" y1="19.78" y2="18.36"></line><line x1="18.36" x2="19.78" y1="5.64" y2="4.22"></line></svg>
@@ -81,58 +81,58 @@
 <ol class="overflow-hidden" role="list">
 <!-- Step 1: Completed -->
 <li class="relative pb-8">
-<div aria-hidden="true" class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-slate-200"></div>
-<a class="relative flex items-start group" href="#">
+<div aria-hidden="true" class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-slate-200 dark:bg-slate-700"></div>
+<a class="relative flex items-start group" href="stepOne.html">
 <span class="h-9 flex items-center">
 <span class="relative z-10 w-8 h-8 flex items-center justify-center bg-green-500 rounded-full group-hover:bg-green-600 transition-colors">
 <i class="w-5 h-5 text-white" data-lucide="check"></i>
 </span>
 </span>
 <span class="ml-4 min-w-0 flex flex-col justify-center h-8">
-<span class="text-sm font-semibold tracking-wide text-slate-500">Data Akun Dasar</span>
+<span class="text-sm font-semibold tracking-wide text-slate-500 dark:text-slate-400">Data Akun Dasar</span>
 </span>
 </a>
 </li>
 <!-- Step 2: Active -->
 <li class="relative pb-8">
-<div aria-hidden="true" class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-slate-200"></div>
+<div aria-hidden="true" class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-slate-200 dark:bg-slate-700"></div>
 <a aria-current="step" class="relative flex items-start group" href="#">
 <span class="h-9 flex items-center">
-<span class="relative z-10 w-8 h-8 flex items-center justify-center bg-brand-800 rounded-full border-2 border-brand-800">
+<span class="relative z-10 w-8 h-8 flex items-center justify-center bg-brand-500 rounded-full border-2 border-brand-500">
 <span class="text-white font-semibold">2</span>
 </span>
 </span>
 <span class="ml-4 min-w-0 flex flex-col">
-<span class="text-sm font-semibold tracking-wide text-brand-800">Data Usaha</span>
-<span class="text-xs text-slate-500 mt-0.5">Lengkapi informasi bisnis UMKM Anda</span>
+<span class="text-sm font-semibold tracking-wide text-brand-600 dark:text-brand-400">Data Usaha</span>
+<span class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Lengkapi informasi bisnis UMKM Anda</span>
 </span>
 </a>
 </li>
 <!-- Step 3: Upcoming -->
 <li class="relative pb-8">
-<div aria-hidden="true" class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-slate-200"></div>
+<div aria-hidden="true" class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-slate-200 dark:bg-slate-700"></div>
 <a class="relative flex items-start group" href="#">
 <span class="h-9 flex items-center">
-<span class="relative z-10 w-8 h-8 flex items-center justify-center bg-slate-100 border-2 border-slate-300 rounded-full group-hover:border-slate-400 transition-colors">
+<span class="relative z-10 w-8 h-8 flex items-center justify-center bg-slate-100 dark:bg-slate-800 border-2 border-slate-300 dark:border-slate-600 rounded-full group-hover:border-slate-400 transition-colors">
 <span class="text-slate-500 font-medium">3</span>
 </span>
 </span>
 <span class="ml-4 min-w-0 flex flex-col justify-center h-8">
-<span class="text-sm font-medium tracking-wide text-slate-500">Verifikasi Bisnis</span>
+<span class="text-sm font-medium tracking-wide text-slate-500 dark:text-slate-400">Verifikasi Bisnis</span>
 </span>
 </a>
 </li>
 <!-- Step 4: Upcoming -->
 <li class="relative pb-8">
-<div aria-hidden="true" class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-slate-200"></div>
+<div aria-hidden="true" class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-slate-200 dark:bg-slate-700"></div>
 <a class="relative flex items-start group" href="#">
 <span class="h-9 flex items-center">
-<span class="relative z-10 w-8 h-8 flex items-center justify-center bg-slate-100 border-2 border-slate-300 rounded-full group-hover:border-slate-400 transition-colors">
+<span class="relative z-10 w-8 h-8 flex items-center justify-center bg-slate-100 dark:bg-slate-800 border-2 border-slate-300 dark:border-slate-600 rounded-full group-hover:border-slate-400 transition-colors">
 <span class="text-slate-500 font-medium">4</span>
 </span>
 </span>
 <span class="ml-4 min-w-0 flex flex-col justify-center h-8">
-<span class="text-sm font-medium tracking-wide text-slate-500">Preferensi Pembelian</span>
+<span class="text-sm font-medium tracking-wide text-slate-500 dark:text-slate-400">Preferensi Pembelian</span>
 </span>
 </a>
 </li>
@@ -140,12 +140,12 @@
 <li class="relative">
 <a class="relative flex items-start group" href="#">
 <span class="h-9 flex items-center">
-<span class="relative z-10 w-8 h-8 flex items-center justify-center bg-slate-100 border-2 border-slate-300 rounded-full group-hover:border-slate-400 transition-colors">
+<span class="relative z-10 w-8 h-8 flex items-center justify-center bg-slate-100 dark:bg-slate-800 border-2 border-slate-300 dark:border-slate-600 rounded-full group-hover:border-slate-400 transition-colors">
 <span class="text-slate-500 font-medium">5</span>
 </span>
 </span>
 <span class="ml-4 min-w-0 flex flex-col justify-center h-8">
-<span class="text-sm font-medium tracking-wide text-slate-500">Persetujuan</span>
+<span class="text-sm font-medium tracking-wide text-slate-500 dark:text-slate-400">Persetujuan</span>
 </span>
 </a>
 </li>
@@ -219,7 +219,7 @@
 <button class="text-sm font-medium text-slate-500 hover:text-brand-800 transition-colors dark:text-slate-400 dark:hover:text-brand-400" type="button">
               Simpan Draft
             </button>
-<a href="stepThree.html" class="inline-flex items-center justify-center rounded-md border border-transparent bg-brand-800 px-6 py-3 text-sm font-medium text-white shadow-sm hover:bg-brand-900 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 transition-colors no-underline">
+<a href="stepThree.html" class="inline-flex items-center justify-center rounded-md border border-transparent bg-brand-500 px-6 py-3 text-sm font-medium text-white shadow-sm hover:bg-brand-600 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 transition-colors no-underline">
               Lanjutkan ke Verifikasi Bisnis
               <i class="ml-2 -mr-1 h-4 w-4" data-lucide="arrow-right"></i>
 </a>
