@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Keranjang Belanja | GASPOLL</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+  (function() {
+    const saved = localStorage.getItem('theme');
+    if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    }
+  })();
+</script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                          50: "#fff7ed",
+                          100: "#ffedd5",
+                          200: "#fed7aa",
+                          300: "#fdba74",
+                          400: "#fb923c",
+                          500: "#f97316",
+                          600: "#ea580c",
+                          700: "#c2410c",
+                          800: "#a33a0f",
+                          900: "#7c2d12"
+                        },
+                        secondary: "#545f73",
+                        background: "#f8f9ff",
+                        surface: "#f8f9ff",
+                        outline: "#8e7164",
+                        "surface-container-lowest": "#eff4ff",
+                        "surface-container": "#e5eeff",
+                        "on-surface": "#0b1c30",
+                        "on-primary": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "on-background": "#0b1c30",
+                        "on-error": "#ffffff"
+                    },
+                    fontFamily: {
+                        body: ["Inter"],
+                        heading: ["Inter"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .sun-icon { display: block; }
+        html.dark .sun-icon { display: none; }
+        .moon-icon { display: none; }
+        html.dark .moon-icon { display: block; }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body antialiased selection:bg-primary-container selection:text-white dark:bg-slate-950 dark:text-slate-100 transition-colors duration-300">
+<header class="bg-surface-container-lowest shadow-sm sticky top-0 z-50 dark:bg-slate-900 dark:border-b dark:border-slate-700 transition-colors duration-300">
+  <div class="flex justify-between items-center w-full px-4 md:px-8 py-4 max-w-7xl mx-auto gap-4 md:gap-8">
+    <a class="font-semibold text-2xl text-brand-500 dark:text-brand-400" href="../index.html">GASPOLL</a>
+    <div class="hidden md:flex flex-1 max-w-2xl relative">
+      <input class="w-full pl-4 pr-12 py-3 border border-outline rounded-lg bg-white dark:bg-slate-800 dark:text-slate-100 focus:outline-none focus:border-primary-container dark:focus:border-brand-500 focus:ring-1 focus:ring-primary-container dark:focus:ring-brand-500 transition-all text-sm" placeholder="Cari produk grosir, supplier, atau kategori..." type="text"/>
+      <button class="absolute right-3 top-1/2 -translate-y-1/2 text-primary-container dark:text-brand-400 hover:text-primary dark:hover:text-brand-300 transition-colors p-1 rounded-full">
+        <span class="material-symbols-outlined">search</span>
+      </button>
+    </div>
+    <div class="flex items-center gap-2 md:gap-4 shrink-0">
+      <a class="text-secondary dark:text-slate-400 hover:text-primary dark:hover:text-brand-400 transition-colors p-2 rounded-full" href="../index.html">
+        <span class="material-symbols-outlined">arrow_back</span>
+      </a>
+      <a class="text-secondary dark:text-slate-400 hover:text-primary dark:hover:text-brand-400 transition-colors p-2 rounded-full relative" href="cart.html" aria-label="Keranjang">
+        <span class="material-symbols-outlined">shopping_cart</span>
+        <span class="absolute top-1 right-1 w-2 h-2 bg-primary-container dark:bg-brand-500 rounded-full"></span>
+      </a>
+      <a class="px-4 py-2 border border-primary-container dark:border-brand-500 text-primary-container dark:text-brand-400 text-sm rounded-lg hover:bg-surface-container-low dark:hover:bg-slate-800 transition-colors duration-200" href="LOGIN/loginPage.html">Masuk</a>
+      <a class="px-4 py-2 bg-primary-container dark:bg-brand-500 text-white text-sm rounded-lg hover:bg-primary dark:hover:bg-brand-600 transition-colors duration-200 shadow-sm" href="REGIST/registMain.html">Daftar</a>
+      <button id="theme-toggle" class="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors" aria-label="Toggle dark mode">
+        <svg class="sun-icon w-5 h-5 text-primary dark:text-brand-400" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="5"></circle><line x1="12" x2="12" y1="1" y2="3"></line><line x1="12" x2="12" y1="21" y2="23"></line><line x1="4.22" x2="5.64" y1="4.22" y2="5.64"></line><line x1="18.36" x2="19.78" y1="18.36" y2="19.78"></line><line x1="1" x2="3" y1="12" y2="12"></line><line x1="21" x2="23" y1="12" y2="12"></line><line x1="4.22" x2="5.64" y1="19.78" y2="18.36"></line><line x1="18.36" x2="19.78" y1="5.64" y2="4.22"></line></svg>
+        <svg class="moon-icon w-5 h-5 text-brand-400 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+      </button>
+    </div>
+  </div>
+</header>
+<main class="min-h-screen px-4 md:px-8 py-10 max-w-7xl mx-auto">
+  <div class="flex flex-col gap-8 lg:flex-row">
+    <section class="flex-1">
+      <div class="mb-6">
+        <p class="text-sm text-secondary dark:text-slate-400">Beranda &rsaquo; Keranjang</p>
+        <h1 class="mt-3 text-3xl md:text-4xl font-semibold text-on-surface dark:text-slate-100">Keranjang Belanja Anda</h1>
+        <p class="mt-2 text-sm md:text-base text-secondary dark:text-slate-400">Review pesanan Anda, sesuaikan jumlah, dan lanjutkan ke pembayaran segera.</p>
+      </div>
+      <div class="space-y-4">
+        <article class="rounded-3xl border border-outline-variant bg-white dark:bg-slate-900 dark:border-slate-700 p-5 shadow-sm transition-shadow hover:shadow-md">
+          <div class="flex gap-4">
+            <div class="w-24 h-24 rounded-3xl overflow-hidden bg-surface-container-lowest dark:bg-slate-800">
+              <img class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1567306226416-28f0efdc88ce?auto=format&w=480&q=80" alt="Minyak Goreng Sawit 5L" />
+            </div>
+            <div class="flex-1">
+              <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
+                <div>
+                  <h2 class="text-lg font-semibold text-on-surface dark:text-slate-100">Minyak Goreng Sawit 5L</h2>
+                  <p class="text-sm text-secondary dark:text-slate-400">Supplier Nusantara</p>
+                  <p class="mt-3 text-sm text-on-surface dark:text-slate-200">Harga per paket</p>
+                </div>
+                <div class="flex items-center gap-2 text-sm text-secondary dark:text-slate-400">
+                  <span>Rp 180.000</span>
+                  <span class="text-on-surface dark:text-slate-100 font-semibold">x2</span>
+                </div>
+              </div>
+              <div class="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <div class="rounded-full border border-outline-variant bg-surface-container-lowest dark:bg-slate-800 inline-flex items-center gap-2 p-2">
+                  <button class="w-8 h-8 rounded-full bg-surface dark:bg-slate-700 text-on-surface dark:text-slate-100">-</button>
+                  <span class="w-8 text-center">2</span>
+                  <button class="w-8 h-8 rounded-full bg-surface dark:bg-slate-700 text-on-surface dark:text-slate-100">+</button>
+                </div>
+                <button class="text-sm text-primary-container dark:text-brand-400 hover:text-primary transition-colors">Hapus</button>
+              </div>
+            </div>
+          </div>
+        </article>
+        <article class="rounded-3xl border border-outline-variant bg-white dark:bg-slate-900 dark:border-slate-700 p-5 shadow-sm transition-shadow hover:shadow-md">
+          <div class="flex gap-4">
+            <div class="w-24 h-24 rounded-3xl overflow-hidden bg-surface-container-lowest dark:bg-slate-800">
+              <img class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1524594154900-5e8f93ae5d3d?auto=format&w=480&q=80" alt="Beras Super 25kg" />
+            </div>
+            <div class="flex-1">
+              <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
+                <div>
+                  <h2 class="text-lg font-semibold text-on-surface dark:text-slate-100">Beras Super 25kg</h2>
+                  <p class="text-sm text-secondary dark:text-slate-400">Traktor Agro</p>
+                  <p class="mt-3 text-sm text-on-surface dark:text-slate-200">Harga per karung</p>
+                </div>
+                <div class="flex items-center gap-2 text-sm text-secondary dark:text-slate-400">
+                  <span>Rp 420.000</span>
+                  <span class="text-on-surface dark:text-slate-100 font-semibold">x1</span>
+                </div>
+              </div>
+              <div class="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <div class="rounded-full border border-outline-variant bg-surface-container-lowest dark:bg-slate-800 inline-flex items-center gap-2 p-2">
+                  <button class="w-8 h-8 rounded-full bg-surface dark:bg-slate-700 text-on-surface dark:text-slate-100">-</button>
+                  <span class="w-8 text-center">1</span>
+                  <button class="w-8 h-8 rounded-full bg-surface dark:bg-slate-700 text-on-surface dark:text-slate-100">+</button>
+                </div>
+                <button class="text-sm text-primary-container dark:text-brand-400 hover:text-primary transition-colors">Hapus</button>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+    <aside class="w-full lg:w-[380px] rounded-3xl border border-outline-variant bg-white dark:bg-slate-900 dark:border-slate-700 p-6 shadow-sm">
+      <div class="mb-6">
+        <h2 class="text-xl font-semibold text-on-surface dark:text-slate-100">Ringkasan Pesanan</h2>
+        <p class="mt-2 text-sm text-secondary dark:text-slate-400">Cek total belanja dan pilih metode pembayaran.</p>
+      </div>
+      <dl class="space-y-3 text-sm text-secondary dark:text-slate-400">
+        <div class="flex justify-between">
+          <dt>Subtotal</dt>
+          <dd class="text-on-surface dark:text-slate-100 font-semibold">Rp 960.000</dd>
+        </div>
+        <div class="flex justify-between">
+          <dt>Estimasi Ongkos Kirim</dt>
+          <dd class="text-on-surface dark:text-slate-100 font-semibold">Rp 25.000</dd>
+        </div>
+        <div class="flex justify-between">
+          <dt>Diskon Promosi</dt>
+          <dd class="text-teal-600 dark:text-teal-400 font-semibold">-Rp 15.000</dd>
+        </div>
+      </dl>
+      <div class="mt-6 border-t border-outline-variant pt-4 text-sm text-secondary dark:text-slate-400">
+        <div class="flex justify-between mb-2 font-semibold text-on-surface dark:text-slate-100">
+          <span>Total</span>
+          <span>Rp 970.000</span>
+        </div>
+        <p class="text-sm">Pembayaran penuh harus diselesaikan sebelum pengiriman diproses.</p>
+      </div>
+      <div class="mt-8 space-y-3">
+        <a class="block w-full text-center px-4 py-3 rounded-xl bg-primary-container text-white font-semibold hover:bg-primary transition-colors" href="#">Lanjutkan ke Pembayaran</a>
+        <a class="block w-full text-center px-4 py-3 rounded-xl border border-outline-variant text-on-surface dark:text-slate-100 hover:bg-surface-container-lowest dark:hover:bg-slate-800 transition-colors" href="../index.html">Lanjut Belanja</a>
+      </div>
+      <div class="mt-6 rounded-2xl bg-surface-container-lowest dark:bg-slate-800 p-4 text-sm text-secondary dark:text-slate-300">
+        <p class="font-semibold text-on-surface dark:text-slate-100">Perlu bantuan?</p>
+        <p class="mt-2">Hubungi tim dukungan atau pilih metode pembayaran saat checkout.</p>
+      </div>
+    </aside>
+  </div>
+</main>
+<script>
+  document.getElementById('theme-toggle').addEventListener('click', function() {
+    const root = document.documentElement;
+    if (root.classList.contains('dark')) {
+      root.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    } else {
+      root.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    }
+  });
+</script>
+</body>
+</html>
