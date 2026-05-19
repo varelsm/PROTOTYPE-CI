@@ -254,6 +254,21 @@ Selesaikan Pendaftaran Supplier
     // Initialize on load
     initTheme();
     lucide.createIcons();
+
+    // Form submission - redirect to supplier dashboard
+    const form = document.querySelector('form[method="POST"]');
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const checkboxes = document.querySelectorAll('form[method="POST"] input[type="checkbox"]');
+            let allChecked = true;
+            checkboxes.forEach(cb => { if (!cb.checked) allChecked = false; });
+            if (!allChecked) return;
+            localStorage.setItem('isLoggedIn', 'true');
+            localStorage.setItem('userType', 'supplier');
+            window.location.href = '../../DASHBOARD/supplier/suppMain.html';
+        });
+    }
 </script>
 </body>
 </html>
