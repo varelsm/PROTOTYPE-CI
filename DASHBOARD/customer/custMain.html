@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+
+<html lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Dashboard Mitra GASPOLL</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+  (function() {
+    const saved = localStorage.getItem('theme');
+    if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    }
+  })();
+</script>
+   <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
+        }
+        .sun-icon { display: block; }
+        html.dark .sun-icon { display: none; }
+        .moon-icon { display: none; }
+        html.dark .moon-icon { display: block; }
+        html {
+            overflow: -moz-scrollbars-vertical;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "brand": {
+                          "50": "#fff7ed",
+                          "100": "#ffedd5",
+                          "200": "#fed7aa",
+                          "300": "#fdba74",
+                          "400": "#fb923c",
+                          "500": "#f97316",
+                          "600": "#ea580c",
+                          "700": "#c2410c",
+                          "800": "#a33a0f",
+                          "900": "#7c2d12"
+                        },
+                        "on-secondary-fixed-variant": "#3c475a",
+                        "surface-container-low": "#eff4ff",
+                        "primary-fixed": "#ffdbcc",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-container": "#003a10",
+                        "on-tertiary-fixed": "#002106",
+                        "on-surface": "#0b1c30",
+                        "on-primary-fixed-variant": "#7a3000",
+                        "surface-variant": "#d3e4fe",
+                        "on-primary-fixed": "#351000",
+                        "surface-tint": "#a04100",
+                        "primary-container": "#ff6b00",
+                        "on-secondary-container": "#586377",
+                        "on-primary-container": "#572000",
+                        "on-error": "#ffffff",
+                        "on-background": "#0b1c30",
+                        "outline-variant": "#e2bfb0",
+                        "secondary-fixed-dim": "#bcc7de",
+                        "secondary": "#545f73",
+                        "surface": "#f8f9ff",
+                        "on-error-container": "#93000a",
+                        "outline": "#8e7164",
+                        "tertiary-fixed-dim": "#66df75",
+                        "surface-dim": "#cbdbf5",
+                        "background": "#f8f9ff",
+                        "tertiary": "#006e25",
+                        "primary": "#a04100",
+                        "tertiary-fixed": "#83fc8e",
+                        "on-tertiary": "#ffffff",
+                        "inverse-surface": "#213145",
+                        "secondary-fixed": "#d8e3fb",
+                        "surface-container": "#e5eeff",
+                        "error-container": "#ffdad6",
+                        "surface-container-high": "#dce9ff",
+                        "secondary-container": "#d5e0f8",
+                        "on-tertiary-fixed-variant": "#00531a",
+                        "primary-fixed-dim": "#ffb693",
+                        "on-secondary": "#ffffff",
+                        "inverse-on-surface": "#eaf1ff",
+                        "surface-container-highest": "#d3e4fe",
+                        "tertiary-container": "#33af4c",
+                        "on-surface-variant": "#5a4136",
+                        "error": "#ba1a1a",
+                        "on-primary": "#ffffff",
+                        "surface-bright": "#f8f9ff",
+                        "on-secondary-fixed": "#111c2d",
+                        "inverse-primary": "#ffb693"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "margin-mobile": "16px",
+                        "container-max": "1280px",
+                        "unit": "8px",
+                        "margin-desktop": "32px"
+                    },
+                    "fontFamily": {
+                        "label-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-xl-mobile": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "headline-xl": ["Inter"],
+                        "headline-sm": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-md": ["14px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "headline-xl-mobile": ["28px", {"lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "label-sm": ["12px", {"lineHeight": "14px", "fontWeight": "500"}],
+                        "headline-lg": ["30px", {"lineHeight": "38px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "headline-xl": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+    <body class="bg-background text-on-background font-body-md antialiased selection:bg-primary-container selection:text-white dark:bg-slate-950 dark:text-slate-100 transition-colors duration-300">
+<!-- Header -->
+<header class="bg-surface-container-lowest shadow-sm sticky top-0 z-50 dark:bg-slate-900 dark:border-b dark:border-slate-700 transition-colors duration-300">
+<div class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-4 max-w-container-max mx-auto gap-4 md:gap-8">
+<!-- Brand -->
+<a class="font-headline-md text-headline-md font-black text-brand-500 dark:text-brand-500 shrink-0 transition-colors" href="#">
+                GASPOLL
+            </a>
+<!-- Search Bar -->
+<div class="hidden md:flex flex-1 max-w-2xl relative">
+<input class="w-full pl-4 pr-12 py-3 border border-outline-variant dark:border-slate-600 rounded-lg bg-surface dark:bg-slate-800 dark:text-slate-100 focus:outline-none focus:border-primary-container dark:focus:border-brand-500 focus:ring-1 focus:ring-primary-container dark:focus:ring-brand-500 transition-all text-body-sm font-body-sm dark:placeholder-slate-400" placeholder="Cari produk grosir, supplier, atau kategori..." type="text"/>
+<button class="absolute right-3 top-1/2 -translate-y-1/2 text-primary-container dark:text-brand-400 hover:text-primary dark:hover:text-brand-300 transition-colors flex items-center justify-center p-1 rounded-full">
+<span class="material-symbols-outlined">search</span>
+</button>
+</div>
+<!-- Actions -->
+<div class="flex items-center gap-2 md:gap-4 shrink-0">
+<button class="text-secondary dark:text-slate-400 hover:text-primary dark:hover:text-brand-400 transition-colors p-2 rounded-full relative md:hidden">
+<span class="material-symbols-outlined">search</span>
+</button>
+<a class="text-secondary dark:text-slate-400 hover:text-primary dark:hover:text-brand-400 transition-colors p-2 rounded-full relative" href="../../cart/cart.html" aria-label="Keranjang">
+<span class="material-symbols-outlined">shopping_cart</span>
+<span class="absolute top-1 right-1 w-2 h-2 bg-primary-container dark:bg-brand-500 rounded-full"></span>
+</a>
+<div class="relative">
+<button id="profile-btn" class="flex items-center gap-2 p-1 rounded-full hover:bg-surface-container-low dark:hover:bg-slate-800 transition-colors">
+<span class="material-symbols-outlined text-3xl text-primary dark:text-brand-400">account_circle</span>
+</button>
+<div id="profile-dropdown" class="hidden absolute right-0 top-full mt-2 w-48 bg-surface-container-lowest dark:bg-slate-800 rounded-xl shadow-lg border border-outline-variant dark:border-slate-700 py-2 z-50">
+<a class="flex items-center gap-3 px-4 py-3 text-body-sm text-on-surface dark:text-slate-100 hover:bg-surface-container-low dark:hover:bg-slate-700 transition-colors" href="#">
+<span class="material-symbols-outlined text-secondary dark:text-slate-400">dashboard</span>
+Dashboard
+</a>
+<div class="border-t border-outline-variant dark:border-slate-700 my-1"></div>
+<button id="logout-btn" class="flex items-center gap-3 px-4 py-3 text-body-sm text-error hover:bg-surface-container-low dark:hover:bg-slate-700 transition-colors w-full text-left">
+<span class="material-symbols-outlined">logout</span>
+Logout
+</button>
+</div>
+</div>
+<button id="theme-toggle" class="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors" aria-label="Toggle dark mode">
+<svg class="sun-icon w-5 h-5 text-primary dark:text-brand-400" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="5"></circle><line x1="12" x2="12" y1="1" y2="3"></line><line x1="12" x2="12" y1="21" y2="23"></line><line x1="4.22" x2="5.64" y1="4.22" y2="5.64"></line><line x1="18.36" x2="19.78" y1="18.36" y2="19.78"></line><line x1="1" x2="3" y1="12" y2="12"></line><line x1="21" x2="23" y1="12" y2="12"></line><line x1="4.22" x2="5.64" y1="19.78" y2="18.36"></line><line x1="18.36" x2="19.78" y1="5.64" y2="4.22"></line></svg>
+<svg class="moon-icon w-5 h-5 text-brand-400 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+</button>
+<button class="md:hidden text-secondary dark:text-slate-400 p-2 hover:text-primary dark:hover:text-brand-400 transition-colors">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Mobile Search Bar (visible only on small screens) -->
+<div class="md:hidden bg-surface-container-lowest dark:bg-slate-900 px-margin-mobile py-2 border-b border-outline-variant dark:border-slate-700 transition-colors duration-300">
+<div class="relative w-full">
+<input class="w-full pl-4 pr-10 py-2 border border-outline-variant dark:border-slate-600 rounded-lg bg-surface dark:bg-slate-800 dark:text-slate-100 focus:outline-none focus:border-primary-container dark:focus:border-brand-500 text-body-sm dark:placeholder-slate-400" placeholder="Cari produk..." type="text"/>
+<button class="absolute right-2 top-1/2 -translate-y-1/2 text-primary-container dark:text-brand-400 hover:text-primary dark:hover:text-brand-300 transition-colors">
+<span class="material-symbols-outlined" style="font-size: 20px;">search</span>
+</button>
+</div>
+</div>
+<!-- Main Content -->
+<main class="min-h-screen">
+<!-- Hero Section -->
+<section class="relative w-full h-[400px] md:h-[500px] overflow-hidden flex items-center bg-slate-900">
+<img alt="Warehouse grosir" class="absolute inset-0 w-full h-full object-cover z-0" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAzV1R6YpqmgCT2_DvtW7WtHFxfEQZgPJWTP083PWajF84YmSgFKpWIRgD_5aPQ9VwOL7ZjVyQYETwB6W2lXnoE4FZI-NCoCUbAW6fyBXh8VIkEd6zX0Y2qgA2UXlJPqAinXzz6HkFqybm_QIA-fynGyNM2NRFFPaKVAXuhQ3uatEb4-Spo56tDJAEjUrlZyFLQGlU59hdlkQ9hCM8ZjrbNJzqSVdZVWlK7JRBkua1b0F4wh11z8Y-W1RSeoM8Cjtga99whwK146lM"/>
+<div class="absolute inset-0 bg-gradient-to-r from-on-surface/80 to-transparent z-10"></div>
+<div class="relative z-20 w-full px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto text-white">
+<div class="max-w-xl">
+<h1 class="font-headline-xl-mobile md:font-headline-xl text-headline-xl-mobile md:text-headline-xl text-white mb-4 shadow-sm drop-shadow-lg">Belanja Grosir Mudah &amp; Aman untuk Toko Anda</h1>
+<p class="font-body-lg text-body-lg text-slate-100 mb-8 drop-shadow-md">Hubungkan bisnis Anda dengan ratusan supplier terpercaya di seluruh Indonesia.</p>
+<a class="inline-flex items-center gap-2 px-6 py-3 bg-primary-container dark:bg-brand-500 text-white font-label-md text-label-md rounded-lg hover:bg-primary dark:hover:bg-brand-600 transition-all duration-200 shadow-md hover:shadow-lg" href="#">
+                        Lihat Rekomendasi
+                        <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</a>
+</div>
+</div>
+</section>
+
+<!-- Categories Section -->
+<section class="py-12 bg-surface dark:bg-slate-800 transition-colors duration-300">
+<div class="px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+<h2 class="font-headline-md text-headline-md text-on-surface dark:text-slate-100 mb-8 transition-colors">Kategori Terpopuler</h2>
+<div class="grid grid-cols-3 md:grid-cols-6 gap-4 md:gap-6">
+<!-- Category 1 -->
+<a class="flex flex-col items-center gap-3 p-4 bg-surface-container-lowest dark:bg-slate-700 rounded-xl shadow-sm hover:shadow-md hover:border-primary-container dark:hover:border-brand-500 border border-transparent transition-all duration-200 group" href="#">
+<div class="w-14 h-14 bg-surface-container-low dark:bg-slate-600 rounded-full flex items-center justify-center text-primary-container dark:text-brand-400 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl">shopping_basket</span>
+</div>
+<span class="font-label-md text-label-md text-center text-on-surface dark:text-slate-100 transition-colors">Bahan Pokok</span>
+</a>
+<!-- Category 2 -->
+<a class="flex flex-col items-center gap-3 p-4 bg-surface-container-lowest dark:bg-slate-700 rounded-xl shadow-sm hover:shadow-md hover:border-primary-container dark:hover:border-brand-500 border border-transparent transition-all duration-200 group" href="#">
+<div class="w-14 h-14 bg-surface-container-low dark:bg-slate-600 rounded-full flex items-center justify-center text-primary-container dark:text-brand-400 group-hover:scale-110 transition-transform duration-200">
+<span class="material-symbols-outlined text-3xl">local_cafe</span>
+</div>
+<span class="font-label-md text-label-md text-center text-on-surface dark:text-slate-100 transition-colors">Minuman</span>
+</a>
+<!-- Category 3 -->
+<a class="flex flex-col items-center gap-3 p-4 bg-surface-container-lowest dark:bg-slate-700 rounded-xl shadow-sm hover:shadow-md hover:border-primary-container dark:hover:border-brand-500 border border-transparent transition-all duration-200 group" href="#">
+<div class="w-14 h-14 bg-surface-container-low dark:bg-slate-600 rounded-full flex items-center justify-center text-primary-container dark:text-brand-400 group-hover:scale-110 transition-transform duration-200">
+<span class="material-symbols-outlined text-3xl">agriculture</span>
+</div>
+<span class="font-label-md text-label-md text-center text-on-surface dark:text-slate-100 transition-colors">Sayuran</span>
+</a>
+<!-- Category 4 -->
+<a class="flex flex-col items-center gap-3 p-4 bg-surface-container-lowest dark:bg-slate-700 rounded-xl shadow-sm hover:shadow-md hover:border-primary-container dark:hover:border-brand-500 border border-transparent transition-all duration-200 group" href="#">
+<div class="w-14 h-14 bg-surface-container-low dark:bg-slate-600 rounded-full flex items-center justify-center text-primary-container dark:text-brand-400 group-hover:scale-110 transition-transform duration-200">
+<span class="material-symbols-outlined text-3xl">restaurant</span>
+</div>
+<span class="font-label-md text-label-md text-center text-on-surface dark:text-slate-100 transition-colors">F&amp;B</span>
+</a>
+<!-- Category 5 -->
+<a class="flex flex-col items-center gap-3 p-4 bg-surface-container-lowest dark:bg-slate-700 rounded-xl shadow-sm hover:shadow-md hover:border-primary-container dark:hover:border-brand-500 border border-transparent transition-all duration-200 group" href="#">
+<div class="w-14 h-14 bg-surface-container-low dark:bg-slate-600 rounded-full flex items-center justify-center text-primary-container dark:text-brand-400 group-hover:scale-110 transition-transform duration-200">
+<span class="material-symbols-outlined text-3xl">grain</span>
+</div>
+<span class="font-label-md text-label-md text-center text-on-surface dark:text-slate-100 transition-colors">Biji-bijian</span>
+</a>
+<!-- Category 6 -->
+<a class="flex flex-col items-center gap-3 p-4 bg-surface-container-lowest dark:bg-slate-700 rounded-xl shadow-sm hover:shadow-md hover:border-primary-container dark:hover:border-brand-500 border border-transparent transition-all duration-200 group" href="#">
+<div class="w-14 h-14 bg-surface-container-low dark:bg-slate-600 rounded-full flex items-center justify-center text-primary-container dark:text-brand-400 group-hover:scale-110 transition-transform duration-200">
+<span class="material-symbols-outlined text-3xl">inventory_2</span>
+</div>
+<span class="font-label-md text-label-md text-center text-on-surface dark:text-slate-100 transition-colors">Kemasan</span>
+</a>
+</div>
+</div>
+</section>
+
+<!-- Product Grid Section -->
+<section class="py-12 bg-background dark:bg-slate-950 transition-colors duration-300">
+<div class="px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+<div class="flex justify-between items-end mb-8">
+<h2 class="font-headline-md text-headline-md text-on-surface dark:text-slate-100 transition-colors">Rekomendasi Grosir untuk Anda</h2>
+<a class="hidden md:flex items-center gap-1 text-primary-container dark:text-brand-400 hover:text-primary dark:hover:text-brand-300 font-label-md text-label-md transition-colors" href="#">
+                        Lihat Semua
+                        <span class="material-symbols-outlined text-sm">chevron_right</span>
+</a>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-gutter">
+<!-- Product Card 1 -->
+<a href="#" class="bg-surface-container-lowest dark:bg-slate-800 rounded-xl border border-outline-variant dark:border-slate-700 overflow-hidden shadow-sm hover:shadow-md hover:border-primary-container dark:hover:border-brand-500 transition-all group flex flex-col h-full">
+<div class="relative aspect-square w-full bg-surface-container-low dark:bg-slate-700 overflow-hidden">
+<img alt="Tepung Terigu" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDopPsfXa0ozXPkcW3cQm89Bz5gMwDSvDsA0QuasdK7txoGQDWtiUIG2kp95PIPiVZEonuSZlMDnBidvxQhLyHFYrdzLJr3v5M0zTP7oQu1rOpaDULq1J7fZqi0D6G0CjvAYizFyGZ-1q4F_6baGCTmzCRyI-JI58tCP4mYoJGGYi4m1aTALBBBXD5wJ3XN_1fcory93xyCfgpjVZ1Po2P0UIQQbheXBR3cgLI4uJXAt_3A3lUEFlUZR1cW9eRpq71BKcNOzRtD32o"/>
+<div class="absolute top-2 left-2 bg-tertiary-container text-on-tertiary px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider">Grosir</div>
+</div>
+<div class="p-4 flex flex-col flex-1">
+<h3 class="font-body-sm text-body-sm text-on-surface dark:text-slate-100 line-clamp-2 mb-2 group-hover:text-primary-container dark:group-hover:text-brand-400 transition-colors">Tepung Terigu Kemasan Karung 25kg</h3>
+<p class="font-label-sm text-label-sm text-secondary dark:text-slate-400 flex items-center gap-1 mb-3">
+<span class="material-symbols-outlined text-[14px]">storefront</span>
+                                Bogasari - Jakarta
+                            </p>
+<div class="mt-auto">
+<div class="font-headline-sm text-headline-sm font-bold text-primary-container dark:text-brand-400 mb-1">Rp 245.000</div>
+<div class="inline-flex items-center bg-surface-container-low dark:bg-slate-700 text-on-surface-variant dark:text-slate-300 font-label-sm text-label-sm px-2 py-1 rounded">
+                                    Min. Pesanan: 5 Karung
+                                </div>
+</div>
+</div>
+</a>
+<!-- Product Card 2 -->
+<a href="#" class="bg-surface-container-lowest dark:bg-slate-800 rounded-xl border border-outline-variant dark:border-slate-700 overflow-hidden shadow-sm hover:shadow-md hover:border-primary-container dark:hover:border-brand-500 transition-all group flex flex-col h-full">
+<div class="relative aspect-square w-full bg-surface-container-low dark:bg-slate-700 overflow-hidden">
+<img alt="Minyak Goreng" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBLXLAYO0pp2Jh5mANenwlN1m0xNt8w4JxEiuM6_XnNXsYzXxI2oEKbIugdNKLSjJRarinBBC9C_53SZm7qK0O7nJb22XJoWD886HonlZuYTw0pNoQJ_D0mvo4OzpnUbOadXTeQOjXe8OtjKKb7YfOF9jLqofCxGR2P5RnAHTCPKpew_EJnV9TO0KKyVc-EEeStD972KQcHyjGIbHFrEAz_X6_Ss86TwT4iqDUSVZcRCxX1qoyTsneaiYsNUGzZz7A5qMpxBUPl6Ew"/>
+<div class="absolute top-2 left-2 bg-tertiary-container text-on-tertiary px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider">Grosir</div>
+</div>
+<div class="p-4 flex flex-col flex-1">
+<h3 class="font-body-sm text-body-sm text-on-surface dark:text-slate-100 line-clamp-2 mb-2 group-hover:text-primary-container dark:group-hover:text-brand-400 transition-colors">Minyak Goreng Sawit Fortune 18L</h3>
+<p class="font-label-sm text-label-sm text-secondary dark:text-slate-400 flex items-center gap-1 mb-3">
+<span class="material-symbols-outlined text-[14px]">storefront</span>
+                                Fortune - Medan
+                            </p>
+<div class="mt-auto">
+<div class="font-headline-sm text-headline-sm font-bold text-primary-container dark:text-brand-400 mb-1">Rp 272.500</div>
+<div class="inline-flex items-center bg-surface-container-low dark:bg-slate-700 text-on-surface-variant dark:text-slate-300 font-label-sm text-label-sm px-2 py-1 rounded">
+                                    Min. Pesanan: 10 Jerigen
+                                </div>
+</div>
+</div>
+</a>
+<!-- Product Card 3 -->
+<a href="#" class="bg-surface-container-lowest dark:bg-slate-800 rounded-xl border border-outline-variant dark:border-slate-700 overflow-hidden shadow-sm hover:shadow-md hover:border-primary-container dark:hover:border-brand-500 transition-all group flex flex-col h-full">
+<div class="relative aspect-square w-full bg-surface-container-low dark:bg-slate-700 overflow-hidden">
+<img alt="Beras Premium" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAmcCv2P59NZtYz8FEwiA4AInRJRXFDpJ_SKre7djhkK4l26SUsUGl1Awm3zE-O82fazz4NH4d0HC9Zt90uLLGnYPxsMqYiqeN5HLqx5hjhxdC2h-wTaw0AiZ8TCtlfyQREnQwLydMBaO1SGQEFf8B-ZB0BjhCosuNYPW93zbLwmWenut9ufcJ024OsDHrlwzWRfE2p3CoVE12f_9KYg6Z-p7SoP4kyYT_K6ichRSexLe-4Di1yITvksTXraVW2ONHFDsmxr51oGZM"/>
+<div class="absolute top-2 left-2 bg-primary-container text-on-primary px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider">Terlaris</div>
+</div>
+<div class="p-4 flex flex-col flex-1">
+<h3 class="font-body-sm text-body-sm text-on-surface dark:text-slate-100 line-clamp-2 mb-2 group-hover:text-primary-container dark:group-hover:text-brand-400 transition-colors">Beras Rojolele Super Premium 25kg</h3>
+<p class="font-label-sm text-label-sm text-secondary dark:text-slate-400 flex items-center gap-1 mb-3">
+<span class="material-symbols-outlined text-[14px]">storefront</span>
+                                Pulu-Pulu - Surabaya
+                            </p>
+<div class="mt-auto">
+<div class="font-headline-sm text-headline-sm font-bold text-primary-container dark:text-brand-400 mb-1">Rp 385.000</div>
+<div class="inline-flex items-center bg-surface-container-low dark:bg-slate-700 text-on-surface-variant dark:text-slate-300 font-label-sm text-label-sm px-2 py-1 rounded">
+                                    Min. Pesanan: 2 Sak
+                                </div>
+</div>
+</div>
+</a>
+<!-- Product Card 4 -->
+<a href="#" class="bg-surface-container-lowest dark:bg-slate-800 rounded-xl border border-outline-variant dark:border-slate-700 overflow-hidden shadow-sm hover:shadow-md hover:border-primary-container dark:hover:border-brand-500 transition-all group flex flex-col h-full">
+<div class="relative aspect-square w-full bg-surface-container-low dark:bg-slate-700 overflow-hidden">
+<img alt="Gula Pasir" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDa-jlmXUuShku5BlPhvZa65Rfx6Bj008HH7jMNvBFb2KgS5AM1Tw_0KOl39WooqnS1D3HrTnCxvxPq6zI41Y-aghmKYJraCwIxrQvZQbGAVJSxg3FSnAii3ATXTw6okl0KIJ3LML4dE_2CXeBBNoaNXfH4K7NsS0ezWmqtafZASk7c0nfjov9uPoUik_lMzc1DQ5zvv_HJs3he6_5fI5IlmT9VgoST9rGULP2Qz3Vnh-TmB3v2Dlm5mNafn2TyVCSVnEwyr9Rm9Bg"/>
+</div>
+<div class="p-4 flex flex-col flex-1">
+<h3 class="font-body-sm text-body-sm text-on-surface dark:text-slate-100 line-clamp-2 mb-2 group-hover:text-primary-container dark:group-hover:text-brand-400 transition-colors">Gula Pasir Kristal Rose Brand 50kg</h3>
+<p class="font-label-sm text-label-sm text-secondary dark:text-slate-400 flex items-center gap-1 mb-3">
+<span class="material-symbols-outlined text-[14px]">storefront</span>
+                                Rose Brand - Bandung
+                            </p>
+<div class="mt-auto">
+<div class="font-headline-sm text-headline-sm font-bold text-primary-container dark:text-brand-400 mb-1">Rp 655.000</div>
+<div class="inline-flex items-center bg-surface-container-low dark:bg-slate-700 text-on-surface-variant dark:text-slate-300 font-label-sm text-label-sm px-2 py-1 rounded">
+                                    Min. Pesanan: 1 Sak
+                                </div>
+</div>
+</div>
+</a>
+</div>
+<div class="mt-8 text-center md:hidden">
+<a class="inline-flex items-center gap-2 px-6 py-3 border border-primary-container text-primary-container font-label-md text-label-md rounded-lg hover:bg-surface-container-low transition-colors w-full justify-center" href="#">
+                        Lihat Semua Produk
+                    </a>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest dark:bg-slate-900 border-t border-outline-variant dark:border-slate-700 transition-colors duration-300">
+<div class="w-full py-gutter px-margin-mobile md:px-margin-desktop flex flex-col md:flex-row justify-between items-center max-w-container-max mx-auto gap-4">
+<div class="font-headline-sm text-headline-sm font-bold text-on-surface dark:text-brand-500">
+                GASPOLL
+            </div>
+<div class="font-body-sm text-body-sm text-secondary dark:text-slate-400 text-center md:text-left">
+                © 2024 GASPOLL B2B Marketplace. All rights reserved.
+            </div>
+<div class="flex gap-6">
+<a class="font-label-sm text-label-sm text-secondary dark:text-slate-400 hover:text-primary-container dark:hover:text-brand-400 transition-colors" href="#">Terms of Service</a>
+<a class="font-label-sm text-label-sm text-secondary dark:text-slate-400 hover:text-primary-container dark:hover:text-brand-400 transition-colors" href="#">Privacy Policy</a>
+<a class="font-label-sm text-label-sm text-secondary dark:text-slate-400 hover:text-primary-container dark:hover:text-brand-400 transition-colors" href="#">Contact Support</a>
+</div>
+</div>
+</footer>
+<script>
+        // Dark mode toggle with localStorage
+        const html = document.documentElement;
+        const themeToggle = document.getElementById('theme-toggle');
+    
+        // Check localStorage or system preference
+        function initTheme() {
+            const saved = localStorage.getItem('theme');
+            if (saved) {
+                html.classList.toggle('dark', saved === 'dark');
+            } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                html.classList.add('dark');
+            }
+        }
+    
+        // Toggle theme with smooth transition
+        themeToggle.addEventListener('click', (e) => {
+            e.preventDefault();
+            html.classList.toggle('dark');
+            localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+        });
+    
+        // Initialize on load
+        initTheme();
+</script>
+<script>
+        // Simple search bar focus effect
+        const searchInput = document.querySelector('input[type="text"]');
+        searchInput.addEventListener('focus', () => {
+            searchInput.parentElement.classList.add('scale-[1.02]');
+        });
+        searchInput.addEventListener('blur', () => {
+            searchInput.parentElement.classList.remove('scale-[1.02]');
+        });
+
+        // Profile dropdown
+        const profileBtn = document.getElementById('profile-btn');
+        const profileDropdown = document.getElementById('profile-dropdown');
+        profileBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            profileDropdown.classList.toggle('hidden');
+        });
+        document.addEventListener('click', (e) => {
+            if (!profileDropdown.contains(e.target) && e.target !== profileBtn) {
+                profileDropdown.classList.add('hidden');
+            }
+        });
+
+        // Logout button
+        const logoutBtn = document.getElementById('logout-btn');
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                localStorage.removeItem('user');
+                localStorage.removeItem('isLoggedIn');
+                window.location.href = '../index.html';
+            });
+        }
+
+        // Add to cart micro-interaction
+        const buyButtons = document.querySelectorAll('button');
+        buyButtons.forEach(btn => {
+            if(btn.innerText.includes('Beli Lagi')) {
+                btn.addEventListener('click', function() {
+                    const originalContent = this.innerHTML;
+                    this.innerHTML = '<span class="material-symbols-outlined text-[18px]">check_circle</span> Berhasil';
+                    this.classList.add('bg-tertiary-container', 'text-white', 'border-tertiary-container');
+                    setTimeout(() => {
+                        this.innerHTML = originalContent;
+                        this.classList.remove('bg-tertiary-container', 'text-white', 'border-tertiary-container');
+                    }, 2000);
+                });
+            }
+        });
+    </script>
+</body></html>

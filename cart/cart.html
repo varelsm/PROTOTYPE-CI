@@ -122,7 +122,7 @@
             }
         }
     </script>
-<style>
+   <style>
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
         }
@@ -130,9 +130,14 @@
         html.dark .sun-icon { display: none; }
         .moon-icon { display: none; }
         html.dark .moon-icon { display: block; }
+        html {
+            overflow: -moz-scrollbars-vertical;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
     </style>
 </head>
-<body class="bg-background text-on-background font-body-md antialiased selection:bg-primary-container selection:text-white dark:bg-slate-950 dark:text-slate-100 transition-colors duration-300">
+<body class="bg-background text-on-background font-body-md antialiased selection:bg-primary-container selection:text-white dark:bg-slate-950 dark:text-slate-100 transition-colors duration-300 overflow-y-auto overflow-x-hidden">
 <!-- Header -->
 <header class="bg-surface-container-lowest shadow-sm sticky top-0 z-50 dark:bg-slate-900 dark:border-b dark:border-slate-700 transition-colors duration-300">
 <div class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-4 max-w-container-max mx-auto gap-4 md:gap-8">

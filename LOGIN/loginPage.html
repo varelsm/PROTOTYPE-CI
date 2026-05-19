@@ -138,6 +138,11 @@
         html.dark .sun-icon { display: none; }
         .moon-icon { display: none; }
         html.dark .moon-icon { display: block; }
+        html {
+            overflow: -moz-scrollbars-vertical;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
     </style>
 </head>
 <body class="bg-surface-container-lowest dark:bg-slate-950 text-on-surface dark:text-slate-100 h-screen w-screen overflow-hidden flex flex-col md:flex-row transition-colors duration-300">
