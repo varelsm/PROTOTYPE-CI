@@ -264,29 +264,3 @@
     initTheme();
     lucide.createIcons();
 </script>
-<script>
-    // Dark mode toggle with localStorage
-    const html = document.documentElement;
-    const themeToggle = document.getElementById('theme-toggle');
-    
-    // Check localStorage or system preference
-    function initTheme() {
-      const saved = localStorage.getItem('theme');
-      if (saved) {
-        html.classList.toggle('dark', saved === 'dark');
-      } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        html.classList.add('dark');
-      }
-    }
-    
-    // Toggle theme
-    themeToggle.addEventListener('click', () => {
-      html.classList.toggle('dark');
-      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
-      lucide.createIcons();
-    });
-    
-    // Initialize on load
-    initTheme();
-    lucide.createIcons();
-</script>
