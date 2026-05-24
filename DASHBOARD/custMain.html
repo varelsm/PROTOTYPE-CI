@@ -137,7 +137,8 @@
                         "headline-xl": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
                         "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
                         "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
-                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "heading": ["24px", {"lineHeight": "32px", "fontWeight": "600"}]
                     }
                 },
             },
@@ -173,7 +174,7 @@
 <span class="material-symbols-outlined text-3xl text-primary dark:text-brand-400">account_circle</span>
 </button>
 <div id="profile-dropdown" class="hidden absolute right-0 top-full mt-2 w-48 bg-surface-container-lowest dark:bg-slate-800 rounded-xl shadow-lg border border-outline-variant dark:border-slate-700 py-2 z-50">
-<a class="flex items-center gap-3 px-4 py-3 text-body-sm text-on-surface dark:text-slate-100 hover:bg-surface-container-low dark:hover:bg-slate-700 transition-colors" href="#">
+<a class="flex items-center gap-3 px-4 py-3 text-body-sm text-on-surface dark:text-slate-100 hover:bg-surface-container-low dark:hover:bg-slate-700 transition-colors" href="customer/overview.html">
 <span class="material-symbols-outlined text-secondary dark:text-slate-400">dashboard</span>
 Dashboard
 </a>
@@ -188,9 +189,23 @@ Logout
 <svg class="sun-icon w-5 h-5 text-primary dark:text-brand-400" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="5"></circle><line x1="12" x2="12" y1="1" y2="3"></line><line x1="12" x2="12" y1="21" y2="23"></line><line x1="4.22" x2="5.64" y1="4.22" y2="5.64"></line><line x1="18.36" x2="19.78" y1="18.36" y2="19.78"></line><line x1="1" x2="3" y1="12" y2="12"></line><line x1="21" x2="23" y1="12" y2="12"></line><line x1="4.22" x2="5.64" y1="19.78" y2="18.36"></line><line x1="18.36" x2="19.78" y1="5.64" y2="4.22"></line></svg>
 <svg class="moon-icon w-5 h-5 text-brand-400 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
 </button>
-<button class="md:hidden text-secondary dark:text-slate-400 p-2 hover:text-primary dark:hover:text-brand-400 transition-colors">
+<button id="mobile-menu-btn" class="md:hidden text-secondary dark:text-slate-400 p-2 hover:text-primary dark:hover:text-brand-400 transition-colors">
 <span class="material-symbols-outlined">menu</span>
 </button>
+</button>
+<!-- Mobile Nav Overlay (hidden on desktop) -->
+<div id="mobile-nav" class="hidden md:hidden fixed inset-0 z-50">
+<div class="bg-black/50 absolute inset-0" id="mobile-nav-backdrop"></div>
+<nav class="absolute right-0 top-0 bottom-0 w-64 bg-surface-container-lowest dark:bg-slate-800 shadow-xl p-4 flex flex-col gap-2 transition-colors">
+<div class="flex justify-between items-center mb-4">
+<span class="font-headline-md text-headline-md font-black text-primary dark:text-brand-500">Menu</span>
+<button id="close-mobile-nav" class="text-secondary p-2"><span class="material-symbols-outlined">close</span></button>
+</div>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary hover:text-primary hover:bg-surface-container-lowest rounded-full transition-all" href="../../cart/cart.html"><span class="material-symbols-outlined">shopping_cart</span>Keranjang</a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary hover:text-primary hover:bg-surface-container-lowest rounded-full transition-all" href="../customer/overview.html"><span class="material-symbols-outlined">dashboard</span>Dashboard</a>
+<button class="flex items-center gap-3 px-4 py-3 text-error hover:bg-surface-container-lowest rounded-full transition-all" id="mobile-logout-btn"><span class="material-symbols-outlined">logout</span>Logout</button>
+</nav>
+</div>
 </div>
 </div>
 </header>
@@ -236,16 +251,16 @@ Logout
 <!-- Category 2 -->
 <a class="flex flex-col items-center gap-3 p-4 bg-surface-container-lowest dark:bg-slate-700 rounded-xl shadow-sm hover:shadow-md hover:border-primary-container dark:hover:border-brand-500 border border-transparent transition-all duration-200 group" href="#">
 <div class="w-14 h-14 bg-surface-container-low dark:bg-slate-600 rounded-full flex items-center justify-center text-primary-container dark:text-brand-400 group-hover:scale-110 transition-transform duration-200">
-<span class="material-symbols-outlined text-3xl">local_cafe</span>
+<span class="material-symbols-outlined text-3xl">devices</span>
 </div>
-<span class="font-label-md text-label-md text-center text-on-surface dark:text-slate-100 transition-colors">Minuman</span>
+<span class="font-label-md text-label-md text-center text-on-surface dark:text-slate-100 transition-colors">Elektronik</span>
 </a>
 <!-- Category 3 -->
 <a class="flex flex-col items-center gap-3 p-4 bg-surface-container-lowest dark:bg-slate-700 rounded-xl shadow-sm hover:shadow-md hover:border-primary-container dark:hover:border-brand-500 border border-transparent transition-all duration-200 group" href="#">
 <div class="w-14 h-14 bg-surface-container-low dark:bg-slate-600 rounded-full flex items-center justify-center text-primary-container dark:text-brand-400 group-hover:scale-110 transition-transform duration-200">
-<span class="material-symbols-outlined text-3xl">agriculture</span>
+<span class="material-symbols-outlined text-3xl">health_and_safety</span>
 </div>
-<span class="font-label-md text-label-md text-center text-on-surface dark:text-slate-100 transition-colors">Sayuran</span>
+<span class="font-label-md text-label-md text-center text-on-surface dark:text-slate-100 transition-colors">Kesehatan</span>
 </a>
 <!-- Category 4 -->
 <a class="flex flex-col items-center gap-3 p-4 bg-surface-container-lowest dark:bg-slate-700 rounded-xl shadow-sm hover:shadow-md hover:border-primary-container dark:hover:border-brand-500 border border-transparent transition-all duration-200 group" href="#">
@@ -259,7 +274,7 @@ Logout
 <div class="w-14 h-14 bg-surface-container-low dark:bg-slate-600 rounded-full flex items-center justify-center text-primary-container dark:text-brand-400 group-hover:scale-110 transition-transform duration-200">
 <span class="material-symbols-outlined text-3xl">grain</span>
 </div>
-<span class="font-label-md text-label-md text-center text-on-surface dark:text-slate-100 transition-colors">Biji-bijian</span>
+<span class="font-label-md text-label-md text-center text-on-surface dark:text-slate-100 transition-colors">Peralatan Industri</span>
 </a>
 <!-- Category 6 -->
 <a class="flex flex-col items-center gap-3 p-4 bg-surface-container-lowest dark:bg-slate-700 rounded-xl shadow-sm hover:shadow-md hover:border-primary-container dark:hover:border-brand-500 border border-transparent transition-all duration-200 group" href="#">
@@ -442,7 +457,9 @@ Logout
                 e.preventDefault();
                 localStorage.removeItem('user');
                 localStorage.removeItem('isLoggedIn');
-                window.location.href = '../index.html';
+                localStorage.removeItem('userType');
+                profileDropdown.classList.add('hidden');
+                window.location.href = '../LOGIN/loginPage.html';
             });
         }
 
@@ -461,5 +478,28 @@ Logout
                 });
             }
         });
+
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileNav = document.getElementById('mobile-nav');
+        const mobileNavBackdrop = document.getElementById('mobile-nav-backdrop');
+        const closeMobileNav = document.getElementById('close-mobile-nav');
+        if (mobileMenuBtn) {
+            mobileMenuBtn.addEventListener('click', () => mobileNav.classList.remove('hidden'));
+        }
+        if (mobileNavBackdrop) mobileNavBackdrop.addEventListener('click', () => mobileNav.classList.add('hidden'));
+        if (closeMobileNav) closeMobileNav.addEventListener('click', () => mobileNav.classList.add('hidden'));
+
+        // Mobile logout
+        const mobileLogoutBtn = document.getElementById('mobile-logout-btn');
+        if (mobileLogoutBtn) {
+            mobileLogoutBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                localStorage.removeItem('user');
+                localStorage.removeItem('isLoggedIn');
+                localStorage.removeItem('userType');
+                window.location.href = '../LOGIN/loginPage.html';
+            });
+        }
     </script>
 </body></html>

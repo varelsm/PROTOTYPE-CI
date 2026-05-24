@@ -135,8 +135,21 @@
                 <span class="material-symbols-outlined text-slate-500 dark:text-slate-400 cursor-pointer" data-icon="notifications">notifications</span>
                 <span class="absolute -top-1 -right-1 bg-primary-container dark:bg-brand-500 text-white text-[10px] w-4 h-4 flex items-center justify-center rounded-full border-2 border-white dark:border-slate-900">3</span>
             </div>
-            <div class="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center cursor-pointer overflow-hidden">
-                <img alt="Profile" class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=100"/>
+            <div class="relative">
+                <div id="profile-btn" class="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center cursor-pointer overflow-hidden">
+                    <img alt="Profile" class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=100"/>
+                </div>
+                <div id="profile-dropdown" class="hidden absolute right-0 top-full mt-2 w-48 bg-surface-container-lowest dark:bg-slate-800 rounded-xl shadow-lg border border-outline-variant dark:border-slate-700 py-2 z-50">
+                    <a class="flex items-center gap-3 px-4 py-3 text-body-sm text-on-surface dark:text-slate-100 hover:bg-surface-container-low dark:hover:bg-slate-700 transition-colors" href="suppMain.html">
+                        <span class="material-symbols-outlined text-secondary dark:text-slate-400">dashboard</span>
+                        Dashboard
+                    </a>
+                    <div class="border-t border-outline-variant dark:border-slate-700 my-1"></div>
+                    <button id="logout-btn" class="flex items-center gap-3 px-4 py-3 text-body-sm text-error hover:bg-surface-container-low dark:hover:bg-slate-700 transition-colors w-full text-left">
+                        <span class="material-symbols-outlined">logout</span>
+                        Logout
+                    </button>
+                </div>
             </div>
         </div>
     </header>
@@ -265,6 +278,33 @@
     if(themeToggle) {
         themeToggle.addEventListener('click', toggleTheme);
         themeToggle.addEventListener('touchstart', toggleTheme, { passive: false });
+    }
+
+    // Profile dropdown
+    const profileBtn = document.getElementById('profile-btn');
+    const profileDropdown = document.getElementById('profile-dropdown');
+    if(profileBtn) {
+        profileBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            profileDropdown.classList.toggle('hidden');
+        });
+    }
+    document.addEventListener('click', (e) => {
+        if (profileDropdown && !profileDropdown.contains(e.target) && e.target !== profileBtn) {
+            profileDropdown.classList.add('hidden');
+        }
+    });
+
+    // Logout button
+    const logoutBtn = document.getElementById('logout-btn');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            localStorage.removeItem('user');
+            localStorage.removeItem('isLoggedIn');
+            localStorage.removeItem('userType');
+            window.location.href = '../LOGIN/loginPage.html';
+        });
     }
 </script>
 </body>

@@ -1,0 +1,2238 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>GASPOLL UMKM - Order History</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<script>
+  (function() {
+    const saved = localStorage.getItem('theme');
+    if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    }
+  })();
+</script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "brand": {
+                          "50": "#fff7ed",
+                          "100": "#ffedd5",
+                          "200": "#fed7aa",
+                          "300": "#fdba74",
+                          "400": "#fb923c",
+                          "500": "#f97316",
+                          "600": "#ea580c",
+                          "700": "#c2410c",
+                          "800": "#a33a0f",
+                          "900": "#7c2d12"
+                        },
+                        "secondary-fixed": "#d8e3fb",
+                        "on-surface-variant": "#5a4136",
+                        "primary": "#a04100",
+                        "tertiary-fixed": "#83fc8e",
+                        "secondary-container": "#d5e0f8",
+                        "on-tertiary-fixed-variant": "#00531a",
+                        "on-surface": "#0b1c30",
+                        "on-error-container": "#93000a",
+                        "surface-container-low": "#eff4ff",
+                        "on-background": "#0b1c30",
+                        "on-secondary": "#ffffff",
+                        "on-primary-container": "#572000",
+                        "inverse-primary": "#ffb693",
+                        "surface-container": "#e5eeff",
+                        "on-secondary-fixed": "#111c2d",
+                        "surface-container-highest": "#d3e4fe",
+                        "inverse-on-surface": "#eaf1ff",
+                        "tertiary-fixed-dim": "#66df75",
+                        "surface": "#f8f9ff",
+                        "outline": "#8e7164",
+                        "tertiary-container": "#33af4c",
+                        "background": "#f8f9ff",
+                        "tertiary": "#006e25",
+                        "surface-dim": "#cbdbf5",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-fixed-variant": "#3c475a",
+                        "secondary": "#545f73",
+                        "on-error": "#ffffff",
+                        "surface-tint": "#a04100",
+                        "on-primary-fixed-variant": "#7a3000",
+                        "on-primary": "#ffffff",
+                        "surface-container-high": "#dce9ff",
+                        "on-primary-fixed": "#351000",
+                        "surface-variant": "#d3e4fe",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-bright": "#f8f9ff",
+                        "secondary-fixed-dim": "#bcc7de",
+                        "outline-variant": "#e2bfb0",
+                        "on-secondary-container": "#586377",
+                        "on-tertiary-fixed": "#002106",
+                        "primary-fixed": "#ffdbcc",
+                        "error": "#ba1a1a",
+                        "inverse-surface": "#213145",
+                        "primary-container": "#ff6b00",
+                        "primary-fixed-dim": "#ffb693",
+                        "on-tertiary-container": "#003a10",
+                        "error-container": "#ffdad6"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-desktop": "32px",
+                        "margin-mobile": "16px",
+                        "unit": "8px",
+                        "gutter": "24px",
+                        "container-max": "1280px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "headline-xl-mobile": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "headline-xl": ["Inter"],
+                        "headline-sm": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-xl-mobile": ["28px", { "lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "label-md": ["14px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "headline-xl": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-sm": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "headline-lg": ["30px", { "lineHeight": "38px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "label-sm": ["12px", { "lineHeight": "14px", "fontWeight": "500" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .sun-icon { display: block; }
+        html.dark .sun-icon { display: none; }
+        .moon-icon { display: none; }
+        html.dark .moon-icon { display: block; }
+        .dot-pattern {
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCI+CjxwYXRoIGQ9Ik0wIDBoMjB2MjBIMHoiIGZpbGw9Im5vbmUiLz4KPGNpcmNsZSBjeD0iMiIgY3k9IjIiIHI9IjIiIGZpbGw9IiNhMDQxMDAiLz4KPC9zdmc+');
+          pointer-events: none;
+        }
+        html.dark .dot-pattern {
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCI+CjxwYXRoIGQ9Ik0wIDBoMjB2MjBIMHoiIGZpbGw9Im5vbmUiLz4KPGNpcmNsZSBjeD0iMiIgY3k9IjIiIHI9IjIiIGZpbGw9IiNmZjk4MDAiLz4KPC9zdmc+');
+        }
+        .order-history-table td, .order-history-table th {
+            padding: 16px 24px !important;
+        }
+        .order-history-table {
+            table-layout: fixed;
+        }
+        .order-history-table th:last-child,
+        .order-history-table td:last-child {
+            padding-left: 16px !important;
+            padding-right: 16px !important;
+        }
+        .order-history-table td:last-child {
+            text-align: center !important;
+        }
+        .overflow-x-hidden {
+            overflow-y: auto;
+        }
+</style>
+</head>
+<body class="bg-background dark:bg-slate-950 text-on-background dark:text-slate-100 font-body-md antialiased selection:bg-primary-container selection:text-white transition-colors duration-300 min-h-screen flex">
+<!-- SideNavBar (Desktop) -->
+<nav class="hidden md:flex flex-col h-screen left-0 w-64 fixed bg-surface-container-low dark:bg-slate-900 border-r border-outline-variant dark:border-slate-700 gap-2 z-50">
+<!-- Header -->
+<div class="px-6 py-6 mb-4">
+<h1 class="font-headline-sm text-headline-sm font-black text-primary dark:text-brand-500 mb-1">GASPOLL UMKM</h1>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary-container dark:text-green-400 text-sm" data-weight="fill">verified</span>
+<p class="font-body-sm text-body-sm text-secondary dark:text-slate-400">Verified Enterprise</p>
+</div>
+</div>
+<!-- Navigation Links -->
+<div class="flex-1 px-4 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-secondary dark:text-slate-400 hover:text-primary dark:hover:text-brand-400 hover:bg-surface-container-highest dark:hover:bg-slate-800 rounded-full transition-all duration-150 ease-in-out font-label-md text-label-md" href="overview.html">
+<span class="material-symbols-outlined">dashboard</span>
+                Overview
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 bg-secondary-container dark:bg-blue-500/30 text-on-secondary-container dark:text-blue-200 rounded-full transition-all duration-150 ease-in-out font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined" data-weight="fill">shopping_bag</span>
+                Purchases
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary dark:text-slate-400 hover:text-primary dark:hover:text-brand-400 hover:bg-surface-container-highest dark:hover:bg-slate-800 rounded-full transition-all duration-150 ease-in-out font-label-md text-label-md" href="suppliers.html">
+<span class="material-symbols-outlined">group</span>
+                Suppliers
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary dark:text-slate-400 hover:text-primary dark:hover:text-brand-400 hover:bg-surface-container-highest dark:hover:bg-slate-800 rounded-full transition-all duration-150 ease-in-out font-label-md text-label-md" href="finance.html"><span class="material-symbols-outlined">payments</span>Finance</a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary dark:text-slate-400 hover:text-primary dark:hover:text-brand-400 hover:bg-surface-container-highest dark:hover:bg-slate-800 rounded-full transition-all duration-150 ease-in-out font-label-md text-label-md" href="settings.html">
+<span class="material-symbols-outlined">settings</span>
+                Settings
+            </a>
+</div>
+
+<!-- Footer Links -->
+<div class="px-4 pb-6 mt-auto space-y-1 border-t border-outline-variant dark:border-slate-700 pt-4 mx-2">
+<a class="flex items-center gap-3 px-4 py-2 text-secondary dark:text-slate-400 hover:text-primary dark:hover:text-brand-400 hover:bg-surface-container-highest dark:hover:bg-slate-800 rounded-full transition-all duration-150 ease-in-out font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">help</span>
+                Help Center
+            </a>
+<a class="flex items-center gap-3 px-4 py-2 text-error dark:text-red-400 hover:bg-error-container dark:hover:bg-red-500/20 rounded-full transition-all duration-150 ease-in-out font-label-md text-label-md" href="#" id="logout-link">
+<span class="material-symbols-outlined">logout</span>
+                Logout
+            </a>
+</div>
+</nav>
+<!-- Theme Toggle -->
+<button id="theme-toggle" class="fixed top-4 right-4 z-50 p-2 rounded-full bg-surface-container-lowest dark:bg-slate-900 hover:bg-surface-container-low dark:hover:bg-slate-800 hover:shadow-md transition-colors shadow-md" aria-label="Toggle dark mode">
+<svg class="sun-icon w-5 h-5 text-primary dark:text-brand-400" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="5"></circle><line x1="12" x2="12" y1="1" y2="3"></line><line x1="12" x2="12" y1="21" y2="23"></line><line x1="4.22" x2="5.64" y1="4.22" y2="5.64"></line><line x1="18.36" x2="19.78" y1="18.36" y2="19.78"></line><line x1="1" x2="3" y1="12" y2="12"></line><line x1="21" x2="23" y1="12" y2="12"></line><line x1="4.22" x2="5.64" y1="19.78" y2="18.36"></line><line x1="18.36" x2="19.78" y1="5.64" y2="4.22"></line></svg>
+<svg class="moon-icon w-5 h-5 text-brand-400 fill-current" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+</button>
+<!-- Main Content Canvas -->
+<main class="flex-1 md:ml-64 flex flex-col min-h-screen overflow-x-hidden">
+<!-- TopNavBar -->
+<header class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop h-16 z-40 bg-surface-container-lowest dark:bg-slate-900 sticky top-0 shadow-sm border-b border-outline-variant dark:border-slate-700 transition-all duration-200">
+<!-- Mobile Menu Toggle -->
+<button class="md:hidden p-2 text-secondary dark:text-slate-400 hover:bg-surface-container-low dark:hover:bg-slate-800 rounded-full">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<!-- Brand Logo Mobile -->
+<h2 class="md:hidden font-headline-md text-headline-md font-bold text-primary dark:text-brand-500">GASPOLL</h2>
+<!-- Actions -->
+<div class="flex items-center gap-2">
+<button class="p-2 text-secondary dark:text-slate-400 hover:bg-surface-container-low dark:hover:bg-slate-800 rounded-full transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error dark:bg-red-500 rounded-full"></span>
+</button>
+<button class="p-2 text-secondary dark:text-slate-400 hover:bg-surface-container-low dark:hover:bg-slate-800 rounded-full transition-colors">
+<span class="material-symbols-outlined">shopping_cart</span>
+</button>
+<div class="h-6 w-px bg-outline-variant dark:bg-slate-700 mx-2 hidden md:block"></div>
+<button class="hidden md:flex items-center gap-2 p-1 pr-3 hover:bg-surface-container-low dark:hover:bg-slate-800 rounded-full transition-colors border border-transparent hover:border-outline-variant dark:hover:border-slate-700">
+<img alt="User Business Avatar" class="w-8 h-8 rounded-full object-cover border border-outline-variant dark:border-slate-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAHlE6-x-Kac3ZXUTTtvtgieT8a2-3FncxLHBjmVJV8VqKgRHaAjNSg34kjgkGTFLa1mhmFLsnksBoLJL0g7LcnoP7YCxAUlB5Oifvn6ArYytJG9mZIFPLcfL0geSRsanjPDMjoNJ5_oNfIuQLYMIlK5jVbj7MMmfGawh3JugSNtJ8kSAZxYjqqemrqHjP3ArTmFV516AR6hYRufZaSUWK_AvUNx2tm4BOwTtCizecLt-SV3uRE-BUrWXc-av-zU4MZWbB2Q-_6WWs">
+<span class="font-label-md text-label-md text-secondary dark:text-slate-400">Profile</span>
+<span class="material-symbols-outlined text-secondary dark:text-slate-400 text-sm">expand_more</span>
+</button>
+</div>
+</header>
+<div class="p-margin-mobile md:p-margin-desktop max-w-[1280px] mx-auto w-full space-y-8">
+<!-- Page Header -->
+<section class="bg-surface-container-lowest dark:bg-slate-800 rounded-xl shadow-sm border border-outline-variant dark:border-slate-700 overflow-hidden flex flex-col md:flex-row items-center justify-between p-6 md:p-8 relative">
+<div class="absolute inset-0 opacity-10 dark:opacity-20 dot-pattern [background-size:20px_20px]"></div>
+<div class="relative z-10 space-y-2 text-center md:text-left mb-6 md:mb-0">
+<div class="inline-flex items-center gap-1.5 bg-tertiary-container/10 dark:bg-green-500/20 text-tertiary-container dark:text-green-300 px-3 py-1 rounded-full mb-2">
+<span class="material-symbols-outlined text-sm" data-weight="fill">verified</span>
+<span class="font-label-sm text-label-sm uppercase tracking-wider">Lacak Pesanan</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface dark:text-slate-100">Order History</h2>
+<p class="font-body-md text-body-md text-secondary dark:text-slate-400 max-w-xl">Pantau dan kelola semua pembelian grosir, lacak pengiriman, dan unduh invoice dengan cepat.</p>
+</div>
+<div class="relative z-10 flex gap-4">
+<button class="bg-surface-container dark:bg-slate-700 text-on-surface dark:text-slate-100 font-label-md text-label-md px-6 py-3 rounded-lg border border-outline-variant dark:border-slate-600 hover:border-primary dark:hover:border-brand-400 hover:bg-surface-bright dark:hover:bg-slate-600 transition-all shadow-sm" onclick="openUnifiedReport('supplier')">Laporan Bulanan</button>
+<button class="bg-primary-container dark:bg-brand-500 text-on-primary dark:text-white font-label-md text-label-md px-6 py-3 rounded-lg hover:bg-primary dark:hover:bg-brand-600 transition-all shadow-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">add_shopping_cart</span>Pesan Lagi
+</button>
+</div>
+</section>
+<!-- Search & Filter Bar -->
+<section class="bg-surface-container-lowest dark:bg-slate-800 rounded-xl shadow-sm border border-outline-variant dark:border-slate-700 p-6 flex flex-col md:flex-row gap-4 items-center justify-between">
+<!-- Search -->
+<div class="relative w-full md:w-96">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-secondary dark:text-slate-400">search</span>
+<input class="w-full bg-surface-bright dark:bg-slate-700 border border-outline-variant dark:border-slate-600 rounded-full pl-10 pr-4 py-2 font-body-sm text-body-sm text-on-surface dark:text-slate-100 focus:outline-none focus:border-primary dark:focus-within:border-brand-500 focus:ring-1 focus:ring-primary dark:focus:ring-brand-500 transition-all placeholder:text-secondary-fixed-dim dark:placeholder:text-slate-500" placeholder="Cari Order ID atau Supplier..." type="text">
+</div>
+<!-- Filters -->
+<div class="flex flex-wrap md:flex-nowrap gap-3 w-full md:w-auto">
+<div class="relative flex-1 md:flex-none">
+<select class="w-full md:w-auto appearance-none bg-surface-bright dark:bg-slate-700 border border-outline-variant dark:border-slate-600 rounded-lg pl-4 pr-10 py-2 font-body-sm text-body-sm text-on-surface dark:text-slate-100 focus:outline-none focus:border-primary dark:focus:border-brand-400 transition-all cursor-pointer">
+<option value="">Semua Tanggal</option>
+<option value="7">7 Hari Terakhir</option>
+<option value="30">30 Hari Terakhir</option>
+<option value="90">3 Bulan Terakhir</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-secondary dark:text-slate-400 pointer-events-none">calendar_today</span>
+</div>
+<div class="relative flex-1 md:flex-none">
+<select class="w-full md:w-auto appearance-none bg-surface-bright dark:bg-slate-700 border border-outline-variant dark:border-slate-600 rounded-lg pl-4 pr-10 py-2 font-body-sm text-body-sm text-on-surface dark:text-slate-100 focus:outline-none focus:border-primary dark:focus:border-brand-400 transition-all cursor-pointer">
+<option value="">Status: Semua</option>
+<option value="lunas">Lunas</option>
+<option value="menunggu">Menunggu Pembayaran</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-secondary dark:text-slate-400 pointer-events-none">filter_list</span>
+</div>
+</div>
+</section>
+<!-- Summary Cards -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Total Orders -->
+<div class="bg-surface-container-lowest dark:bg-slate-800 rounded-xl shadow-sm border border-outline-variant dark:border-slate-700 p-6 hover:shadow-md hover:border-primary dark:hover:border-brand-500 transition-all">
+<div class="flex justify-between items-start mb-4">
+<div class="p-3 bg-primary-fixed dark:bg-brand-500/20 rounded-lg text-primary dark:text-brand-400">
+<span class="material-symbols-outlined">shopping_bag</span>
+</div>
+<span class="text-tertiary-container dark:text-green-300 flex items-center text-sm font-label-sm bg-tertiary-container/10 dark:bg-green-500/20 px-2 py-1 rounded">
+<span class="material-symbols-outlined text-[16px] mr-1">trending_up</span> 8%</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary dark:text-slate-400 mb-1">Total Pesanan (MTD)</p>
+<h3 class="font-headline-md text-headline-md text-on-surface dark:text-slate-100">12 Pesanan</h3>
+<p class="font-label-sm text-label-sm text-outline dark:text-slate-500 mt-4">Rata-rata per minggu: 3</p>
+</div>
+<!-- In Transit -->
+<div class="bg-surface-container-lowest dark:bg-slate-800 rounded-xl shadow-sm border border-outline-variant dark:border-slate-700 p-6 hover:shadow-md hover:border-primary dark:hover:border-brand-500 transition-all">
+<div class="flex justify-between items-start mb-4">
+<div class="p-3 bg-secondary-fixed dark:bg-blue-500/20 rounded-lg text-secondary dark:text-blue-300">
+<span class="material-symbols-outlined">local_shipping</span>
+</div>
+
+</div>
+<p class="font-body-sm text-body-sm text-secondary dark:text-slate-400 mb-1">Sedang Dikirim</p>
+<h3 class="font-headline-md text-headline-md text-on-surface dark:text-slate-100">3 <span class="text-body-md font-body-md text-secondary dark:text-slate-400">Kiriman</span></h3>
+<div class="mt-4 flex -space-x-2">
+<img alt="Beras Supplier" class="w-8 h-8 rounded-full border-2 border-surface-container-lowest dark:border-slate-800 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCCP7ED4TZVIvLpBO3w5zrUSxKxjEzJdrux7NHDibNzsX9xeH5-3kWf4dwk5dPkhSHF4bpTIv0fFv7Scwf_mFvkR5aERklOiX6WptmI0PbKGNeqCb9StNMz3-AETLqCAPYW7REJC8ISgEihYtz15v6PXw3-1GcuGmk3yrIdR5tIWxAI0Zk4bBO9XQNwk_SThZL-PcSFAdPNj5jG0qCinCZpUOkQxi295lA_Y8DHbFiCJCVjOU2iqGQuQ853Yc-BUutLvxYHXtXrcBs">
+<img alt="Minyak Goreng" class="w-8 h-8 rounded-full border-2 border-surface-container-lowest dark:border-slate-800 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC6N7aHTmkINzHOQSoQt-FGYtYs13sxcvGoreQhq3XqJfEAF4iIyw9LuDatu3BOrgNvS4kI7_eN514-hZOsCNERgYqCvJ7Bi7FcI-qLpvfA6WZc_LuNBwEjwmCcC5DYguVo6fPEAXW-lfkzj5uMxqQ3WZQdPLIKeqyz9I81oe_s-Z7gRWGd2FHC__RmhJdAxxMgEQHpfjs1LxxtNPqAKtWWcLsrfR6kvaikPAp-haFHCN2XM1EVz3UO_5PQuEEp34eRrswoL_NGSP8">
+</div>
+</div>
+<!-- Total Spend -->
+<div class="bg-surface-container-lowest dark:bg-slate-800 rounded-xl shadow-sm border border-outline-variant dark:border-slate-700 p-6 hover:shadow-md hover:border-tertiary-container dark:hover:border-green-500 transition-all relative overflow-hidden cursor-pointer" onclick="openSpendModal()" title="Klik untuk melihat grafik pengeluaran">
+<div class="absolute -right-4 -top-4 opacity-10 dark:opacity-20 text-tertiary-container dark:text-green-500 transform rotate-12">
+<span class="material-symbols-outlined text-[100px]" data-weight="fill">payments</span>
+</div>
+<div class="flex justify-between items-start mb-4 relative z-10">
+<div class="p-3 bg-tertiary_fixed dark:bg-green-500/20 rounded-lg text-tertiary dark:text-green-300">
+<span class="material-symbols-outlined">trending_up</span>
+</div>
+</div>
+<p class="font-body-sm text-body-sm text-secondary dark:text-slate-400 mb-1 relative z-10">Total Pengeluaran</p>
+<h3 class="font-headline-md text-headline-md text-on-surface dark:text-slate-100 relative z-10">Rp 50.350.000</h3>
+<button class="mt-4 text-tertiary-container dark:text-green-300 font-label-sm text-label-sm flex items-center hover:text-tertiary dark:hover:text-green-200 transition-colors relative z-10">
+Lihat Detail <span class="material-symbols-outlined text-[16px] ml-1">arrow_forward</span>
+</button>
+</div>
+</section>
+<!-- Orders Table -->
+<section class="bg-surface-container-lowest dark:bg-slate-800 rounded-xl shadow-sm border border-outline-variant dark:border-slate-700 overflow-hidden">
+<div class="overflow-x-hidden">
+<table class="w-full text-left border-collapse order-history-table" style="width: 100%">
+<colgroup><col style="width:14%"/><col style="width:12%"/><col style="width:18%"/><col style="width:14%"/><col style="width:14%"/><col style="width:14%"/><col style="width:14%"/></colgroup>
+<thead>
+<tr class="bg-surface-container-high dark:bg-slate-700 border-b border-outline-variant dark:border-slate-600">
+<th class="py-4 px-6 font-label-sm text-label-sm text-secondary dark:text-slate-400 uppercase tracking-wider">Order ID</th>
+<th class="py-4 px-6 font-label-sm text-label-sm text-secondary dark:text-slate-400 uppercase tracking-wider">Tanggal</th>
+<th class="py-4 px-6 font-label-sm text-label-sm text-secondary dark:text-slate-400 uppercase tracking-wider">Nama Supplier</th>
+<th class="py-4 px-6 font-label-sm text-label-sm text-secondary dark:text-slate-400 uppercase tracking-wider">Total</th>
+<th class="py-4 px-6 font-label-sm text-label-sm text-secondary dark:text-slate-400 uppercase tracking-wider">Status</th>
+<th class="py-4 px-6 font-label-sm text-label-sm text-secondary dark:text-slate-400 uppercase tracking-wider">Logistik</th>
+<th class="py-4 px-6 font-label-sm text-label-sm text-secondary dark:text-slate-400 uppercase tracking-wider text-center">Aksi</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant dark:divide-slate-600">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-high dark:hover:bg-slate-700 transition-colors group cursor-pointer" onclick="toggleTrack('track-8901')">
+<td class="py-4 px-6 font-body-sm text-body-sm font-semibold text-on-surface dark:text-slate-100">#ORD-2023-8901</td>
+<td class="py-4 px-6 font-body-sm text-body-sm text-secondary dark:text-slate-400">24 Okt 2023</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-surface-container-high dark:bg-slate-700 flex items-center justify-center text-primary dark:text-brand-400 font-bold text-sm">MS</div>
+<span class="font-body-sm text-body-sm text-on-surface dark:text-slate-100">Makmur Sentosa</span>
+</div>
+</td>
+<td class="py-4 px-6 font-body-sm text-body-sm font-semibold text-on-surface dark:text-slate-100">Rp 12.500.000</td>
+<td class="py-4 px-6">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full font-label-sm text-label-sm bg-tertiary-container dark:bg-green-500/20 text-on-tertiary dark:text-green-300 border border-tertiary-container/20 dark:border-green-500/20">
+Lunas
+</span>
+</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-1.5 text-primary dark:text-brand-400">
+<span class="material-symbols-outlined text-[18px]">local_shipping</span>
+<span class="font-body-sm text-body-sm font-medium">Dikirim</span>
+</div>
+</td>
+<td class="py-4 px-6 text-right">
+<button class="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 border border-outline-variant dark:border-slate-600 rounded-lg text-secondary dark:text-slate-400 hover:text-primary dark:hover:text-brand-400 hover:border-primary dark:hover:border-brand-400 hover:bg-surface-container-high dark:hover:bg-slate-700 transition-colors font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px]">download</span>
+Invoice
+</button>
+</td>
+</tr>
+<tr class="hidden bg-surface-container-lowest dark:bg-slate-800" id="track-8901">
+<td class="px-6 py-4" colspan="7">
+<div class="bg-surface-container-lowest dark:bg-slate-800 rounded-lg p-4 border-l-4 border-primary dark:border-brand-400">
+<div class="flex flex-col md:flex-row justify-between gap-4">
+<div class="flex-1">
+<div class="flex items-center gap-2 mb-3">
+<span class="material-symbols-outlined text-primary dark:text-brand-400 text-[20px]">local_shipping</span>
+<span class="font-label-md text-label-md font-semibold text-on-surface dark:text-slate-100">Pelacakan Pengiriman — #ORD-2023-8901</span>
+</div>
+<div class="space-y-3">
+<div class="flex items-center gap-3">
+<div class="w-2.5 h-2.5 rounded-full bg-tertiary dark:bg-green-400 ring-4 ring-tertiary-container/10 dark:ring-green-400/20 shrink-0"></div>
+<div>
+<p class="font-body-sm text-body-sm font-medium text-on-surface dark:text-slate-100">Pesanan Dikirim</p>
+<p class="font-label-sm text-label-sm text-secondary dark:text-slate-400">25 Okt 2023, 09:00</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-2.5 h-2.5 rounded-full bg-tertiary dark:bg-green-400 ring-4 ring-tertiary-container/10 dark:ring-green-400/20 shrink-0"></div>
+<div>
+<p class="font-body-sm text-body-sm font-medium text-on-surface dark:text-slate-100">Sedang Dalam Perjalanan</p>
+<p class="font-label-sm text-label-sm text-secondary dark:text-slate-400">25 Okt 2023, 14:30</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-2.5 h-2.5 rounded-full bg-tertiary dark:bg-green-400 ring-4 ring-tertiary-container/10 dark:ring-green-400/20 shrink-0"></div>
+<div>
+<p class="font-body-sm text-body-sm font-medium text-on-surface dark:text-slate-100">Dekat Lokasi Anda</p>
+<p class="font-label-sm text-label-sm text-secondary dark:text-slate-400">26 Okt 2023, 11:15</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-2.5 h-2.5 rounded-full bg-surface-container-high dark:bg-slate-600 ring-4 ring-outline-variant/10 shrink-0"></div>
+<div>
+<p class="font-body-sm text-body-sm font-medium text-secondary dark:text-slate-400">Diterima</p>
+<p class="font-label-sm text-label-sm text-secondary dark:text-slate-400">Estimasi: 26 Okt 2023, 15:00</p>
+</div>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-2">
+<p class="font-body-sm text-body-sm text-on-surface dark:text-slate-100"><span class="text-secondary dark:text-slate-400">Kurir:</span> <span class="font-medium">JNE — Rudi H.</span></p>
+<p class="font-body-sm text-body-sm text-on-surface dark:text-slate-100"><span class="text-secondary dark:text-slate-400">Resi:</span> <span class="font-medium">JNE-8901-2023</span></p>
+<p class="font-body-sm text-body-sm text-on-surface dark:text-slate-100"><span class="text-secondary dark:text-slate-400">Produk:</span> <span class="font-medium">50x Beras Premium 5kg, 20x Minyak Goreng 2L</span></p>
+<div class="flex gap-2 mt-2">
+<button class="flex-1 flex items-center justify-center gap-1 px-3 py-2 bg-tertiary-container/10 dark:bg-green-500/20 text-tertiary-container dark:text-green-300 rounded-lg font-label-sm text-label-sm hover:bg-tertiary-container dark:hover:bg-green-500/30 transition-colors">
+<span class="material-symbols-outlined text-[16px]">local_shipping</span>Lacak
+</button>
+<button class="flex-1 flex items-center justify-center gap-1 px-3 py-2 border border-outline-variant dark:border-slate-600 rounded-lg font-label-sm text-label-sm text-secondary dark:text-slate-400 hover:bg-surface-container-high dark:hover:bg-slate-700 transition-colors">
+<span class="material-symbols-outlined text-[16px]">receipt_long</span>Detail
+</button>
+</div>
+</div>
+</div>
+</div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-high dark:hover:bg-slate-700 transition-colors group">
+<td class="py-4 px-6 font-body-sm text-body-sm font-semibold text-on-surface dark:text-slate-100">#ORD-2023-8895</td>
+<td class="py-4 px-6 font-body-sm text-body-sm text-secondary dark:text-slate-400">22 Okt 2023</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-surface-container-high dark:bg-slate-700 flex items-center justify-center text-primary dark:text-brand-400 font-bold text-sm">MJ</div>
+<span class="font-body-sm text-body-sm text-on-surface dark:text-slate-100">Maju Jaya Grosir</span>
+</div>
+</td>
+<td class="py-4 px-6 font-body-sm text-body-sm font-semibold text-on-surface dark:text-slate-100">Rp 8.250.000</td>
+<td class="py-4 px-6">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full font-label-sm text-label-sm bg-primary-fixed dark:bg-brand-500/20 text-primary-container dark:text-brand-300 border border-primary-fixed dark:border-brand-500/20">
+Menunggu Pembayaran
+</span>
+</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-1.5 text-secondary dark:text-slate-400">
+<span class="material-symbols-outlined text-[18px]">pending_actions</span>
+<span class="font-body-sm text-body-sm">Pending</span>
+</div>
+</td>
+<td class="py-4 px-6 text-right">
+<button class="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 border border-outline-variant dark:border-slate-600 rounded-lg text-secondary dark:text-slate-400 hover:text-primary dark:hover:text-brand-400 hover:border-primary dark:hover:border-brand-400 hover:bg-surface-container-high dark:hover:bg-slate-700 transition-colors font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px]">download</span>
+Invoice
+</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-high dark:hover:bg-slate-700 transition-colors group cursor-pointer" onclick="toggleTrack('track-8850')">
+<td class="py-4 px-6 font-body-sm text-body-sm font-semibold text-on-surface dark:text-slate-100">#ORD-2023-8850</td>
+<td class="py-4 px-6 font-body-sm text-body-sm text-secondary dark:text-slate-400">18 Okt 2023</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-surface-container-high dark:bg-slate-700 flex items-center justify-center text-primary dark:text-brand-400 font-bold text-sm">BS</div>
+<span class="font-body-sm text-body-sm text-on-surface dark:text-slate-100">Bintang Sembako</span>
+</div>
+</td>
+<td class="py-4 px-6 font-body-sm text-body-sm font-semibold text-on-surface dark:text-slate-100">Rp 24.100.000</td>
+<td class="py-4 px-6">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full font-label-sm text-label-sm bg-tertiary-container dark:bg-green-500/20 text-on-tertiary dark:text-green-300 border border-tertiary-container/20 dark:border-green-500/20">
+Lunas
+</span>
+</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-1.5 text-primary dark:text-brand-400">
+<span class="material-symbols-outlined text-[18px]">package_2</span>
+<span class="font-body-sm text-body-sm font-medium">Dikirim</span>
+</div>
+</td>
+<td class="py-4 px-6 text-right">
+<button class="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 border border-outline-variant dark:border-slate-600 rounded-lg text-secondary dark:text-slate-400 hover:text-primary dark:hover:text-brand-400 hover:border-primary dark:hover:border-brand-400 hover:bg-surface-container-high dark:hover:bg-slate-700 transition-colors font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px]">download</span>
+Invoice
+</button>
+</td>
+</tr>
+<tr class="hidden bg-surface-container-lowest dark:bg-slate-800" id="track-8850">
+<td class="px-6 py-4" colspan="7">
+<div class="bg-surface-container-lowest dark:bg-slate-800 rounded-lg p-4 border-l-4 border-primary dark:border-brand-400">
+<div class="flex flex-col md:flex-row justify-between gap-4">
+<div class="flex-1">
+<div class="flex items-center gap-2 mb-3">
+<span class="material-symbols-outlined text-primary dark:text-brand-400 text-[20px]">local_shipping</span>
+<span class="font-label-md text-label-md font-semibold text-on-surface dark:text-slate-100">Pelacakan Pengiriman — #ORD-2023-8850</span>
+</div>
+<div class="space-y-3">
+<div class="flex items-center gap-3">
+<div class="w-2.5 h-2.5 rounded-full bg-tertiary dark:bg-green-400 ring-4 ring-tertiary-container/10 dark:ring-green-400/20 shrink-0"></div>
+<div>
+<p class="font-body-sm text-body-sm font-medium text-on-surface dark:text-slate-100">Pesanan Dikirim</p>
+<p class="font-label-sm text-label-sm text-secondary dark:text-slate-400">19 Okt 2023, 09:00</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-2.5 h-2.5 rounded-full bg-tertiary dark:bg-green-400 ring-4 ring-tertiary-container/10 dark:ring-green-400/20 shrink-0"></div>
+<div>
+<p class="font-body-sm text-body-sm font-medium text-on-surface dark:text-slate-100">Sedang Dalam Perjalanan</p>
+<p class="font-label-sm text-label-sm text-secondary dark:text-slate-400">19 Okt 2023, 14:30</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-2.5 h-2.5 rounded-full bg-tertiary dark:bg-green-400 ring-4 ring-tertiary-container/10 dark:ring-green-400/20 shrink-0"></div>
+<div>
+<p class="font-body-sm text-body-sm font-medium text-on-surface dark:text-slate-100">Dekat Lokasi Anda</p>
+<p class="font-label-sm text-label-sm text-secondary dark:text-slate-400">20 Okt 2023, 11:15</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-2.5 h-2.5 rounded-full bg-surface-container-high dark:bg-slate-600 ring-4 ring-outline-variant/10 shrink-0"></div>
+<div>
+<p class="font-body-sm text-body-sm font-medium text-secondary dark:text-slate-400">Diterima</p>
+<p class="font-label-sm text-label-sm text-secondary dark:text-slate-400">Estimasi: 20 Okt 2023, 15:00</p>
+</div>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-2">
+<p class="font-body-sm text-body-sm text-on-surface dark:text-slate-100"><span class="text-secondary dark:text-slate-400">Kurir:</span> <span class="font-medium">JNE — Budi S.</span></p>
+<p class="font-body-sm text-body-sm text-on-surface dark:text-slate-100"><span class="text-secondary dark:text-slate-400">Resi:</span> <span class="font-medium">JNE-8850-2023</span></p>
+<p class="font-body-sm text-body-sm text-on-surface dark:text-slate-100"><span class="text-secondary dark:text-slate-400">Produk:</span> <span class="font-medium">50x Beras Premium 5kg, 20x Minyak 2L</span></p>
+<div class="flex gap-2 mt-2">
+<button class="flex-1 flex items-center justify-center gap-1 px-3 py-2 bg-tertiary-container/10 dark:bg-green-500/20 text-tertiary-container dark:text-green-300 rounded-lg font-label-sm text-label-sm hover:bg-tertiary-container dark:hover:bg-green-500/30 transition-colors">
+<span class="material-symbols-outlined text-[16px]">local_shipping</span>Lacak
+</button>
+<button class="flex-1 flex items-center justify-center gap-1 px-3 py-2 border border-outline-variant dark:border-slate-600 rounded-lg font-label-sm text-label-sm text-secondary dark:text-slate-400 hover:bg-surface-container-high dark:hover:bg-slate-700 transition-colors">
+<span class="material-symbols-outlined text-[16px]">receipt_long</span>Detail
+</button>
+</div>
+</div>
+</div>
+</div>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-surface-container-high dark:hover:bg-slate-700 transition-colors group cursor-pointer" onclick="toggleTrack('track-8812')">
+<td class="py-4 px-6 font-body-sm text-body-sm font-semibold text-on-surface dark:text-slate-100">#ORD-2023-8812</td>
+<td class="py-4 px-6 font-body-sm text-body-sm text-secondary dark:text-slate-400">10 Okt 2023</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-surface-container-high dark:bg-slate-700 flex items-center justify-center text-primary dark:text-brand-400 font-bold text-sm">MS</div>
+<span class="font-body-sm text-body-sm text-on-surface dark:text-slate-100">Makmur Sentosa</span>
+</div>
+</td>
+<td class="py-4 px-6 font-body-sm text-body-sm font-semibold text-on-surface dark:text-slate-100">Rp 5.500.000</td>
+<td class="py-4 px-6">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full font-label-sm text-label-sm bg-tertiary-container dark:bg-green-500/20 text-on-tertiary dark:text-green-300 border border-tertiary-container/20 dark:border-green-500/20">
+Lunas
+</span>
+</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-1.5 text-primary dark:text-brand-400">
+<span class="material-symbols-outlined text-[18px]">local_shipping</span>
+<span class="font-body-sm text-body-sm font-medium">Dikirim</span>
+</div>
+</td>
+<td class="py-4 px-6 text-right">
+<button class="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 border border-outline-variant dark:border-slate-600 rounded-lg text-secondary dark:text-slate-400 hover:text-primary dark:hover:text-brand-400 hover:border-primary dark:hover:border-brand-400 hover:bg-surface-container-high dark:hover:bg-slate-700 transition-colors font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px]">download</span>
+Invoice
+</button>
+</td>
+</tr>
+<tr class="hidden bg-surface-container-lowest dark:bg-slate-800" id="track-8812">
+<td class="px-6 py-4" colspan="7">
+<div class="bg-surface-container-lowest dark:bg-slate-800 rounded-lg p-4 border-l-4 border-primary dark:border-brand-400">
+<div class="flex flex-col md:flex-row justify-between gap-4">
+<div class="flex-1">
+<div class="flex items-center gap-2 mb-3">
+<span class="material-symbols-outlined text-primary dark:text-brand-400 text-[20px]">local_shipping</span>
+<span class="font-label-md text-label-md font-semibold text-on-surface dark:text-slate-100">Pelacakan Pengiriman — #ORD-2023-8812</span>
+</div>
+<div class="space-y-3">
+<div class="flex items-center gap-3">
+<div class="w-2.5 h-2.5 rounded-full bg-tertiary dark:bg-green-400 ring-4 ring-tertiary-container/10 dark:ring-green-400/20 shrink-0"></div>
+<div>
+<p class="font-body-sm text-body-sm font-medium text-on-surface dark:text-slate-100">Pesanan Dikirim</p>
+<p class="font-label-sm text-label-sm text-secondary dark:text-slate-400">11 Okt 2023, 08:30</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-2.5 h-2.5 rounded-full bg-tertiary dark:bg-green-400 ring-4 ring-tertiary-container/10 dark:ring-green-400/20 shrink-0"></div>
+<div>
+<p class="font-body-sm text-body-sm font-medium text-on-surface dark:text-slate-100">Dalam Perjalanan</p>
+<p class="font-label-sm text-label-sm text-secondary dark:text-slate-400">11 Okt 2023, 14:00</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-2.5 h-2.5 rounded-full bg-tertiary dark:bg-green-400 ring-4 ring-tertiary-container/10 dark:ring-green-400/20 shrink-0"></div>
+<div>
+<p class="font-body-sm text-body-sm font-medium text-on-surface dark:text-slate-100">Dekat Lokasi Anda</p>
+<p class="font-label-sm text-label-sm text-secondary dark:text-slate-400">12 Okt 2023, 09:45</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-2.5 h-2.5 rounded-full bg-surface-container-high dark:bg-slate-600 ring-4 ring-outline-variant/10 shrink-0"></div>
+<div>
+<p class="font-body-sm text-body-sm font-medium text-secondary dark:text-slate-400">Diterima</p>
+<p class="font-label-sm text-label-sm text-secondary dark:text-slate-400">Estimasi: 12 Okt 2023, 14:00</p>
+</div>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-2">
+<p class="font-body-sm text-body-sm text-on-surface dark:text-slate-100"><span class="text-secondary dark:text-slate-400">Kurir:</span> <span class="font-medium">Siap Malam — Andi</span></p>
+<p class="font-body-sm text-body-sm text-on-surface dark:text-slate-100"><span class="text-secondary dark:text-slate-400">Resi:</span> <span class="font-medium">SIAP-8812-2023</span></p>
+<p class="font-body-sm text-body-sm text-on-surface dark:text-slate-100"><span class="text-secondary dark:text-slate-400">Produk:</span> <span class="font-medium">30x Gula Pasir 1kg, 10x Kecap Manis</span></p>
+<div class="flex gap-2 mt-2">
+<button class="flex-1 flex items-center justify-center gap-1 px-3 py-2 bg-tertiary-container/10 dark:bg-green-500/20 text-tertiary-container dark:text-green-300 rounded-lg font-label-sm text-label-sm hover:bg-tertiary-container dark:hover:bg-green-500/30 transition-colors">
+<span class="material-symbols-outlined text-[16px]">local_shipping</span>Lacak
+</button>
+<button class="flex-1 flex items-center justify-center gap-1 px-3 py-2 border border-outline-variant dark:border-slate-600 rounded-lg font-label-sm text-label-sm text-secondary dark:text-slate-400 hover:bg-surface-container-high dark:hover:bg-slate-700 transition-colors">
+<span class="material-symbols-outlined text-[16px]">receipt_long</span>Detail
+</button>
+</div>
+</div>
+</div>
+</div>
+</td>
+</tr>
+</tbody>
+<tbody class="divide-y divide-outline-variant dark:divide-slate-600" id="page2" style="display:none">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-high dark:hover:bg-slate-700 transition-colors group">
+<td class="py-4 px-6 font-body-sm text-body-sm font-semibold text-on-surface dark:text-slate-100">#ORD-2023-8788</td>
+<td class="py-4 px-6 font-body-sm text-body-sm text-secondary dark:text-slate-400">5 Okt 2023</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-surface-container-high dark:bg-slate-700 flex items-center justify-center text-primary dark:text-brand-400 font-bold text-sm">MJ</div>
+<span class="font-body-sm text-body-sm text-on-surface dark:text-slate-100">Maju Jaya Grosir</span>
+</div>
+</td>
+<td class="py-4 px-6 font-body-sm text-body-sm font-semibold text-on-surface dark:text-slate-100">Rp 15.800.000</td>
+<td class="py-4 px-6">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full font-label-sm text-label-sm bg-tertiary-container dark:bg-green-500/20 text-on-tertiary dark:text-green-300 border border-tertiary-container/20 dark:border-green-500/20">
+Lunas
+</span>
+</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-1.5 text-tertiary dark:text-green-300">
+<span class="material-symbols-outlined text-[18px]">package</span>
+<span class="font-body-sm text-body-sm font-medium">Selesai</span>
+</div>
+</td>
+<td class="py-4 px-6 text-right">
+<button class="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 border border-outline-variant dark:border-slate-600 rounded-lg text-secondary dark:text-slate-400 hover:text-primary dark:hover:text-brand-400 hover:border-primary dark:hover:border-brand-400 hover:bg-surface-container-high dark:hover:bg-slate-700 transition-colors font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px]">download</span>
+Invoice
+</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-high dark:hover:bg-slate-700 transition-colors group">
+<td class="py-4 px-6 font-body-sm text-body-sm font-semibold text-on-surface dark:text-slate-100">#ORD-2023-8750</td>
+<td class="py-4 px-6 font-body-sm text-body-sm text-secondary dark:text-slate-400">28 Sep 2023</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-surface-container-high dark:bg-slate-700 flex items-center justify-center text-primary dark:text-brand-400 font-bold text-sm">MS</div>
+<span class="font-body-sm text-body-sm text-on-surface dark:text-slate-100">Makmur Sentosa</span>
+</div>
+</td>
+<td class="py-4 px-6 font-body-sm text-body-sm font-semibold text-on-surface dark:text-slate-100">Rp 9.300.000</td>
+<td class="py-4 px-6">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full font-label-sm text-label-sm bg-tertiary-container dark:bg-green-500/20 text-on-tertiary dark:text-green-300 border border-tertiary-container/20 dark:border-green-500/20">
+Lunas
+</span>
+</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-1.5 text-tertiary dark:text-green-300">
+<span class="material-symbols-outlined text-[18px]">package</span>
+<span class="font-body-sm text-body-sm font-medium">Selesai</span>
+</div>
+</td>
+<td class="py-4 px-6 text-right">
+<button class="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 border border-outline-variant dark:border-slate-600 rounded-lg text-secondary dark:text-slate-400 hover:text-primary dark:hover:text-brand-400 hover:border-primary dark:hover:border-brand-400 hover:bg-surface-container-high dark:hover:bg-slate-700 transition-colors font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px]">download</span>
+Invoice
+</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-high dark:hover:bg-slate-700 transition-colors group">
+<td class="py-4 px-6 font-body-sm text-body-sm font-semibold text-on-surface dark:text-slate-100">#ORD-2023-8720</td>
+<td class="py-4 px-6 font-body-sm text-body-sm text-secondary dark:text-slate-400">20 Sep 2023</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-surface-container-high dark:bg-slate-700 flex items-center justify-center text-primary dark:text-brand-400 font-bold text-sm">BS</div>
+<span class="font-body-sm text-body-sm text-on-surface dark:text-slate-100">Bintang Sembako</span>
+</div>
+</td>
+<td class="py-4 px-6 font-body-sm text-body-sm font-semibold text-on-surface dark:text-slate-100">Rp 21.500.000</td>
+<td class="py-4 px-6">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full font-label-sm text-label-sm bg-tertiary-container dark:bg-green-500/20 text-on-tertiary dark:text-green-300 border border-tertiary-container/20 dark:border-green-500/20">
+Lunas
+</span>
+</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-1.5 text-tertiary dark:text-green-300">
+<span class="material-symbols-outlined text-[18px]">package</span>
+<span class="font-body-sm text-body-sm font-medium">Selesai</span>
+</div>
+</td>
+<td class="py-4 px-6 text-right">
+<button class="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 border border-outline-variant dark:border-slate-600 rounded-lg text-secondary dark:text-slate-400 hover:text-primary dark:hover:text-brand-400 hover:border-primary dark:hover:border-brand-400 hover:bg-surface-container-high dark:hover:bg-slate-700 transition-colors font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px]">download</span>
+Invoice
+</button>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-surface-container-high dark:hover:bg-slate-700 transition-colors group">
+<td class="py-4 px-6 font-body-sm text-body-sm font-semibold text-on-surface dark:text-slate-100">#ORD-2023-8690</td>
+<td class="py-4 px-6 font-body-sm text-body-sm text-secondary dark:text-slate-400">15 Sep 2023</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-surface-container-high dark:bg-slate-700 flex items-center justify-center text-primary dark:text-brand-400 font-bold text-sm">MJ</div>
+<span class="font-body-sm text-body-sm text-on-surface dark:text-slate-100">Maju Jaya Grosir</span>
+</div>
+</td>
+<td class="py-4 px-6 font-body-sm text-body-sm font-semibold text-on-surface dark:text-slate-100">Rp 7.650.000</td>
+<td class="py-4 px-6">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full font-label-sm text-label-sm bg-primary-fixed dark:bg-brand-500/20 text-primary-container dark:text-brand-300 border border-primary-fixed dark:border-brand-500/20">
+Menunggu Pembayaran
+</span>
+</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-1.5 text-secondary dark:text-slate-400">
+<span class="material-symbols-outlined text-[18px]">pending_actions</span>
+<span class="font-body-sm text-body-sm">Pending</span>
+</div>
+</td>
+<td class="py-4 px-6 text-right">
+<button class="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 border border-outline-variant dark:border-slate-600 rounded-lg text-secondary dark:text-slate-400 hover:text-primary dark:hover:text-brand-400 hover:border-primary dark:hover:border-brand-400 hover:bg-surface-container-high dark:hover:bg-slate-700 transition-colors font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px]">download</span>
+Invoice
+</button>
+</td>
+</tr>
+</tbody>
+<tbody class="divide-y divide-outline-variant dark:divide-slate-600" id="page3" style="display:none">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-high dark:hover:bg-slate-700 transition-colors group">
+<td class="py-4 px-6 font-body-sm text-body-sm font-semibold text-on-surface dark:text-slate-100">#ORD-2023-8650</td>
+<td class="py-4 px-6 font-body-sm text-body-sm text-secondary dark:text-slate-400">10 Sep 2023</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-surface-container-high dark:bg-slate-700 flex items-center justify-center text-primary dark:text-brand-400 font-bold text-sm">MS</div>
+<span class="font-body-sm text-body-sm text-on-surface dark:text-slate-100">Makmur Sentosa</span>
+</div>
+</td>
+<td class="py-4 px-6 font-body-sm text-body-sm font-semibold text-on-surface dark:text-slate-100">Rp 18.200.000</td>
+<td class="py-4 px-6">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full font-label-sm text-label-sm bg-tertiary-container dark:bg-green-500/20 text-on-tertiary dark:text-green-300 border border-tertiary-container/20 dark:border-green-500/20">
+Lunas
+</span>
+</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-1.5 text-tertiary dark:text-green-300">
+<span class="material-symbols-outlined text-[18px]">package</span>
+<span class="font-body-sm text-body-sm font-medium">Selesai</span>
+</div>
+</td>
+<td class="py-4 px-6 text-right">
+<button class="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 border border-outline-variant dark:border-slate-600 rounded-lg text-secondary dark:text-slate-400 hover:text-primary dark:hover:text-brand-400 hover:border-primary dark:hover:border-brand-400 hover:bg-surface-container-high dark:hover:bg-slate-700 transition-colors font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px]">download</span>
+Invoice
+</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-high dark:hover:bg-slate-700 transition-colors group">
+<td class="py-4 px-6 font-body-sm text-body-sm font-semibold text-on-surface dark:text-slate-100">#ORD-2023-8610</td>
+<td class="py-4 px-6 font-body-sm text-body-sm text-secondary dark:text-slate-400">3 Sep 2023</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-surface-container-high dark:bg-slate-700 flex items-center justify-center text-primary dark:text-brand-400 font-bold text-sm">BS</div>
+<span class="font-body-sm text-body-sm text-on-surface dark:text-slate-100">Bintang Sembako</span>
+</div>
+</td>
+<td class="py-4 px-6 font-body-sm text-body-sm font-semibold text-on-surface dark:text-slate-100">Rp 11.400.000</td>
+<td class="py-4 px-6">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full font-label-sm text-label-sm bg-tertiary-container dark:bg-green-500/20 text-on-tertiary dark:text-green-300 border border-tertiary-container/20 dark:border-green-500/20">
+Lunas
+</span>
+</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-1.5 text-tertiary dark:text-green-300">
+<span class="material-symbols-outlined text-[18px]">package</span>
+<span class="font-body-sm text-body-sm font-medium">Selesai</span>
+</div>
+</td>
+<td class="py-4 px-6 text-right">
+<button class="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 border border-outline-variant dark:border-slate-600 rounded-lg text-secondary dark:text-slate-400 hover:text-primary dark:hover:text-brand-400 hover:border-primary dark:hover:border-brand-400 hover:bg-surface-container-high dark:hover:bg-slate-700 transition-colors font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px]">download</span>
+Invoice
+</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-high dark:hover:bg-slate-700 transition-colors group">
+<td class="py-4 px-6 font-body-sm text-body-sm font-semibold text-on-surface dark:text-slate-100">#ORD-2023-8580</td>
+<td class="py-4 px-6 font-body-sm text-body-sm text-secondary dark:text-slate-400">28 Agu 2023</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-surface-container-high dark:bg-slate-700 flex items-center justify-center text-primary dark:text-brand-400 font-bold text-sm">MJ</div>
+<span class="font-body-sm text-body-sm text-on-surface dark:text-slate-100">Maju Jaya Grosir</span>
+</div>
+</td>
+<td class="py-4 px-6 font-body-sm text-body-sm font-semibold text-on-surface dark:text-slate-100">Rp 6.900.000</td>
+<td class="py-4 px-6">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full font-label-sm text-label-sm bg-tertiary-container dark:bg-green-500/20 text-on-tertiary dark:text-green-300 border border-tertiary-container/20 dark:border-green-500/20">
+Lunas
+</span>
+</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-1.5 text-tertiary dark:text-green-300">
+<span class="material-symbols-outlined text-[18px]">package</span>
+<span class="font-body-sm text-body-sm font-medium">Selesai</span>
+</div>
+</td>
+<td class="py-4 px-6 text-right">
+<button class="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 border border-outline-variant dark:border-slate-600 rounded-lg text-secondary dark:text-slate-400 hover:text-primary dark:hover:text-brand-400 hover:border-primary dark:hover:border-brand-400 hover:bg-surface-container-high dark:hover:bg-slate-700 transition-colors font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px]">download</span>
+Invoice
+</button>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-surface-container-high dark:hover:bg-slate-700 transition-colors group">
+<td class="py-4 px-6 font-body-sm text-body-sm font-semibold text-on-surface dark:text-slate-100">#ORD-2023-8550</td>
+<td class="py-4 px-6 font-body-sm text-body-sm text-secondary dark:text-slate-400">22 Agu 2023</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-surface-container-high dark:bg-slate-700 flex items-center justify-center text-primary dark:text-brand-400 font-bold text-sm">MS</div>
+<span class="font-body-sm text-body-sm text-on-surface dark:text-slate-100">Makmur Sentosa</span>
+</div>
+</td>
+<td class="py-4 px-6 font-body-sm text-body-sm font-semibold text-on-surface dark:text-slate-100">Rp 13.750.000</td>
+<td class="py-4 px-6">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full font-label-sm text-label-sm bg-tertiary-container dark:bg-green-500/20 text-on-tertiary dark:text-green-300 border border-tertiary-container/20 dark:border-green-500/20">
+Lunas
+</span>
+</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-1.5 text-tertiary dark:text-green-300">
+<span class="material-symbols-outlined text-[18px]">package</span>
+<span class="font-body-sm text-body-sm font-medium">Selesai</span>
+</div>
+</td>
+<td class="py-4 px-6 text-right">
+<button class="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 border border-outline-variant dark:border-slate-600 rounded-lg text-secondary dark:text-slate-400 hover:text-primary dark:hover:text-brand-400 hover:border-primary dark:hover:border-brand-400 hover:bg-surface-container-high dark:hover:bg-slate-700 transition-colors font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px]">download</span>
+Invoice
+</button>
+</td>
+</tr>
+</tbody>
+<tbody class="divide-y divide-outline-variant dark:divide-slate-600" id="page4" style="display:none">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-high dark:hover:bg-slate-700 transition-colors group">
+<td class="py-4 px-6 font-body-sm text-body-sm font-semibold text-on-surface dark:text-slate-100">#ORD-2023-8510</td>
+<td class="py-4 px-6 font-body-sm text-body-sm text-secondary dark:text-slate-400">18 Agu 2023</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-surface-container-high dark:bg-slate-700 flex items-center justify-center text-primary dark:text-brand-400 font-bold text-sm">MJ</div>
+<span class="font-body-sm text-body-sm text-on-surface dark:text-slate-100">Maju Jaya Grosir</span>
+</div>
+</td>
+<td class="py-4 px-6 font-body-sm text-body-sm font-semibold text-on-surface dark:text-slate-100">Rp 22.100.000</td>
+<td class="py-4 px-6">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full font-label-sm text-label-sm bg-tertiary-container dark:bg-green-500/20 text-on-tertiary dark:text-green-300 border border-tertiary-container/20 dark:border-green-500/20">
+Lunas
+</span>
+</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-1.5 text-tertiary dark:text-green-300">
+<span class="material-symbols-outlined text-[18px]">package</span>
+<span class="font-body-sm text-body-sm font-medium">Selesai</span>
+</div>
+</td>
+<td class="py-4 px-6 text-right">
+<button class="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 border border-outline-variant dark:border-slate-600 rounded-lg text-secondary dark:text-slate-400 hover:text-primary dark:hover:text-brand-400 hover:border-primary dark:hover:border-brand-400 hover:bg-surface-container-high dark:hover:bg-slate-700 transition-colors font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px]">download</span>
+Invoice
+</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-high dark:hover:bg-slate-700 transition-colors group">
+<td class="py-4 px-6 font-body-sm text-body-sm font-semibold text-on-surface dark:text-slate-100">#ORD-2023-8480</td>
+<td class="py-4 px-6 font-body-sm text-body-sm text-secondary dark:text-slate-400">12 Agu 2023</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-surface-container-high dark:bg-slate-700 flex items-center justify-center text-primary dark:text-brand-400 font-bold text-sm">BS</div>
+<span class="font-body-sm text-body-sm text-on-surface dark:text-slate-100">Bintang Sembako</span>
+</div>
+</td>
+<td class="py-4 px-6 font-body-sm text-body-sm font-semibold text-on-surface dark:text-slate-100">Rp 8.500.000</td>
+<td class="py-4 px-6">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full font-label-sm text-label-sm bg-tertiary-container dark:bg-green-500/20 text-on-tertiary dark:text-green-300 border border-tertiary-container/20 dark:border-green-500/20">
+Lunas
+</span>
+</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-1.5 text-tertiary dark:text-green-300">
+<span class="material-symbols-outlined text-[18px]">package</span>
+<span class="font-body-sm text-body-sm font-medium">Selesai</span>
+</div>
+</td>
+<td class="py-4 px-6 text-right">
+<button class="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 border border-outline-variant dark:border-slate-600 rounded-lg text-secondary dark:text-slate-400 hover:text-primary dark:hover:text-brand-400 hover:border-primary dark:hover:border-brand-400 hover:bg-surface-container-high dark:hover:bg-slate-700 transition-colors font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px]">download</span>
+Invoice
+</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-high dark:hover:bg-slate-700 transition-colors group">
+<td class="py-4 px-6 font-body-sm text-body-sm font-semibold text-on-surface dark:text-slate-100">#ORD-2023-8450</td>
+<td class="py-4 px-6 font-body-sm text-body-sm text-secondary dark:text-slate-400">5 Agu 2023</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-surface-container-high dark:bg-slate-700 flex items-center justify-center text-primary dark:text-brand-400 font-bold text-sm">MS</div>
+<span class="font-body-sm text-body-sm text-on-surface dark:text-slate-100">Makmur Sentosa</span>
+</div>
+</td>
+<td class="py-4 px-6 font-body-sm text-body-sm font-semibold text-on-surface dark:text-slate-100">Rp 14.200.000</td>
+<td class="py-4 px-6">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full font-label-sm text-label-sm bg-primary-fixed dark:bg-brand-500/20 text-primary-container dark:text-brand-300 border border-primary-fixed dark:border-brand-500/20">
+Menunggu Pembayaran
+</span>
+</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-1.5 text-secondary dark:text-slate-400">
+<span class="material-symbols-outlined text-[18px]">pending_actions</span>
+<span class="font-body-sm text-body-sm">Pending</span>
+</div>
+</td>
+<td class="py-4 px-6 text-right">
+<button class="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 border border-outline-variant dark:border-slate-600 rounded-lg text-secondary dark:text-slate-400 hover:text-primary dark:hover:text-brand-400 hover:border-primary dark:hover:border-brand-400 hover:bg-surface-container-high dark:hover:bg-slate-700 transition-colors font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px]">download</span>
+Invoice
+</button>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-surface-container-high dark:hover:bg-slate-700 transition-colors group">
+<td class="py-4 px-6 font-body-sm text-body-sm font-semibold text-on-surface dark:text-slate-100">#ORD-2023-8410</td>
+<td class="py-4 px-6 font-body-sm text-body-sm text-secondary dark:text-slate-400">28 Jul 2023</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-surface-container-high dark:bg-slate-700 flex items-center justify-center text-primary dark:text-brand-400 font-bold text-sm">MJ</div>
+<span class="font-body-sm text-body-sm text-on-surface dark:text-slate-100">Maju Jaya Grosir</span>
+</div>
+</td>
+<td class="py-4 px-6 font-body-sm text-body-sm font-semibold text-on-surface dark:text-slate-100">Rp 19.800.000</td>
+<td class="py-4 px-6">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full font-label-sm text-label-sm bg-tertiary-container dark:bg-green-500/20 text-on-tertiary dark:text-green-300 border border-tertiary-container/20 dark:border-green-500/20">
+Lunas
+</span>
+</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-1.5 text-tertiary dark:text-green-300">
+<span class="material-symbols-outlined text-[18px]">package</span>
+<span class="font-body-sm text-body-sm font-medium">Selesai</span>
+</div>
+</td>
+<td class="py-4 px-6 text-right">
+<button class="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 border border-outline-variant dark:border-slate-600 rounded-lg text-secondary dark:text-slate-400 hover:text-primary dark:hover:text-brand-400 hover:border-primary dark:hover:border-brand-400 hover:bg-surface-container-high dark:hover:bg-slate-700 transition-colors font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px]">download</span>
+Invoice
+</button>
+</td>
+</tr>
+</tbody>
+<tbody class="divide-y divide-outline-variant dark:divide-slate-600" id="page5" style="display:none">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-high dark:hover:bg-slate-700 transition-colors group">
+<td class="py-4 px-6 font-body-sm text-body-sm font-semibold text-on-surface dark:text-slate-100">#ORD-2023-8370</td>
+<td class="py-4 px-6 font-body-sm text-body-sm text-secondary dark:text-slate-400">20 Jul 2023</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-surface-container-high dark:bg-slate-700 flex items-center justify-center text-primary dark:text-brand-400 font-bold text-sm">BS</div>
+<span class="font-body-sm text-body-sm text-on-surface dark:text-slate-100">Bintang Sembako</span>
+</div>
+</td>
+<td class="py-4 px-6 font-body-sm text-body-sm font-semibold text-on-surface dark:text-slate-100">Rp 10.200.000</td>
+<td class="py-4 px-6">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full font-label-sm text-label-sm bg-tertiary-container dark:bg-green-500/20 text-on-tertiary dark:text-green-300 border border-tertiary-container/20 dark:border-green-500/20">
+Lunas
+</span>
+</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-1.5 text-tertiary dark:text-green-300">
+<span class="material-symbols-outlined text-[18px]">package</span>
+<span class="font-body-sm text-body-sm font-medium">Selesai</span>
+</div>
+</td>
+<td class="py-4 px-6 text-right">
+<button class="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 border border-outline-variant dark:border-slate-600 rounded-lg text-secondary dark:text-slate-400 hover:text-primary dark:hover:text-brand-400 hover:border-primary dark:hover:border-brand-400 hover:bg-surface-container-high dark:hover:bg-slate-700 transition-colors font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px]">download</span>
+Invoice
+</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-high dark:hover:bg-slate-700 transition-colors group">
+<td class="py-4 px-6 font-body-sm text-body-sm font-semibold text-on-surface dark:text-slate-100">#ORD-2023-8340</td>
+<td class="py-4 px-6 font-body-sm text-body-sm text-secondary dark:text-slate-400">14 Jul 2023</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-surface-container-high dark:bg-slate-700 flex items-center justify-center text-primary dark:text-brand-400 font-bold text-sm">MS</div>
+<span class="font-body-sm text-body-sm text-on-surface dark:text-slate-100">Makmur Sentosa</span>
+</div>
+</td>
+<td class="py-4 px-6 font-body-sm text-body-sm font-semibold text-on-surface dark:text-slate-100">Rp 25.600.000</td>
+<td class="py-4 px-6">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full font-label-sm text-label-sm bg-tertiary-container dark:bg-green-500/20 text-on-tertiary dark:text-green-300 border border-tertiary-container/20 dark:border-green-500/20">
+Lunas
+</span>
+</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-1.5 text-tertiary dark:text-green-300">
+<span class="material-symbols-outlined text-[18px]">package</span>
+<span class="font-body-sm text-body-sm font-medium">Selesai</span>
+</div>
+</td>
+<td class="py-4 px-6 text-right">
+<button class="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 border border-outline-variant dark:border-slate-600 rounded-lg text-secondary dark:text-slate-400 hover:text-primary dark:hover:text-brand-400 hover:border-primary dark:hover:border-brand-400 hover:bg-surface-container-high dark:hover:bg-slate-700 transition-colors font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px]">download</span>
+Invoice
+</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-high dark:hover:bg-slate-700 transition-colors group">
+<td class="py-4 px-6 font-body-sm text-body-sm font-semibold text-on-surface dark:text-slate-100">#ORD-2023-8300</td>
+<td class="py-4 px-6 font-body-sm text-body-sm text-secondary dark:text-slate-400">8 Jul 2023</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-surface-container-high dark:bg-slate-700 flex items-center justify-center text-primary dark:text-brand-400 font-bold text-sm">MJ</div>
+<span class="font-body-sm text-body-sm text-on-surface dark:text-slate-100">Maju Jaya Grosir</span>
+</div>
+</td>
+<td class="py-4 px-6 font-body-sm text-body-sm font-semibold text-on-surface dark:text-slate-100">Rp 4.300.000</td>
+<td class="py-4 px-6">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full font-label-sm text-label-sm bg-tertiary-container dark:bg-green-500/20 text-on-tertiary dark:text-green-300 border border-tertiary-container/20 dark:border-green-500/20">
+Lunas
+</span>
+</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-1.5 text-tertiary dark:text-green-300">
+<span class="material-symbols-outlined text-[18px]">package</span>
+<span class="font-body-sm text-body-sm font-medium">Selesai</span>
+</div>
+</td>
+<td class="py-4 px-6 text-right">
+<button class="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 border border-outline-variant dark:border-slate-600 rounded-lg text-secondary dark:text-slate-400 hover:text-primary dark:hover:text-brand-400 hover:border-primary dark:hover:border-brand-400 hover:bg-surface-container-high dark:hover:bg-slate-700 transition-colors font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px]">download</span>
+Invoice
+</button>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-surface-container-high dark:hover:bg-slate-700 transition-colors group">
+<td class="py-4 px-6 font-body-sm text-body-sm font-semibold text-on-surface dark:text-slate-100">#ORD-2023-8260</td>
+<td class="py-4 px-6 font-body-sm text-body-sm text-secondary dark:text-slate-400">1 Jul 2023</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-surface-container-high dark:bg-slate-700 flex items-center justify-center text-primary dark:text-brand-400 font-bold text-sm">BS</div>
+<span class="font-body-sm text-body-sm text-on-surface dark:text-slate-100">Bintang Sembako</span>
+</div>
+</td>
+<td class="py-4 px-6 font-body-sm text-body-sm font-semibold text-on-surface dark:text-slate-100">Rp 16.700.000</td>
+<td class="py-4 px-6">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full font-label-sm text-label-sm bg-tertiary-container dark:bg-green-500/20 text-on-tertiary dark:text-green-300 border border-tertiary-container/20 dark:border-green-500/20">
+Lunas
+</span>
+</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-1.5 text-tertiary dark:text-green-300">
+<span class="material-symbols-outlined text-[18px]">package</span>
+<span class="font-body-sm text-body-sm font-medium">Selesai</span>
+</div>
+</td>
+<td class="py-4 px-6 text-right">
+<button class="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 border border-outline-variant dark:border-slate-600 rounded-lg text-secondary dark:text-slate-400 hover:text-primary dark:hover:text-brand-400 hover:border-primary dark:hover:border-brand-400 hover:bg-surface-container-high dark:hover:bg-slate-700 transition-colors font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px]">download</span>
+Invoice
+</button>
+</td>
+</tr>
+</tbody>
+<tbody class="divide-y divide-outline-variant dark:divide-slate-600" id="page6" style="display:none">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-high dark:hover:bg-slate-700 transition-colors group">
+<td class="py-4 px-6 font-body-sm text-body-sm font-semibold text-on-surface dark:text-slate-100">#ORD-2023-8220</td>
+<td class="py-4 px-6 font-body-sm text-body-sm text-secondary dark:text-slate-400">25 Jun 2023</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-surface-container-high dark:bg-slate-700 flex items-center justify-center text-primary dark:text-brand-400 font-bold text-sm">MS</div>
+<span class="font-body-sm text-body-sm text-on-surface dark:text-slate-100">Makmur Sentosa</span>
+</div>
+</td>
+<td class="py-4 px-6 font-body-sm text-body-sm font-semibold text-on-surface dark:text-slate-100">Rp 20.400.000</td>
+<td class="py-4 px-6">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full font-label-sm text-label-sm bg-tertiary-container dark:bg-green-500/20 text-on-tertiary dark:text-green-300 border border-tertiary-container/20 dark:border-green-500/20">
+Lunas
+</span>
+</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-1.5 text-tertiary dark:text-green-300">
+<span class="material-symbols-outlined text-[18px]">package</span>
+<span class="font-body-sm text-body-sm font-medium">Selesai</span>
+</div>
+</td>
+<td class="py-4 px-6 text-right">
+<button class="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 border border-outline-variant dark:border-slate-600 rounded-lg text-secondary dark:text-slate-400 hover:text-primary dark:hover:text-brand-400 hover:border-primary dark:hover:border-brand-400 hover:bg-surface-container-high dark:hover:bg-slate-700 transition-colors font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px]">download</span>
+Invoice
+</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-high dark:hover:bg-slate-700 transition-colors group">
+<td class="py-4 px-6 font-body-sm text-body-sm font-semibold text-on-surface dark:text-slate-100">#ORD-2023-8180</td>
+<td class="py-4 px-6 font-body-sm text-body-sm text-secondary dark:text-slate-400">18 Jun 2023</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-surface-container-high dark:bg-slate-700 flex items-center justify-center text-primary dark:text-brand-400 font-bold text-sm">MJ</div>
+<span class="font-body-sm text-body-sm text-on-surface dark:text-slate-100">Maju Jaya Grosir</span>
+</div>
+</td>
+<td class="py-4 px-6 font-body-sm text-body-sm font-semibold text-on-surface dark:text-slate-100">Rp 9.800.000</td>
+<td class="py-4 px-6">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full font-label-sm text-label-sm bg-primary-fixed dark:bg-brand-500/20 text-primary-container dark:text-brand-300 border border-primary-fixed dark:border-brand-500/20">
+Menunggu Pembayaran
+</span>
+</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-1.5 text-secondary dark:text-slate-400">
+<span class="material-symbols-outlined text-[18px]">pending_actions</span>
+<span class="font-body-sm text-body-sm">Pending</span>
+</div>
+</td>
+<td class="py-4 px-6 text-right">
+<button class="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 border border-outline-variant dark:border-slate-600 rounded-lg text-secondary dark:text-slate-400 hover:text-primary dark:hover:text-brand-400 hover:border-primary dark:hover:border-brand-400 hover:bg-surface-container-high dark:hover:bg-slate-700 transition-colors font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px]">download</span>
+Invoice
+</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-high dark:hover:bg-slate-700 transition-colors group">
+<td class="py-4 px-6 font-body-sm text-body-sm font-semibold text-on-surface dark:text-slate-100">#ORD-2023-8150</td>
+<td class="py-4 px-6 font-body-sm text-body-sm text-secondary dark:text-slate-400">10 Jun 2023</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-surface-container-high dark:bg-slate-700 flex items-center justify-center text-primary dark:text-brand-400 font-bold text-sm">BS</div>
+<span class="font-body-sm text-body-sm text-on-surface dark:text-slate-100">Bintang Sembako</span>
+</div>
+</td>
+<td class="py-4 px-6 font-body-sm text-body-sm font-semibold text-on-surface dark:text-slate-100">Rp 12.900.000</td>
+<td class="py-4 px-6">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full font-label-sm text-label-sm bg-tertiary-container dark:bg-green-500/20 text-on-tertiary dark:text-green-300 border border-tertiary-container/20 dark:border-green-500/20">
+Lunas
+</span>
+</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-1.5 text-tertiary dark:text-green-300">
+<span class="material-symbols-outlined text-[18px]">package</span>
+<span class="font-body-sm text-body-sm font-medium">Selesai</span>
+</div>
+</td>
+<td class="py-4 px-6 text-right">
+<button class="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 border border-outline-variant dark:border-slate-600 rounded-lg text-secondary dark:text-slate-400 hover:text-primary dark:hover:text-brand-400 hover:border-primary dark:hover:border-brand-400 hover:bg-surface-container-high dark:hover:bg-slate-700 transition-colors font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px]">download</span>
+Invoice
+</button>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-surface-container-high dark:hover:bg-slate-700 transition-colors group">
+<td class="py-4 px-6 font-body-sm text-body-sm font-semibold text-on-surface dark:text-slate-100">#ORD-2023-8100</td>
+<td class="py-4 px-6 font-body-sm text-body-sm text-secondary dark:text-slate-400">1 Jun 2023</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-surface-container-high dark:bg-slate-700 flex items-center justify-center text-primary dark:text-brand-400 font-bold text-sm">MS</div>
+<span class="font-body-sm text-body-sm text-on-surface dark:text-slate-100">Makmur Sentosa</span>
+</div>
+</td>
+<td class="py-4 px-6 font-body-sm text-body-sm font-semibold text-on-surface dark:text-slate-100">Rp 17.500.000</td>
+<td class="py-4 px-6">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full font-label-sm text-label-sm bg-tertiary-container dark:bg-green-500/20 text-on-tertiary dark:text-green-300 border border-tertiary-container/20 dark:border-green-500/20">
+Lunas
+</span>
+</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-1.5 text-tertiary dark:text-green-300">
+<span class="material-symbols-outlined text-[18px]">package</span>
+<span class="font-body-sm text-body-sm font-medium">Selesai</span>
+</div>
+</td>
+<td class="py-4 px-6 text-right">
+<button class="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 border border-outline-variant dark:border-slate-600 rounded-lg text-secondary dark:text-slate-400 hover:text-primary dark:hover:text-brand-400 hover:border-primary dark:hover:border-brand-400 hover:bg-surface-container-high dark:hover:bg-slate-700 transition-colors font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px]">download</span>
+Invoice
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination -->
+<div class="border-t border-outline-variant dark:border-slate-700 bg-surface-container-lowest dark:bg-slate-800 px-6 py-4 flex items-center justify-between">
+<span class="font-body-sm text-body-sm text-secondary dark:text-slate-400" id="pagination-info">Menampilkan 1 sampai 4 dari 24 entri</span>
+<div class="flex gap-2">
+<button class="p-2 rounded border border-outline-variant dark:border-slate-600 text-secondary dark:text-slate-400 hover:bg-surface-container-high dark:hover:bg-slate-700 transition-colors" id="pagination-prev">
+<span class="material-symbols-outlined text-[20px]">chevron_left</span>
+</button>
+<button class="p-2 rounded border border-outline-variant dark:border-slate-600 text-secondary dark:text-slate-400 hover:bg-surface-container-high dark:hover:bg-slate-700 transition-colors" id="pagination-next">
+<span class="material-symbols-outlined text-[20px]">chevron_right</span>
+</button>
+</div>
+</div>
+</section>
+<div id="unifiedReportModal" class="fixed inset-0 z-[100] hidden" role="dialog" aria-modal="true">
+  <div class="absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity" onclick="closeUnifiedReport(); document.getElementById('unifiedReportModal').style.display='none';"></div>
+  <div class="absolute inset-x-0 bottom-0 md:top-10 md:left-10 md:right-auto md:max-w-[950px] lg:max-w-[1100px] md:mx-auto">
+    <div class="bg-surface-container-lowest dark:bg-slate-900 rounded-t-2xl md:rounded-2xl shadow-2xl border border-outline-variant dark:border-slate-700 flex flex-col max-h-[95vh] md:max-h-[88vh] min-h-0">
+      <div class="flex items-center justify-between px-6 py-4 border-b border-outline-variant dark:border-slate-700 shrink-0">
+        <div>
+          <h3 class="font-headline-md text-headline-md font-semibold text-on-surface dark:text-slate-100">Laporan Bulanan</h3>
+          <p class="font-body-sm text-body-sm text-secondary dark:text-slate-400 mt-0.5">Ringkasan performa bisnis, pesanan, dan keuangan</p>
+        </div>
+        <button onclick="closeUnifiedReport()" class="p-2 rounded-full hover:bg-surface-container-high dark:hover:bg-slate-800 transition-colors text-secondary dark:text-slate-400 hover:text-on-surface dark:hover:text-slate-100 shrink-0">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+      <div class="flex border-b border-outline-variant dark:border-slate-700 px-6 shrink-0 bg-surface-bright dark:bg-slate-800/50">
+        <button id="tab-btn-overview" onclick="switchReportTab('overview')" class="px-5 py-3 font-label-md text-label-md text-primary dark:text-brand-400 font-bold border-b-2 border-primary dark:border-brand-400 mb-[-1px] transition-all">Overview</button>
+        <button id="tab-btn-supplier" onclick="switchReportTab('supplier')" class="px-5 py-3 font-label-md text-label-md text-secondary dark:text-slate-400 hover:text-primary dark:hover:text-brand-400 border-b-2 border-transparent mb-[-1px] transition-all">Supplier</button>
+        <button id="tab-btn-finance" onclick="switchReportTab('finance')" class="px-5 py-3 font-label-md text-label-md text-secondary dark:text-slate-400 hover:text-primary dark:hover:text-brand-400 border-b-2 border-transparent mb-[-1px] transition-all">Keuangan</button>
+      </div>
+      <div class="flex items-center gap-3 px-6 py-3 border-b border-outline-variant dark:border-slate-700 flex-wrap shrink-0 bg-surface-container-high dark:bg-slate-800/50">
+        <span class="font-label-sm text-label-sm text-secondary dark:text-slate-400 mr-1">Filter:</span>
+        <select id="reportFilterYear" onchange="updateActiveReportTab()" class="bg-surface-bright dark:bg-slate-700 border border-outline-variant dark:border-slate-600 rounded-lg px-3 py-1.5 font-body-sm text-body-sm text-on-surface dark:text-slate-100 focus:outline-none focus:border-primary dark:focus:border-brand-500 cursor-pointer"></select>
+        <span class="font-label-sm text-label-sm text-on-surface dark:text-slate-100">|</span>
+        <select id="reportFilterType" onchange="updateActiveReportTab()" class="bg-surface-bright dark:bg-slate-700 border border-outline-variant dark:border-slate-600 rounded-lg px-3 py-1.5 font-body-sm text-body-sm text-on-surface dark:text-slate-100 focus:outline-none focus:border-primary dark:focus:border-brand-500 cursor-pointer"></select>
+        <div class="flex-1"></div>
+        <button onclick="exportActiveReport()" class="flex items-center gap-1 px-3 py-1.5 bg-primary-container dark:bg-brand-500 text-on-primary dark:text-white rounded-lg font-label-sm text-label-sm hover:bg-primary dark:hover:bg-brand-600 transition-colors shrink-0">
+          <span class="material-symbols-outlined text-[18px]">download</span>Export
+        </button>
+      </div>
+      <div class="flex-1 overflow-auto">
+        <div id="tab-content-overview" class="p-4 md:p-6 space-y-6 hidden">
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+            <div class="bg-surface-container-lowest dark:bg-slate-800 rounded-lg p-3 border border-outline-variant dark:border-slate-700"><p class="font-label-sm text-label-sm text-secondary dark:text-slate-400">Total Pesanan</p><p class="font-headline-sm text-headline-sm font-semibold text-on-surface dark:text-slate-100" id="ovOrders">-</p></div>
+            <div class="bg-surface-container-lowest dark:bg-slate-800 rounded-lg p-3 border border-outline-variant dark:border-slate-700"><p class="font-label-sm text-label-sm text-secondary dark:text-slate-400">Total Pengeluaran</p><p class="font-headline-sm text-headline-sm font-semibold text-on-surface dark:text-slate-100" id="ovSpend">-</p></div>
+            <div class="bg-surface-container-lowest dark:bg-slate-800 rounded-lg p-3 border border-outline-variant dark:border-slate-700"><p class="font-label-sm text-label-sm text-secondary dark:text-slate-400">Rata-rata/order</p><p class="font-headline-sm text-headline-sm font-semibold text-on-surface dark:text-slate-100" id="ovAvg">-</p></div>
+            <div class="bg-surface-container-lowest dark:bg-slate-800 rounded-lg p-3 border border-outline-variant dark:border-slate-700"><p class="font-label-sm text-label-sm text-secondary dark:text-slate-400">Top Supplier</p><p class="font-headline-sm text-headline-sm font-semibold text-on-surface dark:text-slate-100" id="ovTopSup">-</p></div>
+          </div>
+          <div class="bg-surface-container-lowest dark:bg-slate-800 rounded-lg p-4 border border-outline-variant dark:border-slate-700"><h4 class="font-label-md text-label-md font-semibold text-on-surface dark:text-slate-100 mb-3">Tren Order per Bulan</h4><div class="relative h-[300px] md:h-[350px] w-full"><canvas id="ovChartOrders"></canvas></div></div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="bg-surface-container-lowest dark:bg-slate-800 rounded-lg p-4 border border-outline-variant dark:border-slate-700"><h4 class="font-label-md text-label-md font-semibold text-on-surface dark:text-slate-100 mb-3">Breakdown Kategori Belanja</h4><div class="relative h-[200px] w-full"><canvas id="ovChartCategory"></canvas></div></div>
+            <div class="bg-surface-container-lowest dark:bg-slate-800 rounded-lg p-4 border border-outline-variant dark:border-slate-700"><h4 class="font-label-md text-label-md font-semibold text-on-surface dark:text-slate-100 mb-3">Top Supplier</h4><div class="space-y-3">
+              <div class="flex items-center justify-between"><div class="flex items-center gap-2"><div class="w-8 h-8 rounded-full bg-primary-container/20 dark:bg-brand-500/20 flex items-center justify-center text-primary dark:text-brand-400 font-bold text-xs">MJ</div><span class="font-body-sm text-body-sm text-on-surface dark:text-slate-100">Makmur Jaya Beras</span></div><span class="font-body-sm text-body-sm text-secondary dark:text-slate-400">Rp 8.2M</span></div>
+              <div class="flex items-center justify-between"><div class="flex items-center gap-2"><div class="w-8 h-8 rounded-full bg-secondary-fixed/20 dark:bg-blue-500/20 flex items-center justify-center text-secondary dark:text-blue-300 font-bold text-xs">GS</div><span class="font-body-sm text-body-sm text-on-surface dark:text-slate-100">Grosir Sembako Nas.</span></div><span class="font-body-sm text-body-sm text-secondary dark:text-slate-400">Rp 5.4M</span></div>
+              <div class="flex items-center justify-between"><div class="flex items-center gap-2"><div class="w-8 h-8 rounded-full bg-tertiary-container/20 dark:bg-green-500/20 flex items-center justify-center text-tertiary dark:text-green-300 font-bold text-xs">CV</div><span class="font-body-sm text-body-sm text-on-surface dark:text-slate-100">CV Berkah Makmur</span></div><span class="font-body-sm text-body-sm text-secondary dark:text-slate-400">Rp 3.8M</span></div>
+              <div class="flex items-center justify-between"><div class="flex items-center gap-2"><div class="w-8 h-8 rounded-full bg-surface-variant/20 dark:bg-purple-500/20 flex items-center justify-center text-on-surface dark:text-purple-300 font-bold text-xs">BT</div><span class="font-body-sm text-body-sm text-on-surface dark:text-slate-100">Bintang Sembako</span></div><span class="font-body-sm text-body-sm text-secondary dark:text-slate-400">Rp 2.9M</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div id="tab-content-supplier" class="p-4 md:p-6 space-y-6 hidden">
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+            <div class="bg-surface-container-lowest dark:bg-slate-800 rounded-lg p-3 border border-outline-variant dark:border-slate-700"><p class="font-label-sm text-label-sm text-secondary dark:text-slate-400">Total Supplier</p><p class="font-headline-sm text-headline-sm font-semibold text-on-surface dark:text-slate-100" id="spTotalSup">-</p></div>
+            <div class="bg-surface-container-lowest dark:bg-slate-800 rounded-lg p-3 border border-outline-variant dark:border-slate-700"><p class="font-label-sm text-label-sm text-secondary dark:text-slate-400">Total Pembelian</p><p class="font-headline-sm text-headline-sm font-semibold text-on-surface dark:text-slate-100" id="spTotalSpend">-</p></div>
+            <div class="bg-surface-container-lowest dark:bg-slate-800 rounded-lg p-3 border border-outline-variant dark:border-slate-700"><p class="font-label-sm text-label-sm text-secondary dark:text-slate-400">% Tepat Waktu</p><p class="font-headline-sm text-headline-sm font-semibold text-on-surface dark:text-slate-100" id="spOnTime">-</p></div>
+            <div class="bg-surface-container-lowest dark:bg-slate-800 rounded-lg p-3 border border-outline-variant dark:border-slate-700"><p class="font-label-sm text-label-sm text-secondary dark:text-slate-400">Rata-rata Rating</p><p class="font-headline-sm text-headline-sm font-semibold text-on-surface dark:text-slate-100" id="spAvgRating">-</p></div>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="bg-surface-container-lowest dark:bg-slate-800 rounded-lg p-4 border border-outline-variant dark:border-slate-700"><h4 class="font-label-md text-label-md font-semibold text-on-surface dark:text-slate-100 mb-3">Pengeluaran per Supplier</h4><div class="relative h-[250px] w-full"><canvas id="spChartSpend"></canvas></div></div>
+            <div class="bg-surface-container-lowest dark:bg-slate-800 rounded-lg p-4 border border-outline-variant dark:border-slate-700"><h4 class="font-label-md text-label-md font-semibold text-on-surface dark:text-slate-100 mb-3">Distribusi Order per Supplier</h4><div class="relative h-[250px] w-full"><canvas id="spChartDistribution"></canvas></div></div>
+          </div>
+          <div class="bg-surface-container-lowest dark:bg-slate-800 rounded-lg p-4 border border-outline-variant dark:border-slate-700">
+            <h4 class="font-label-md text-label-md font-semibold text-on-surface dark:text-slate-100 mb-3">Performa Supplier Detail</h4>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left border-collapse">
+                <thead>
+                  <tr class="border-b border-outline-variant dark:border-slate-600">
+                    <th class="font-label-sm text-label-sm text-secondary dark:text-slate-400 font-medium py-2">Supplier</th>
+                    <th class="font-label-sm text-label-sm text-secondary dark:text-slate-400 font-medium py-2 text-right">Total Order</th>
+                    <th class="font-label-sm text-label-sm text-secondary dark:text-slate-400 font-medium py-2 text-right">Total Belanja</th>
+                    <th class="font-label-sm text-label-sm text-secondary dark:text-slate-400 font-medium py-2 text-center">Rating</th>
+                    <th class="font-label-sm text-label-sm text-secondary dark:text-slate-400 font-medium py-2 text-center">Status</th>
+                  </tr>
+                </thead>
+                <tbody id="supplierDetailBody">
+                  <tr class="border-b border-outline-variant/50 dark:border-slate-700"><td class="font-body-sm text-body-sm text-on-surface dark:text-slate-100 py-2">Makmur Jaya</td><td class="font-body-sm text-body-sm text-on-surface dark:text-slate-100 py-2 text-right">35</td><td class="font-body-sm text-body-sm text-on-surface dark:text-slate-100 py-2 text-right">Rp 82.000.000</td><td class="font-body-sm text-body-sm text-on-surface dark:text-slate-100 py-2 text-center">⭐ 4.5</td><td class="font-body-sm text-body-sm text-on-surface dark:text-slate-100 py-2 text-center"><span class="inline-flex items-center px-2 py-0.5 rounded-full font-label-sm text-label-sm bg-tertiary-container dark:bg-green-500/20 text-on-tertiary dark:text-green-300">Terpercaya</span></td></tr>
+                  <tr class="border-b border-outline-variant/50 dark:border-slate-700"><td class="font-body-sm text-body-sm text-on-surface dark:text-slate-100 py-2">Grosir Sembako</td><td class="font-body-sm text-body-sm text-on-surface dark:text-slate-100 py-2 text-right">28</td><td class="font-body-sm text-body-sm text-on-surface dark:text-slate-100 py-2 text-right">Rp 54.000.000</td><td class="font-body-sm text-body-sm text-on-surface dark:text-slate-100 py-2 text-center">⭐ 4.2</td><td class="font-body-sm text-body-sm text-on-surface dark:text-slate-100 py-2 text-center"><span class="inline-flex items-center px-2 py-0.5 rounded-full font-label-sm text-label-sm bg-secondary-container dark:bg-blue-500/30 text-on-secondary-container dark:text-blue-200">Baik</span></td></tr>
+                  <tr class="border-b border-outline-variant/50 dark:border-slate-700"><td class="font-body-sm text-body-sm text-on-surface dark:text-slate-100 py-2">CV Berkah</td><td class="font-body-sm text-body-sm text-on-surface dark:text-slate-100 py-2 text-right">22</td><td class="font-body-sm text-body-sm text-on-surface dark:text-slate-100 py-2 text-right">Rp 38.000.000</td><td class="font-body-sm text-body-sm text-on-surface dark:text-slate-100 py-2 text-center">⭐ 4.0</td><td class="font-body-sm text-body-sm text-on-surface dark:text-slate-100 py-2 text-center"><span class="inline-flex items-center px-2 py-0.5 rounded-full font-label-sm text-label-sm bg-surface-container-high dark:bg-slate-700 text-on-surface dark:text-slate-100">Netral</span></td></tr>
+                  <tr class="border-b border-outline-variant/50 dark:border-slate-700"><td class="font-body-sm text-body-sm text-on-surface dark:text-slate-100 py-2">Bintang Sembako</td><td class="font-body-sm text-body-sm text-on-surface dark:text-slate-100 py-2 text-right">15</td><td class="font-body-sm text-body-sm text-on-surface dark:text-slate-100 py-2 text-right">Rp 29.000.000</td><td class="font-body-sm text-body-sm text-on-surface dark:text-slate-100 py-2 text-center">⭐ 3.8</td><td class="font-body-sm text-body-sm text-on-surface dark:text-slate-100 py-2 text-center"><span class="inline-flex items-center px-2 py-0.5 rounded-full font-label-sm text-label-sm bg-surface-container-high dark:bg-slate-700 text-on-surface dark:text-slate-100">Netral</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div id="tab-content-finance" class="p-4 md:p-6 space-y-6">
+          <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+            <div class="bg-surface-container-lowest dark:bg-slate-800 rounded-lg p-3 border border-outline-variant dark:border-slate-700"><p class="font-label-sm text-label-sm text-secondary dark:text-slate-400">Total Pengeluaran</p><p class="font-headline-sm text-headline-sm font-semibold text-error dark:text-red-400" id="frTotalExpense">-</p></div>
+            <div class="bg-surface-container-lowest dark:bg-slate-800 rounded-lg p-3 border border-outline-variant dark:border-slate-700"><p class="font-label-sm text-label-sm text-secondary dark:text-slate-400">Limit Kredit Sisa</p><p class="font-headline-sm text-headline-sm font-semibold text-tertiary dark:text-green-400" id="frCreditLeft">-</p></div>
+            <div class="bg-surface-container-lowest dark:bg-slate-800 rounded-lg p-3 border border-outline-variant dark:border-slate-700"><p class="font-label-sm text-label-sm text-secondary dark:text-slate-400">Tagihan Jatuh Tempo</p><p class="font-headline-sm text-headline-sm font-semibold text-on-surface dark:text-slate-100" id="frBills">-</p></div>
+          </div>
+          <div class="bg-surface-container-lowest dark:bg-slate-800 rounded-lg p-4 border border-outline-variant dark:border-slate-700"><h4 class="font-label-md text-label-md font-semibold text-on-surface dark:text-slate-100 mb-3">Tren Pembelian Bulanan — 6 Bulan Terakhir</h4><div class="relative h-[280px] w-full"><canvas id="frChartCashFlow"></canvas></div></div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="bg-surface-container-lowest dark:bg-slate-800 rounded-lg p-4 border border-outline-variant dark:border-slate-700"><h4 class="font-label-md text-label-md font-semibold text-on-surface dark:text-slate-100 mb-3">Utilisasi Kredit</h4><div class="relative h-[200px] w-full"><canvas id="frChartCredit"></canvas></div></div>
+            <div class="bg-surface-container-lowest dark:bg-slate-800 rounded-lg p-4 border border-outline-variant dark:border-slate-700"><h4 class="font-label-md text-label-md font-semibold text-on-surface dark:text-slate-100 mb-3">Pembelian per Kategori</h4><div class="relative h-[200px] w-full"><canvas id="frChartCategory"></canvas></div></div>
+          </div>
+          <div class="bg-surface-container-lowest dark:bg-slate-800 rounded-lg p-4 border border-outline-variant dark:border-slate-700"><h4 class="font-label-md text-label-md font-semibold text-on-surface dark:text-slate-100 mb-3">Tagihan Mendatang</h4><div class="space-y-3">
+            <div class="flex items-center justify-between p-2 bg-error-container/10 dark:bg-red-500/10 rounded-lg border border-error/20 dark:border-red-500/20"><div><p class="font-body-sm text-body-sm font-semibold text-on-surface dark:text-slate-100">Distributor Beras Makmur Jaya</p><p class="font-label-sm text-label-sm text-secondary dark:text-slate-400">INV-202308-045</p></div><div class="text-right"><p class="font-body-sm text-body-sm font-semibold text-on-surface dark:text-slate-100">Rp 4.500.000</p><p class="font-label-sm text-label-sm text-error dark:text-red-400">Jatuh tempo: 3 hari</p></div></div>
+            <div class="flex items-center justify-between p-2 bg-surface-container-high dark:bg-slate-700 rounded-lg"><div><p class="font-body-sm text-body-sm font-semibold text-on-surface dark:text-slate-100">Grosir Sembako Nasional</p><p class="font-label-sm text-label-sm text-secondary dark:text-slate-400">INV-202308-046</p></div><div class="text-right"><p class="font-body-sm text-body-sm font-semibold text-on-surface dark:text-slate-100">Rp 2.100.000</p><p class="font-label-sm text-label-sm text-secondary dark:text-slate-400">Jatuh tempo: 5 hari</p></div></div>
+            <div class="flex items-center justify-between p-2 bg-surface-container-high dark:bg-slate-700 rounded-lg"><div><p class="font-body-sm text-body-sm font-semibold text-on-surface dark:text-slate-100">CV Berkah Makmur</p><p class="font-label-sm text-label-sm text-secondary dark:text-slate-400">INV-202308-047</p></div><div class="text-right"><p class="font-body-sm text-body-sm font-semibold text-on-surface dark:text-slate-100">Rp 1.800.000</p><p class="font-label-sm text-label-sm text-secondary dark:text-slate-400">Jatuh tempo: 7 hari</p></div></div>
+          </div></div>
+        </div>
+      </div>
+      <div class="border-t border-outline-variant dark:border-slate-700 px-6 py-4 flex gap-2 shrink-0">
+        <button onclick="window.location.href='finance.html'" class="flex-1 flex items-center justify-center gap-1.5 px-4 py-2 border border-outline-variant dark:border-slate-600 rounded-lg font-label-sm text-label-sm text-secondary dark:text-slate-400 hover:bg-surface-container-high dark:hover:bg-slate-700 transition-colors">
+          <span class="material-symbols-outlined text-[18px]">payments</span>Lihat Detail Keuangan
+        </button>
+        <button onclick="closeUnifiedReport()" class="flex-1 flex items-center justify-center gap-1.5 px-4 py-2 border border-outline-variant dark:border-slate-600 rounded-lg font-label-sm text-label-sm text-secondary dark:text-slate-400 hover:bg-surface-container-high dark:hover:bg-slate-700 transition-colors">
+          <span class="material-symbols-outlined text-[18px]">close</span>Tutup
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Spend Analytics Modal -->
+<div id="spendModal" class="fixed inset-0 z-[100] hidden" role="dialog" aria-modal="true">
+  <div class="absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity" onclick="closeSpendModal()"></div>
+  <div class="absolute inset-x-0 bottom-0 md:top-10 md:left-10 md:right-auto md:max-w-[900px] lg:max-w-[950px] md:mx-auto">
+    <div class="bg-surface-container-lowest dark:bg-slate-900 rounded-t-2xl md:rounded-2xl shadow-2xl border border-outline-variant dark:border-slate-700 flex flex-col max-h-[95vh] md:max-h-[85vh] min-h-0">
+      <!-- Modal Header -->
+      <div class="flex items-center justify-between px-6 py-4 border-b border-outline-variant dark:border-slate-700 shrink-0">
+        <div>
+          <h3 class="font-headline-md text-headline-md font-semibold text-on-surface dark:text-slate-100">Grafik Pengeluaran</h3>
+          <p class="font-body-sm text-body-sm text-secondary dark:text-slate-400 mt-0.5">Analisis detail pengeluaran pelanggan</p>
+        </div>
+        <button onclick="closeSpendModal()" class="p-2 rounded-full hover:bg-surface-container-high dark:hover:bg-slate-800 transition-colors text-secondary dark:text-slate-400 hover:text-on-surface dark:hover:text-slate-100 shrink-0">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+      <!-- Filter Bar -->
+      <div class="flex items-center gap-3 px-6 py-3 border-b border-outline-variant dark:border-slate-700 flex-wrap shrink-0 bg-surface-container-high dark:bg-slate-800/50">
+        <span class="font-label-sm text-label-sm text-secondary dark:text-slate-400 mr-1">Filter:</span>
+        <select id="filterGranularity" onchange="updateChart()" class="bg-surface-bright dark:bg-slate-700 border border-outline-variant dark:border-slate-600 rounded-lg px-3 py-1.5 font-body-sm text-body-sm text-on-surface dark:text-slate-100 focus:outline-none focus:border-primary dark:focus:border-brand-500 cursor-pointer">
+          <option value="day">Per Hari</option>
+          <option value="week">Per Minggu</option>
+          <option value="month" selected>Per Bulan</option>
+          <option value="year">Per Tahun</option>
+        </select>
+        <select id="filterYear" onchange="updateChart()" class="bg-surface-bright dark:bg-slate-700 border border-outline-variant dark:border-slate-600 rounded-lg px-3 py-1.5 font-body-sm text-body-sm text-on-surface dark:text-slate-100 focus:outline-none focus:border-primary dark:focus:border-brand-500 cursor-pointer">
+        </select>
+        <select id="filterMonth" onchange="updateChart()" class="bg-surface-bright dark:bg-slate-700 border border-outline-variant dark:border-slate-600 rounded-lg px-3 py-1.5 font-body-sm text-body-sm text-on-surface dark:text-slate-100 focus:outline-none focus:border-primary dark:focus:border-brand-500 cursor-pointer hidden">
+        </select>
+        <div class="flex-1"></div>
+        <button onclick="exportChart()" class="flex items-center gap-1 px-3 py-1.5 bg-primary-container dark:bg-brand-500 text-on-primary dark:text-white rounded-lg font-label-sm text-label-sm hover:bg-primary dark:hover:bg-brand-600 transition-colors shrink-0">
+          <span class="material-symbols-outlined text-[18px]">download</span>Export
+        </button>
+      </div>
+      <!-- Chart -->
+      <div class="flex-1 p-4 md:p-6 overflow-auto">
+        <div class="relative h-[300px] md:h-[400px] w-full">
+          <canvas id="spendChart"></canvas>
+        </div>
+      </div>
+      <!-- Summary Footer -->
+      <div class="border-t border-outline-variant dark:border-slate-700 px-6 py-4 flex flex-wrap gap-6 shrink-0 bg-surface-container-high dark:bg-slate-800/50">
+        <div>
+          <p class="font-label-sm text-label-sm text-secondary dark:text-slate-400">Total Periode</p>
+          <p class="font-headline-sm text-headline-sm font-semibold text-on-surface dark:text-slate-100" id="modalTotal">Rp 50.350.000</p>
+        </div>
+        <div>
+          <p class="font-label-sm text-label-sm text-secondary dark:text-slate-400">Rata-rata</p>
+          <p class="font-headline-sm text-headline-sm font-semibold text-on-surface dark:text-slate-100" id="modalAvg">Rp 4.196.000</p>
+        </div>
+        <div>
+          <p class="font-label-sm text-label-sm text-secondary dark:text-slate-400">Tertinggi</p>
+          <p class="font-headline-sm text-headline-sm font-semibold text-on-surface dark:text-slate-100" id="modalMax">Rp 25.600.000</p>
+        </div>
+        <div>
+          <p class="font-label-sm text-label-sm text-secondary dark:text-slate-400">Terendah</p>
+          <p class="font-headline-sm text-headline-sm font-semibold text-on-surface dark:text-slate-100" id="modalMin">Rp 4.300.000</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<script>
+  // Chart instance
+  let spendChart = null;
+  let purchaseChart = null;
+  let purchaseSupplierChart = null;
+  const purchaseMonthlyData = [
+    { label: 'Jan 2023', orders: 8, value: 42500000 },
+    { label: 'Feb 2023', orders: 6, value: 31200000 },
+    { label: 'Mar 2023', orders: 12, value: 58900000 },
+    { label: 'Apr 2023', orders: 9, value: 35600000 },
+    { label: 'Mei 2023', orders: 15, value: 67200000 },
+    { label: 'Jun 2023', orders: 7, value: 28400000 },
+    { label: 'Jul 2023', orders: 11, value: 45800000 },
+    { label: 'Agu 2023', orders: 8, value: 37250000 },
+    { label: 'Sep 2023', orders: 14, value: 58300000 },
+    { label: 'Okt 2023', orders: 12, value: 50350000 }
+  ];
+  const purchaseYearlyData = [
+    { label: '2020', orders: 82, value: 425000000 },
+    { label: '2021', orders: 125, value: 580000000 },
+    { label: '2022', orders: 156, value: 720000000 },
+    { label: '2023', orders: 110, value: 503500000 }
+  ];
+  const supplierData = [
+    { label: 'Makmur Sentosa', value: 35, color: '#f97316' },
+    { label: 'Maju Jaya Grosir', value: 28, color: '#3b82f6' },
+    { label: 'Bintang Sembako', value: 22, color: '#16a34a' },
+    { label: 'Lainnya', value: 15, color: '#8b5cf6' }
+  ];
+  const purchaseStatusData = { lunas: 65, menunggu: 15, dikirim: 12, selesai: 8 };
+  function getPurchaseChartColors() {
+    const isDark = document.documentElement.classList.contains('dark');
+    return {
+      grid: isDark ? 'rgba(148,163,184,0.1)' : 'rgba(0,0,0,0.06)',
+      text: isDark ? '#94a3b8' : '#5a4136',
+      bg: isDark ? '#1e293b' : '#ffffff',
+      primary: '#f97316'
+    };
+  }
+  function formatCurrency(val) { return 'Rp ' + val.toLocaleString('id-ID'); }
+  function openPurchaseReport() {
+    const modal = document.getElementById('purchaseReportModal');
+    if (!modal) return;
+    modal.classList.remove('hidden');
+    setTimeout(updatePurchaseChart, 100);
+  }
+  function closePurchaseReport() {
+    const modal = document.getElementById('purchaseReportModal');
+    if (!modal) return;
+    modal.classList.add('hidden');
+    if (purchaseChart) { purchaseChart.destroy(); purchaseChart = null; }
+    if (purchaseSupplierChart) { purchaseSupplierChart.destroy(); purchaseSupplierChart = null; }
+  }
+  function updatePurchaseChart() {
+    const granularity = document.getElementById('prFilterGranularity').value;
+    const year = parseInt(document.getElementById('prFilterYear').value);
+    const data = granularity === 'month' ? purchaseMonthlyData : purchaseYearlyData;
+    const labels = data.map(d => d.label);
+    const orders = data.map(d => d.orders);
+    const values = data.map(d => d.value);
+    const totalOrders = orders.reduce((a, b) => a + b, 0);
+    const totalValue = values.reduce((a, b) => a + b, 0);
+    const avgOrder = totalValue / totalOrders;
+    const totalEl = document.getElementById('prTotalOrders');
+    const valEl = document.getElementById('prTotalValue');
+    const avgEl = document.getElementById('prAvgOrder');
+    const supEl = document.getElementById('prSuppliers');
+    if (totalEl) totalEl.textContent = totalOrders + ' order';
+    if (valEl) valEl.textContent = formatCurrency(totalValue);
+    if (avgEl) avgEl.textContent = formatCurrency(Math.round(avgOrder));
+    if (supEl) supEl.textContent = '4';
+
+    // Hitung status pesanan dari tabel orders yang visible
+    let lunasCount = 0, menungguCount = 0, dikirimCount = 0, selesaiCount = 0;
+    const orderRows = document.querySelectorAll('table.order-history-table tbody tr');
+    orderRows.forEach(row => {
+      if (row.style.display === 'none' || row.classList.contains('hidden')) return;
+      // Skip detail rows (yang colspan="7")
+      if (row.getAttribute('colspan') === '7') return;
+      const statusCell = row.querySelector('td:nth-child(5)');
+      if (!statusCell) return;
+      const text = statusCell.textContent.trim();
+      if (text === 'Lunas') lunasCount++;
+      else if (text.includes('Menunggu')) menungguCount++;
+    });
+    // Hitung "Dikirim" dari detail tracking rows yang visible
+    const detailRows = document.querySelectorAll('tr[id^="track-"]');
+    detailRows.forEach(detail => {
+      if (!detail.classList.contains('hidden') && detail.style.display !== 'none') {
+        dikirimCount++;
+      }
+    });
+    // Selesai = total dari semua halaman + detail rows
+    const allRows = document.querySelectorAll('table.order-history-table tbody tr');
+    let totalMain = 0;
+    allRows.forEach(r => { if (r.getAttribute('colspan') !== '7') totalMain++; });
+    selesaiCount = totalMain - lunasCount - menungguCount;
+
+    const lunasEl = document.getElementById('prLunas');
+    const menungguEl = document.getElementById('prWaiting');
+    const dikirimEl = document.getElementById('prShipping');
+    const selesaiEl = document.getElementById('prDone');
+    if (lunasEl) lunasEl.textContent = lunasCount;
+    if (menungguEl) menungguEl.textContent = menungguCount;
+    if (dikirimEl) dikirimEl.textContent = dikirimCount;
+    if (selesaiEl) selesaiEl.textContent = selesaiCount;
+    const colors = getPurchaseChartColors();
+    if (purchaseChart) purchaseChart.destroy();
+    const ctx = document.getElementById('purchaseReportChart');
+    if (!ctx) return;
+    purchaseChart = new Chart(ctx.getContext('2d'), {
+      type: 'bar',
+      data: {
+        labels,
+        datasets: [{
+          label: 'Nilai Pesanan',
+          data: values,
+          backgroundColor: colors.isDark ? 'rgba(148,163,184,0.4)' : 'rgba(107,114,128,0.4)',
+          borderColor: colors.isDark ? '#94a3b8' : '#6b7280',
+          borderWidth: 1,
+          borderRadius: 6,
+          hoverBackgroundColor: 'rgba(249,115,22,0.85)',
+          hoverBorderColor: '#f97316',
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: { duration: 400 },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            backgroundColor: colors.bg,
+            titleColor: colors.text,
+            bodyColor: colors.text,
+            borderColor: colors.primary,
+            borderWidth: 1,
+            padding: 12,
+            callbacks: { label: ctx => formatCurrency(ctx.parsed.y) }
+          }
+        },
+        scales: {
+          x: { grid: { display: false }, ticks: { color: colors.text, font: { size: 11 }, maxRotation: 45 } },
+          y: {
+            grid: { color: colors.grid },
+            ticks: { color: colors.text, font: { size: 11 }, callback: v => 'Rp ' + (v / 1000000).toFixed(0) + 'jt' }
+          }
+        }
+      }
+    });
+    if (purchaseSupplierChart) purchaseSupplierChart.destroy();
+    const supCtx = document.getElementById('purchaseSupplierChart');
+    if (!supCtx) return;
+    purchaseSupplierChart = new Chart(supCtx.getContext('2d'), {
+      type: 'doughnut',
+      data: {
+        labels: supplierData.map(d => d.label),
+        datasets: [{
+          data: supplierData.map(d => d.value),
+          backgroundColor: supplierData.map(d => d.color),
+          borderColor: colors.isDark ? '#1e293b' : '#ffffff',
+          borderWidth: 3
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: { duration: 400 },
+        plugins: {
+          legend: { position: 'bottom', labels: { color: colors.text, padding: 10, font: { size: 11 } } },
+          tooltip: { callbacks: { label: ctx => ctx.label + ': ' + ctx.parsed + '%' } }
+        }
+      }
+    });
+  }
+  function exportPurchaseReport() {
+    const canvas = document.getElementById('purchaseReportChart');
+    const link = document.createElement('a');
+    link.download = 'laporan_bulanan_purchases.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  }
+
+  // Mock data
+  const monthlyData = [
+    { label: 'Jan 2023', value: 18200000 },
+    { label: 'Feb 2023', value: 12400000 },
+    { label: 'Mar 2023', value: 8900000 },
+    { label: 'Apr 2023', value: 15600000 },
+    { label: 'Mei 2023', value: 6700000 },
+    { label: 'Jun 2023', value: 22100000 },
+    { label: 'Jul 2023', value: 27000000 },
+    { label: 'Agu 2023', value: 37250000 },
+    { label: 'Sep 2023', value: 58300000 },
+    { label: 'Okt 2023', value: 50350000 },
+  ];
+  const weeklyData = [
+    { label: 'Minggu 1', value: 8200000 },
+    { label: 'Minggu 2', value: 12500000 },
+    { label: 'Minggu 3', value: 9800000 },
+    { label: 'Minggu 4', value: 11200000 },
+    { label: 'Minggu 5', value: 7600000 },
+    { label: 'Minggu 6', value: 14300000 },
+    { label: 'Minggu 7', value: 10500000 },
+    { label: 'Minggu 8', value: 13100000 },
+    { label: 'Minggu 9', value: 6800000 },
+    { label: 'Minggu 10', value: 15200000 },
+    { label: 'Minggu 11', value: 9400000 },
+    { label: 'Minggu 12', value: 12800000 },
+    { label: 'Minggu 13', value: 8100000 },
+    { label: 'Minggu 14', value: 16500000 },
+  ];
+  const dailyData = [
+    { label: '1', value: 500000 },
+    { label: '2', value: 1200000 },
+    { label: '3', value: 800000 },
+    { label: '4', value: 0 },
+    { label: '5', value: 2300000 },
+    { label: '6', value: 450000 },
+    { label: '7', value: 1500000 },
+    { label: '8', value: 3200000 },
+    { label: '9', value: 0 },
+    { label: '10', value: 890000 },
+    { label: '11', value: 1800000 },
+    { label: '12', value: 2100000 },
+    { label: '13', value: 600000 },
+    { label: '14', value: 0 },
+    { label: '15', value: 1900000 },
+    { label: '16', value: 3500000 },
+    { label: '17', value: 700000 },
+    { label: '18', value: 2400000 },
+    { label: '19', value: 1100000 },
+    { label: '20', value: 0 },
+    { label: '21', value: 2800000 },
+    { label: '22', value: 950000 },
+    { label: '23', value: 1600000 },
+    { label: '24', value: 4200000 },
+    { label: '25', value: 600000 },
+    { label: '26', value: 1300000 },
+    { label: '27', value: 0 },
+    { label: '28', value: 2000000 },
+    { label: '29', value: 800000 },
+    { label: '30', value: 1750000 },
+  ];
+  const yearlyData = [
+    { label: '2020', value: 82000000 },
+    { label: '2021', value: 125000000 },
+    { label: '2022', value: 156000000 },
+    { label: '2023', value: 272000000 },
+  ];
+
+  const yearSelect = document.getElementById('filterYear');
+  const monthSelect = document.getElementById('filterMonth');
+  const months = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+
+  // Populate year dropdown
+  const currentYear = new Date().getFullYear();
+  for (let y = currentYear; y >= 2020; y--) {
+    const opt = document.createElement('option');
+    opt.value = y;
+    opt.textContent = y;
+    yearSelect.appendChild(opt);
+  }
+  yearSelect.value = 2023;
+
+  // Populate month dropdown
+  months.forEach((m, i) => {
+    const opt = document.createElement('option');
+    opt.value = i;
+    opt.textContent = m;
+    monthSelect.appendChild(opt);
+  });
+  monthSelect.value = 9; // Oktober
+
+  function getChartColors() {
+    const isDark = document.documentElement.classList.contains('dark');
+    return {
+      grid: isDark ? 'rgba(148,163,184,0.1)' : 'rgba(0,0,0,0.06)',
+      text: isDark ? '#94a3b8' : '#5a4136',
+      bg: isDark ? '#1e293b' : '#ffffff',
+      primary: isDark ? '#f97316' : '#f97316',
+      primaryAlpha: isDark ? 'rgba(249,115,22,0.2)' : 'rgba(249,115,22,0.1)',
+      tertiary: isDark ? '#4ade80' : '#16a34a',
+      tertiaryAlpha: isDark ? 'rgba(74,222,128,0.2)' : 'rgba(22,163,74,0.1)',
+    };
+  }
+
+  function formatCurrency(val) {
+    return 'Rp ' + val.toLocaleString('id-ID');
+  }
+
+  function updateChart() {
+    const granularity = document.getElementById('filterGranularity').value;
+    const year = parseInt(yearSelect.value);
+    const month = parseInt(monthSelect.value);
+
+    // Show/hide month filter based on granularity
+    if (granularity === 'month' || granularity === 'day') {
+      monthSelect.classList.remove('hidden');
+    } else {
+      monthSelect.classList.add('hidden');
+    }
+
+    let data;
+    if (granularity === 'day') {
+      // Filter daily data by month
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+      data = dailyData.filter(d => parseInt(d.label) <= daysInMonth);
+    } else if (granularity === 'week') {
+      data = weeklyData;
+    } else if (granularity === 'month') {
+      data = monthlyData;
+    } else {
+      data = yearlyData;
+    }
+
+    const colors = getChartColors();
+    const labels = data.map(d => d.label);
+    const values = data.map(d => d.value);
+
+    const total = values.reduce((a, b) => a + b, 0);
+    const avg = total / (values.length || 1);
+    const max = Math.max(...values);
+    const min = Math.min(...values.filter(v => v > 0));
+
+    document.getElementById('modalTotal').textContent = formatCurrency(total);
+    document.getElementById('modalAvg').textContent = formatCurrency(Math.round(avg));
+    document.getElementById('modalMax').textContent = formatCurrency(max);
+    document.getElementById('modalMin').textContent = formatCurrency(min || 0);
+
+    if (spendChart) spendChart.destroy();
+
+    const chartEl = document.getElementById('spendChart');
+    const chartCanvas = chartEl.getContext('2d');
+    spendChart = new Chart(chartCanvas, {
+      type: 'bar',
+      data: {
+        labels,
+        datasets: [{
+          label: 'Pengeluaran',
+          data: values,
+          backgroundColor: colors.isDark ? 'rgba(148,163,184,0.4)' : 'rgba(107,114,128,0.4)',
+          borderColor: colors.isDark ? '#94a3b8' : '#6b7280',
+          borderWidth: 1,
+          borderRadius: 6,
+          hoverBackgroundColor: 'rgba(249,115,22,0.85)',
+          hoverBorderColor: '#f97316',
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: { duration: 400 },
+        interaction: {
+          intersect: false,
+          mode: 'index',
+        },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            backgroundColor: colors.bg,
+            titleColor: colors.text,
+            bodyColor: colors.text,
+            borderColor: colors.primary,
+            borderWidth: 1,
+            padding: 12,
+            displayColors: false,
+            bodyFont: { size: 12 },
+            titleFont: { size: 12 },
+            callbacks: {
+              label: ctx => formatCurrency(ctx.parsed.y)
+            }
+          }
+        },
+        scales: {
+          x: {
+            grid: { display: false },
+            ticks: { color: colors.text, font: { size: 11 }, maxRotation: 45 }
+          },
+          y: {
+            grid: { color: colors.grid },
+            ticks: {
+              color: colors.text,
+              font: { size: 11 },
+              callback: v => 'Rp ' + (v / 1000000).toFixed(0) + 'jt',
+              maxTicksLimit: 8
+            }
+          }
+        }
+      }
+    });
+  }
+
+  function exportChart() {
+    const canvas = document.getElementById('spendChart');
+    const link = document.createElement('a');
+    link.download = 'grafik_pengeluaran.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  }
+
+  // Unified Report Modal
+  let activeReportTab = 'finance';
+  let ovChartOrders = null, ovChartCategory = null;
+   let spChartSpend = null, spChartDistribution = null;
+   let frChartCashFlow = null, frChartCredit = null, frChartCategory = null;
+
+   // Use existing purchaseMonthlyData, supplierData, financePurchaseData, financeCreditData from above
+  // Only declare what doesn't already exist
+  const monthlyOrdersData = [
+      { label: 'Jan', orders: 24 }, { label: 'Feb', orders: 32 },
+      { label: 'Mar', orders: 28 }, { label: 'Apr', orders: 41 },
+      { label: 'Mei', orders: 35 }, { label: 'Jun', orders: 48 },
+      { label: 'Jul', orders: 38 }, { label: 'Agu', orders: 52 },
+      { label: 'Sep', orders: 43 }, { label: 'Okt', orders: 36 },
+      { label: 'Nov', orders: 45 }, { label: 'Des', orders: 42 }
+    ];
+    const monthlySpendData = [
+      { label: 'Jul', value: 15400000 }, { label: 'Agu', value: 18200000 },
+      { label: 'Sep', value: 12500000 }, { label: 'Okt', value: 24500000 },
+      { label: 'Nov', value: 16800000 }, { label: 'Des', value: 21000000 }
+    ];
+    const creditData = [
+      { label: 'Jul', used: 30 }, { label: 'Agu', used: 40 },
+      { label: 'Sep', used: 55 }, { label: 'Okt', used: 65 },
+      { label: 'Nov', used: 45 }, { label: 'Des', used: 60 }
+    ];
+    window.supplierData2 = [
+      { label: 'Makmur Jaya', orders: 35, spend: 82000000, rating: 4.5 },
+      { label: 'Grosir Sembako', orders: 28, spend: 54000000, rating: 4.2 },
+      { label: 'CV Berkah', orders: 22, spend: 38000000, rating: 4.0 },
+      { label: 'Bintang Sembako', orders: 15, spend: 29000000, rating: 3.8 }
+    ];
+  const overviewMonthlyData = [
+    { label: 'Jan', value: 8500000 }, { label: 'Feb', value: 12300000 },
+    { label: 'Mar', value: 9800000 }, { label: 'Apr', value: 14200000 },
+    { label: 'Mei', value: 11700000 }, { label: 'Jun', value: 16500000 },
+    { label: 'Jul', value: 13200000 }, { label: 'Agu', value: 18900000 },
+    { label: 'Sep', value: 15400000 }, { label: 'Okt', value: 12100000 },
+    { label: 'Nov', value: 14800000 }, { label: 'Des', value: 14500000 }
+  ];
+  const categoryData = [
+    { label: 'Beras', value: 45, color: '#f97316' },
+    { label: 'Minyak', value: 25, color: '#16a34a' },
+    { label: 'Gula', value: 18, color: '#3b82f6' },
+    { label: 'Lainnya', value: 12, color: '#8b5cf6' }
+  ];
+  const financePurchaseData = [
+    { label: 'Jul', value: 15400000 }, { label: 'Agu', value: 18200000 },
+    { label: 'Sep', value: 12500000 }, { label: 'Okt', value: 24500000 },
+    { label: 'Nov', value: 16800000 }, { label: 'Des', value: 21000000 }
+  ];
+  const financeCreditData = [
+    { label: 'Jul', used: 30, color: '#f97316' },
+    { label: 'Agu', used: 40, color: '#3b82f6' },
+    { label: 'Sep', used: 55, color: '#f97316' },
+    { label: 'Okt', used: 65, color: '#ef4444' },
+    { label: 'Nov', used: 45, color: '#3b82f6' },
+    { label: 'Des', used: 60, color: '#f97316' }
+  ];
+
+  function getChartColors() {
+    const isDark = document.documentElement.classList.contains('dark');
+    return {
+      grid: isDark ? 'rgba(148,163,184,0.1)' : 'rgba(0,0,0,0.06)',
+      text: isDark ? '#94a3b8' : '#5a4136',
+      bg: isDark ? '#1e293b' : '#ffffff',
+      primary: '#f97316', danger: '#ef4444', success: '#16a34a', blue: '#3b82f6', isDark
+    };
+  }
+  function formatCurrency(val) { return 'Rp ' + val.toLocaleString('id-ID'); }
+
+  function openUnifiedReport(tab) {
+    console.log('openUnifiedReport called with tab:', tab);
+    activeReportTab = tab || 'finance';
+    const modal = document.getElementById('unifiedReportModal');
+    if (!modal) { console.error('Modal not found!'); return; }
+    modal.style.display = 'flex';
+    modal.classList.remove('hidden');
+    const yearSelect = document.getElementById('reportFilterYear');
+    if (yearSelect && yearSelect.options.length === 0) {
+      const currentYear = new Date().getFullYear();
+      for (let y = currentYear; y >= 2022; y--) {
+        const opt = document.createElement('option');
+        opt.value = y; opt.textContent = y;
+        yearSelect.appendChild(opt);
+      }
+      yearSelect.value = currentYear;
+    }
+    const typeSelect = document.getElementById('reportFilterType');
+    if (typeSelect) {
+      typeSelect.innerHTML = '';
+      if (activeReportTab === 'overview') {
+        const o1 = document.createElement('option'); o1.value = 'monthly'; o1.textContent = 'Per Bulan';
+        const o2 = document.createElement('option'); o2.value = 'quarterly'; o2.textContent = 'Per Kuartal';
+        typeSelect.appendChild(o1); typeSelect.appendChild(o2);
+      } else if (activeReportTab === 'supplier') {
+        const o1 = document.createElement('option'); o1.value = 'month'; o1.textContent = 'Per Bulan';
+        const o2 = document.createElement('option'); o2.value = 'quarter'; o2.textContent = 'Per Kuartal';
+        const o3 = document.createElement('option'); o3.value = 'year'; o3.textContent = 'Per Tahun';
+        typeSelect.appendChild(o1); typeSelect.appendChild(o2); typeSelect.appendChild(o3);
+      } else {
+        const o1 = document.createElement('option'); o1.value = 'month'; o1.textContent = 'Per Bulan';
+        const o2 = document.createElement('option'); o2.value = 'quarter'; o2.textContent = 'Per Kuartal';
+        const o3 = document.createElement('option'); o3.value = 'year'; o3.textContent = 'Per Tahun';
+        typeSelect.appendChild(o1); typeSelect.appendChild(o2); typeSelect.appendChild(o3);
+      }
+    }
+    switchReportTab(activeReportTab);
+  }
+
+  function closeUnifiedReport() {
+    const modal = document.getElementById('unifiedReportModal');
+    if (!modal) return;
+    modal.classList.add('hidden');
+    modal.style.display = 'none';
+    if (ovChartOrders) { ovChartOrders.destroy(); ovChartOrders = null; }
+    if (ovChartCategory) { ovChartCategory.destroy(); ovChartCategory = null; }
+    if (spChartSpend) { spChartSpend.destroy(); spChartSpend = null; }
+    if (spChartDistribution) { spChartDistribution.destroy(); spChartDistribution = null; }
+    if (frChartCashFlow) { frChartCashFlow.destroy(); frChartCashFlow = null; }
+    if (frChartCredit) { frChartCredit.destroy(); frChartCredit = null; }
+    if (frChartCategory) { frChartCategory.destroy(); frChartCategory = null; }
+  }
+
+  function switchReportTab(tab) {
+    console.log('switchReportTab called with:', tab);
+    activeReportTab = tab || 'finance';
+    var tabs = ['overview', 'supplier', 'finance'];
+    for (var i = 0; i < tabs.length; i++) {
+      var t = tabs[i];
+      var btn = document.getElementById('tab-btn-' + t);
+      var content = document.getElementById('tab-content-' + t);
+      console.log('Tab:', t, 'active:', activeReportTab, 'content found:', !!content);
+      if (btn) {
+        if (t === activeReportTab) {
+          btn.classList.remove('text-secondary', 'dark:text-slate-400', 'border-transparent');
+          btn.classList.add('text-primary', 'dark:text-brand-400', 'font-bold', 'border-primary', 'dark:border-brand-400');
+        } else {
+          btn.classList.add('text-secondary', 'dark:text-slate-400', 'border-transparent');
+          btn.classList.remove('text-primary', 'dark:text-brand-400', 'font-bold', 'border-primary', 'dark:border-brand-400');
+        }
+      }
+      if (content) {
+        if (t === activeReportTab) {
+          content.classList.remove('hidden');
+          content.style.display = 'block';
+        } else {
+          content.classList.add('hidden');
+          content.style.display = 'none';
+        }
+      }
+    }
+    var currentTab = activeReportTab;
+    setTimeout(function() {
+      if (currentTab === 'overview') renderOverviewTab();
+      else if (currentTab === 'supplier') renderSupplierTab();
+      else renderFinanceTab();
+   }, 50);
+    console.log('switchReportTab done');
+  }
+
+
+  function updateActiveReportTab() {
+    var currentTab = activeReportTab;
+    setTimeout(function() {
+      if (currentTab === 'overview') { renderOverviewTab(); }
+      else if (currentTab === 'supplier') { renderSupplierTab(); }
+      else { renderFinanceTab(); }
+    }, 50);
+  }
+
+  function exportActiveReport() {
+    let canvasId, filename;
+    if (activeReportTab === 'overview') { canvasId = 'ovChartOrders'; filename = 'laporan_overview.png'; }
+    else if (activeReportTab === 'supplier') { canvasId = 'spChartSpend'; filename = 'laporan_supplier.png'; }
+    else { canvasId = 'frChartCashFlow'; filename = 'laporan_keuangan.png'; }
+    const canvas = document.getElementById(canvasId);
+    if (!canvas) return;
+    const link = document.createElement('a');
+    link.download = filename;
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  }
+
+  function renderOverviewTab() {
+    const colors = getChartColors();
+    const orders = monthlyOrdersData.map(d => d.orders);
+    const totalOrders = orders.reduce((a, b) => a + b, 0);
+    const totalSpend = monthlySpendData.reduce((s, d) => s + d.value, 0);
+    const avgOrder = totalSpend / totalOrders;
+    const topSupplier = supplierData2.reduce((a, b) => (a.spend > b.spend) ? a : b).label;
+    const oEl = document.getElementById('ovOrders'), sEl = document.getElementById('ovSpend'), aEl = document.getElementById('ovAvg'), tEl = document.getElementById('ovTopSup');
+    if (oEl) oEl.textContent = totalOrders + ' order';
+    if (sEl) sEl.textContent = formatCurrency(totalSpend);
+    if (aEl) aEl.textContent = formatCurrency(Math.round(avgOrder));
+    if (tEl) tEl.textContent = topSupplier;
+    if (ovChartOrders) ovChartOrders.destroy();
+    const ctx1 = document.getElementById('ovChartOrders');
+    if (!ctx1) return;
+    ovChartOrders = new Chart(ctx1.getContext('2d'), {
+      type: 'line',
+      data: { labels: monthlyOrdersData.map(d => d.label), datasets: [{ label: 'Jumlah Order', data: orders, borderColor: colors.primary, backgroundColor: orders.map((_, i) => i === orders.length - 1 ? 'rgba(249,115,22,0.2)' : colors.bg), fill: true, tension: 0.3, pointBackgroundColor: orders.map((_, i) => i === orders.length - 1 ? '#f97316' : colors.grid), pointRadius: orders.map((_, i) => i === orders.length - 1 ? 5 : 3), borderWidth: 2 }] },
+      options: { responsive: true, maintainAspectRatio: false, animation: { duration: 400 }, plugins: { legend: { display: false }, tooltip: { backgroundColor: colors.bg, titleColor: colors.text, bodyColor: colors.text, borderColor: colors.primary, borderWidth: 1, padding: 12, callbacks: { label: c => c.parsed.y + ' order' } } }, scales: { x: { grid: { display: false }, ticks: { color: colors.text, font: { size: 10 }, maxRotation: 45 } }, y: { grid: { color: colors.grid }, ticks: { color: colors.text, font: { size: 11 } }, min: 0, max: Math.max(...orders) * 1.1 } } }
+    });
+    if (ovChartCategory) ovChartCategory.destroy();
+    const ctx2 = document.getElementById('ovChartCategory');
+    if (!ctx2) return;
+    ovChartCategory = new Chart(ctx2.getContext('2d'), {
+      type: 'doughnut',
+      data: { labels: categoryData.map(d => d.label), datasets: [{ data: categoryData.map(d => d.value), backgroundColor: categoryData.map(d => d.color), borderColor: colors.bg, borderWidth: 3 }] },
+      options: { responsive: true, maintainAspectRatio: false, animation: { duration: 400 }, plugins: { legend: { position: 'bottom', labels: { color: colors.text, padding: 12, font: { size: 11 } } }, tooltip: { backgroundColor: colors.bg, titleColor: colors.text, bodyColor: colors.text, borderColor: colors.primary, borderWidth: 1, callbacks: { label: c => c.label + ': ' + c.parsed + '%' } } } }
+    });
+  }
+
+ function renderSupplierTab() {
+    try {
+      const tbodyInitial = document.getElementById('supplierDetailBody');
+      if (tbodyInitial) { tbodyInitial.style.display = ''; }
+      const supplierTab = document.getElementById('tab-content-supplier');
+      if (!supplierTab) { console.warn('renderSupplierTab: tab-content-supplier not found'); return; }
+      supplierTab.classList.remove('hidden');
+      supplierTab.style.display = '';
+      const sd = window.supplierData2;
+      if (!sd || sd.length === 0) {
+        console.error('renderSupplierTab: supplierData2 is empty or undefined');
+        return;
+      }
+      const colors = getChartColors();
+      const labels = sd.map(d => d.label);
+      const orders = sd.map(d => d.orders);
+      const spends = sd.map(d => d.spend);
+      const totalSpend = spends.reduce((a, b) => a + b, 0);
+      const avgRating = sd.reduce((s, d) => s + d.rating, 0) / sd.length;
+      const spEl = document.getElementById('spTotalSup'), stEl = document.getElementById('spTotalSpend'), otEl = document.getElementById('spOnTime'), rtEl = document.getElementById('spAvgRating');
+      if (spEl) spEl.textContent = sd.length + ' supplier';
+      if (stEl) stEl.textContent = formatCurrency(totalSpend);
+      if (otEl) otEl.textContent = '75%';
+      if (rtEl) rtEl.textContent = avgRating.toFixed(1) + ' / 5.0';
+      if (spChartSpend) spChartSpend.destroy();
+      const ctx1 = document.getElementById('spChartSpend');
+      if (ctx1) {
+        spChartSpend = new Chart(ctx1.getContext('2d'), {
+          type: 'bar',
+          data: { labels, datasets: [{ label: 'Pengeluaran', data: spends, backgroundColor: colors.isDark ? 'rgba(148,163,184,0.4)' : 'rgba(107,114,128,0.4)', borderColor: colors.isDark ? '#94a3b8' : '#6b7280', borderWidth: 1, borderRadius: 6, hoverBackgroundColor: 'rgba(249,115,22,0.85)', hoverBorderColor: '#f97316' }] },
+          options: { responsive: true, maintainAspectRatio: false, animation: { duration: 400 }, plugins: { legend: { display: false }, tooltip: { backgroundColor: colors.bg, titleColor: colors.text, bodyColor: colors.text, borderColor: colors.primary, borderWidth: 1, padding: 12, callbacks: { label: c => formatCurrency(c.parsed.y) } } }, scales: { x: { grid: { display: false }, ticks: { color: colors.text, font: { size: 10 } } }, y: { grid: { color: colors.grid }, ticks: { color: colors.text, font: { size: 10 }, callback: v => 'Rp ' + (v / 1000000).toFixed(0) + 'jt' } } } }
+        });
+      }
+      if (spChartDistribution) spChartDistribution.destroy();
+      const ctx2 = document.getElementById('spChartDistribution');
+      if (ctx2) {
+        spChartDistribution = new Chart(ctx2.getContext('2d'), {
+          type: 'doughnut',
+          data: { labels, datasets: [{ data: orders, backgroundColor: ['#f97316', '#3b82f6', '#16a34a', '#8b5cf6'], borderColor: colors.bg, borderWidth: 3 }] },
+          options: { responsive: true, maintainAspectRatio: false, animation: { duration: 400 }, plugins: { legend: { position: 'bottom', labels: { color: colors.text, padding: 12, font: { size: 11 } } }, tooltip: { backgroundColor: colors.bg, titleColor: colors.text, bodyColor: colors.text, borderColor: colors.primary, borderWidth: 1, callbacks: { label: c => c.label + ': ' + c.parsed + ' orders' } } } }
+        });
+      }
+      const statusConfig = [
+        { cls: 'bg-tertiary-container dark:bg-green-500/20 text-on-tertiary dark:text-green-300', label: 'Terpercaya' },
+        { cls: 'bg-secondary-container dark:bg-blue-500/30 text-on-secondary-container dark:text-blue-200', label: 'Baik' },
+        { cls: 'bg-surface-container-high dark:bg-slate-700 text-on-surface dark:text-slate-100', label: 'Netral' },
+        { cls: 'bg-surface-container-high dark:bg-slate-700 text-on-surface dark:text-slate-100', label: 'Netral' }
+      ];
+      const tbody = document.getElementById('supplierDetailBody');
+      if (!tbody) { console.warn('renderSupplierTab: supplierDetailBody tbody not found'); return; }
+      let rowHTML = '';
+      for (let i = 0; i < sd.length; i++) {
+        const s = sd[i];
+        const sc = statusConfig[i] || statusConfig[2];
+        rowHTML += '<tr class="border-b border-outline-variant/50 dark:border-slate-700"><td class="font-body-sm text-body-sm text-on-surface dark:text-slate-100 py-2">' + s.label + '</td><td class="font-body-sm text-body-sm text-on-surface dark:text-slate-100 py-2 text-right">' + s.orders + '</td><td class="font-body-sm text-body-sm text-on-surface dark:text-slate-100 py-2 text-right">Rp ' + s.spend.toLocaleString("id-ID") + '</td><td class="font-body-sm text-body-sm text-on-surface dark:text-slate-100 py-2 text-center">\u2b50 ' + s.rating + '</td><td class="font-body-sm text-body-sm text-on-surface dark:text-slate-100 py-2 text-center"><span class="inline-flex items-center px-2 py-0.5 rounded-full font-label-sm text-label-sm ' + sc.cls + '">' + sc.label + '</span></td></tr>';
+      }
+      tbody.innerHTML = rowHTML;
+      console.log('renderSupplierTab: tbody updated with ' + sd.length + ' rows');
+    } catch (e) { console.error('renderSupplierTab error:', e, e.stack); }
+  }
+
+  function renderFinanceTab() {
+    const colors = getChartColors();
+    const totalExpense = financePurchaseData.reduce((s, d) => s + d.value, 0);
+    const tEl = document.getElementById('frTotalExpense'), cEl = document.getElementById('frCreditLeft'), bEl = document.getElementById('frBills');
+    if (tEl) tEl.textContent = formatCurrency(totalExpense);
+    if (cEl) cEl.textContent = 'Rp 15.000.000';
+    if (bEl) bEl.textContent = 'Rp 8.400.000';
+    if (frChartCashFlow) frChartCashFlow.destroy();
+    const ctx1 = document.getElementById('frChartCashFlow');
+    if (!ctx1) return;
+    const values = monthlySpendData.map(d => d.value);
+    frChartCashFlow = new Chart(ctx1.getContext('2d'), {
+      type: 'bar',
+      data: { labels: monthlySpendData.map(d => d.label), datasets: [{ label: 'Pembelian', data: values, backgroundColor: colors.isDark ? 'rgba(148,163,184,0.4)' : 'rgba(107,114,128,0.4)', borderColor: colors.isDark ? '#94a3b8' : '#6b7280', borderWidth: 1, borderRadius: 6, hoverBackgroundColor: 'rgba(249,115,22,0.85)', hoverBorderColor: '#f97316' }] },
+      options: { responsive: true, maintainAspectRatio: false, animation: { duration: 400 }, plugins: { legend: { display: false }, tooltip: { backgroundColor: colors.bg, titleColor: colors.text, bodyColor: colors.text, borderColor: colors.primary, borderWidth: 1, padding: 12, callbacks: { label: c => formatCurrency(c.parsed.y) } } }, scales: { x: { grid: { display: false }, ticks: { color: colors.text, font: { size: 11 } } }, y: { grid: { color: colors.grid }, ticks: { color: colors.text, font: { size: 11 }, callback: v => 'Rp ' + (v / 1000000).toFixed(0) + 'jt' } } } }
+    });
+    if (frChartCredit) frChartCredit.destroy();
+    const ctx2 = document.getElementById('frChartCredit');
+    if (!ctx2) return;
+    const creditValues = creditData.map(d => d.used);
+    frChartCredit = new Chart(ctx2.getContext('2d'), {
+      type: 'line',
+      data: { labels: creditData.map(d => d.label), datasets: [{ label: 'Utilisasi Kredit %', data: creditValues, borderColor: colors.primary, backgroundColor: 'rgba(249,115,22,0.1)', fill: true, tension: 0.3, pointBackgroundColor: creditValues.map((_, i) => i === creditValues.length - 1 ? '#f97316' : colors.grid), pointRadius: 4, borderWidth: 2 }] },
+      options: { responsive: true, maintainAspectRatio: false, animation: { duration: 400 }, plugins: { legend: { display: false }, tooltip: { backgroundColor: colors.bg, titleColor: colors.text, bodyColor: colors.text, borderColor: colors.primary, borderWidth: 1, padding: 12, callbacks: { label: c => c.parsed.y + '%' } } }, scales: { x: { grid: { display: false }, ticks: { color: colors.text, font: { size: 11 } } }, y: { grid: { color: colors.grid }, ticks: { color: colors.text, font: { size: 11 }, callback: v => v + '%' }, min: 0, max: 100 } } }
+    });
+    if (frChartCategory) frChartCategory.destroy();
+    const ctx3 = document.getElementById('frChartCategory');
+    if (!ctx3) return;
+    frChartCategory = new Chart(ctx3.getContext('2d'), {
+      type: 'doughnut',
+      data: { labels: categoryData.map(d => d.label), datasets: [{ data: categoryData.map(d => d.value), backgroundColor: categoryData.map(d => d.color), borderColor: colors.bg, borderWidth: 3 }] },
+      options: { responsive: true, maintainAspectRatio: false, animation: { duration: 400 }, plugins: { legend: { position: 'bottom', labels: { color: colors.text, padding: 12, font: { size: 11 } } }, tooltip: { backgroundColor: colors.bg, titleColor: colors.text, bodyColor: colors.text, borderColor: colors.primary, borderWidth: 1, callbacks: { label: c => c.label + ': ' + c.parsed + '%' } } } }
+    });
+  }
+
+  // Keyboard support
+  let resizeObserver = null;
+  function openSpendModal() {
+    const modal = document.getElementById('spendModal');
+    modal.classList.remove('hidden');
+    setTimeout(updateChart, 100);
+    // Destroy previous observer to avoid duplicates
+    if (resizeObserver) resizeObserver.disconnect();
+    resizeObserver = new ResizeObserver(() => {
+      if (!modal.classList.contains('hidden')) updateChart();
+    });
+    const chartEl = document.getElementById('spendChart');
+    const wrapper = chartEl?.parentElement?.parentElement;
+    if (wrapper) resizeObserver.observe(wrapper);
+  }
+
+  function closeSpendModal() {
+    const modal = document.getElementById('spendModal');
+    modal.classList.add('hidden');
+    if (resizeObserver) {
+      resizeObserver.disconnect();
+      resizeObserver = null;
+    }
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeSpendModal();
+  });
+</script>
+
+<script>
+  const themeToggle = document.getElementById('theme-toggle');
+  if (themeToggle) {
+    themeToggle.addEventListener('click', function() {
+      const isDark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      // Redraw chart if modal is open during theme toggle
+      setTimeout(() => {
+        const modal = document.getElementById('spendModal');
+        if (modal && !modal.classList.contains('hidden') && typeof updateChart === 'function') {
+          updateChart();
+        }
+      }, 100);
+    });
+  }
+  const saved = localStorage.getItem('theme');
+  if (saved === 'dark') {
+    document.documentElement.classList.add('dark');
+  } else if (saved === 'light') {
+    document.documentElement.classList.remove('dark');
+  }
+
+  // Logout handler
+  const logoutLink = document.getElementById('logout-link');
+  if (logoutLink) {
+    logoutLink.addEventListener('click', function(e) {
+      e.preventDefault();
+      localStorage.removeItem('user');
+      localStorage.removeItem('isLoggedIn');
+      window.location.href = '../../LOGIN/loginPage.html';
+    });
+  }
+
+  // Pagination
+  let currentPage = 1;
+  const totalPages = 6;
+  const allTbody = document.querySelectorAll('tbody');
+  const paginationInfo = document.getElementById('pagination-info');
+  const prevBtn = document.getElementById('pagination-prev');
+  const nextBtn = document.getElementById('pagination-next');
+
+  function goToPage(page) {
+    if (page < 1 || page > totalPages) return;
+    currentPage = page;
+    allTbody.forEach((el, i) => {
+      el.style.display = (i === currentPage - 1) ? 'table-row-group' : 'none';
+    });
+    const start = (currentPage - 1) * 4 + 1;
+    const end = currentPage * 4;
+    paginationInfo.textContent = `Menampilkan ${start} sampai ${end} dari ${totalPages * 4} entri`;
+    prevBtn.disabled = currentPage === 1;
+    nextBtn.disabled = currentPage === totalPages;
+  }
+
+  // Fix: reset supplierDetailBody display when modal opens
+  function ensureSupplierTableVisible() {
+    const tbody = document.getElementById('supplierDetailBody');
+    if (tbody) tbody.style.display = '';
+  }
+
+  goToPage(1);
+
+  if (prevBtn) prevBtn.addEventListener('click', () => goToPage(currentPage - 1));
+  if (nextBtn) nextBtn.addEventListener('click', () => goToPage(currentPage + 1));
+
+  // Toggle tracking details
+  function toggleTrack(trackId) {
+    const el = document.getElementById(trackId);
+    if (!el) return;
+    const isHidden = el.classList.contains('hidden');
+    document.querySelectorAll('[id^="track-"]').forEach(track => {
+      if (!track.classList.contains('hidden')) {
+        track.classList.add('hidden');
+      }
+    });
+    if (isHidden) {
+      el.classList.remove('hidden');
+    }
+  }
+</script>
+
+</body>
+</html>
