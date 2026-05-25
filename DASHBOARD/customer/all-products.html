@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Semua Produk | GASPOLL</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script>
+  (function() {
+    const saved = localStorage.getItem('theme');
+    if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    }
+  })();
+</script>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          brand: {
+            50: "#fff7ed",
+            100: "#ffedd5",
+            200: "#fed7aa",
+            300: "#fdba74",
+            400: "#fb923c",
+            500: "#f97316",
+            600: "#ea580c",
+            700: "#c2410c",
+            800: "#a33a0f",
+            900: "#7c2d12"
+          },
+          background: "#f8f9ff",
+          surface: "#f8f9ff",
+          "surface-container-low": "#eff4ff",
+          "surface-container-lowest": "#ffffff",
+          secondary: "#545f73",
+          on_surface: "#0b1c30",
+          primary: "#a04100",
+          outline: "#8e7164",
+          "outline-variant": "#e2bfb0"
+        },
+        fontFamily: {
+          body: ["Inter"],
+          display: ["Inter"]
+        },
+        spacing: {
+          "margin-mobile": "16px",
+          "margin-desktop": "32px",
+          "container-max": "1280px"
+        }
+      }
+    }
+  }
+</script>
+<style>
+  .material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  }
+  .sun-icon { display: block; }
+  html.dark .sun-icon { display: none; }
+  .moon-icon { display: none; }
+  html.dark .moon-icon { display: block; }
+</style>
+</head>
+<body class="bg-background text-on_surface font-body antialiased selection:bg-primary-container selection:text-white dark:bg-slate-950 dark:text-slate-100 transition-colors duration-300">
+<header class="bg-surface-container-lowest shadow-sm sticky top-0 z-50 dark:bg-slate-900 dark:border-b dark:border-slate-700 transition-colors duration-300">
+  <div class="flex flex-col md:flex-row justify-between items-start md:items-center px-margin-mobile md:px-margin-desktop py-4 max-w-container-max mx-auto gap-4 md:gap-6">
+    <div class="flex items-center gap-3">
+      <a class="inline-flex items-center gap-2 text-brand-500 dark:text-brand-400 font-headline-md text-headline-md font-black" href="../../index.html">
+        <span class="material-symbols-outlined">west</span>
+        Semua Produk
+      </a>
+    </div>
+    <div class="flex items-center gap-2">
+      <a class="px-4 py-2 border border-primary-container text-primary-container rounded-lg hover:bg-surface-container-low dark:hover:bg-slate-800 transition-colors" href="../../index.html">Beranda</a>
+      <button id="theme-toggle" class="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors" aria-label="Toggle dark mode">
+        <svg class="sun-icon w-5 h-5 text-primary" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="5"></circle><line x1="12" x2="12" y1="1" y2="3"></line><line x1="12" x2="12" y1="21" y2="23"></line><line x1="4.22" x2="5.64" y1="4.22" y2="5.64"></line><line x1="18.36" x2="19.78" y1="18.36" y2="19.78"></line><line x1="1" x2="3" y1="12" y2="12"></line><line x1="21" x2="23" y1="12" y2="12"></line><line x1="4.22" x2="5.64" y1="19.78" y2="18.36"></line><line x1="18.36" x2="19.78" y1="5.64" y2="4.22"></line></svg>
+        <svg class="moon-icon w-5 h-5 text-brand-400 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+      </button>
+    </div>
+  </div>
+</header>
+<main class="min-h-screen px-margin-mobile md:px-margin-desktop py-10 max-w-container-max mx-auto">
+  <section class="mb-10">
+    <div class="bg-surface-container-lowest dark:bg-slate-900 rounded-3xl border border-outline-variant dark:border-slate-700 p-6 shadow-sm">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+        <div>
+          <h1 class="font-headline-xl text-headline-xl text-on_surface dark:text-slate-100 mb-2">Semua Produk Grosir</h1>
+          <p class="text-body-lg text-secondary dark:text-slate-400">Telusuri seluruh katalog produk UMKM grosir dan temukan supplier terbaik untuk kebutuhan bisnis Anda.</p>
+        </div>
+        <div class="text-right text-sm text-secondary dark:text-slate-400">Cari berdasarkan nama produk, supplier, atau kategori</div>
+      </div>
+      <div class="relative">
+        <label for="product-search" class="sr-only">Cari produk</label>
+        <input id="product-search" type="search" placeholder="Cari produk grosir, supplier, atau kategori..." class="w-full rounded-2xl border border-outline-variant dark:border-slate-700 bg-white dark:bg-slate-900 text-on_surface dark:text-slate-100 px-5 py-4 pr-14 shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-container dark:focus:ring-brand-500 transition-colors" />
+        <span class="absolute right-4 top-1/2 -translate-y-1/2 text-primary-container dark:text-brand-400">
+          <span class="material-symbols-outlined">search</span>
+        </span>
+      </div>
+      <div class="mt-6">
+        <div class="flex flex-wrap items-center gap-3" id="category-list"></div>
+      </div>
+      <div class="mt-4 text-sm text-secondary dark:text-slate-400" id="results-count">Menampilkan 12 produk</div>
+    </div>
+  </section>
+  <section>
+    <div class="mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div>
+        <h2 class="font-headline-md text-headline-md text-on_surface dark:text-slate-100">Semua Produk</h2>
+        <p class="text-body-sm text-secondary dark:text-slate-400">Filter produk dengan kategori atau pencarian.</p>
+      </div>
+      <div class="text-sm text-secondary dark:text-slate-400"><span id="active-category-label">Semua Kategori</span></div>
+    </div>
+    <div id="product-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4"></div>
+    <div id="no-results" class="hidden rounded-3xl border border-outline-variant dark:border-slate-700 bg-surface-container-lowest dark:bg-slate-900 py-16 text-center text-secondary dark:text-slate-400 shadow-sm">
+      <p class="font-headline-sm text-headline-sm text-on_surface dark:text-slate-100 mb-2">Produk tidak ditemukan</p>
+      <p class="text-body-md">Periksa kembali kata kunci pencarian atau coba gunakan istilah lain.</p>
+    </div>
+  </section>
+</main>
+<footer class="bg-surface-container-lowest dark:bg-slate-900 border-t border-outline-variant dark:border-slate-700 transition-colors duration-300">
+  <div class="w-full py-6 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto text-center text-body-sm text-secondary dark:text-slate-400">
+    © 2024 GASPOLL B2B Marketplace. Semua hak dilindungi.
+  </div>
+</footer>
+<script>
+  const html = document.documentElement;
+  const themeToggle = document.getElementById('theme-toggle');
+  const searchInput = document.getElementById('product-search');
+  const categoryList = document.getElementById('category-list');
+  const productGrid = document.getElementById('product-grid');
+  const resultsCount = document.getElementById('results-count');
+  const noResults = document.getElementById('no-results');
+  const activeCategoryLabel = document.getElementById('active-category-label');
+
+  const products = [
+    {
+      title: 'Tepung Terigu Kemasan 25kg',
+      supplier: 'PT. Maju Jaya',
+      location: 'Jakarta',
+      price: 'Rp 185.000',
+      minimum: '5 Karung',
+      category: 'Bahan Pokok',
+      label: 'Grosir',
+      image: 'https://images.unsplash.com/photo-1567306226416-28f0efdc88ce?auto=format&fit=crop&w=900&q=80'
+    },
+    {
+      title: 'Gula Pasir Kristal 50kg',
+      supplier: 'CV. Tani Makmur',
+      location: 'Surabaya',
+      price: 'Rp 650.000',
+      minimum: '2 Karung',
+      category: 'Bahan Pokok',
+      label: 'Grosir',
+      image: 'https://images.unsplash.com/photo-1502741126161-b048400d3d9d?auto=format&fit=crop&w=900&q=80'
+    },
+    {
+      title: 'Minyak Goreng Sawit 18L',
+      supplier: 'PT. Sawit Mas',
+      location: 'Medan',
+      price: 'Rp 265.000',
+      minimum: '10 Jerigen',
+      category: 'Minuman & Bahan Masak',
+      label: 'Populer',
+      image: 'https://images.unsplash.com/photo-1567306226416-28f0efdc88ce?auto=format&fit=crop&w=900&q=80'
+    },
+    {
+      title: 'Beras Rojolele 25kg',
+      supplier: 'Pulu-Pulu',
+      location: 'Surabaya',
+      price: 'Rp 385.000',
+      minimum: '2 Sak',
+      category: 'Bahan Pokok',
+      label: 'Terlaris',
+      image: 'https://images.unsplash.com/photo-1571689930505-cfcb29c164d7?auto=format&fit=crop&w=900&q=80'
+    },
+    {
+      title: 'Apel Fuji Grade A 10kg',
+      supplier: 'Agro Segar',
+      location: 'Bandung',
+      price: 'Rp 220.000',
+      minimum: '5 Dus',
+      category: 'Buah & Sayur',
+      label: 'Terlaris',
+      image: 'https://images.unsplash.com/photo-1567306226416-28f0efdc88ce?auto=format&fit=crop&w=900&q=80'
+    },
+    {
+      title: 'Kemasan Plastik 1kg x 1000',
+      supplier: 'PT. Kemasan Nusantara',
+      location: 'Semarang',
+      price: 'Rp 1.200.000',
+      minimum: '1 Karton',
+      category: 'Kemasan',
+      label: 'Grosir',
+      image: 'https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=900&q=80'
+    },
+    {
+      title: 'Sayur Organik Paket 20kg',
+      supplier: 'Fresh Farm',
+      location: 'Bogor',
+      price: 'Rp 395.000',
+      minimum: '1 Paket',
+      category: 'Sayuran',
+      label: 'Segar',
+      image: 'https://images.unsplash.com/photo-1506806732259-39c2d0268443?auto=format&fit=crop&w=900&q=80'
+    },
+    {
+      title: 'Kopi Bubuk Arabika 10kg',
+      supplier: 'Kopi Nusantara',
+      location: 'Aceh',
+      price: 'Rp 1.350.000',
+      minimum: '1 Karung',
+      category: 'Minuman',
+      label: 'Kopi',
+      image: 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=900&q=80'
+    },
+    {
+      title: 'Minuman Soda Botol 24pcs',
+      supplier: 'PT. Minuman Segar',
+      location: 'Jakarta',
+      price: 'Rp 285.000',
+      minimum: '24 Botol',
+      category: 'Minuman',
+      label: 'Hemat',
+      image: 'https://images.unsplash.com/photo-1510626176961-4b77ebf1d3ab?auto=format&fit=crop&w=900&q=80'
+    },
+    {
+      title: 'Bumbu Instan Pack 1kg',
+      supplier: 'PT. Bumbu Utama',
+      location: 'Yogyakarta',
+      price: 'Rp 90.000',
+      minimum: '10 Pack',
+      category: 'Bumbu & Rempah',
+      label: 'Favorit',
+      image: 'https://images.unsplash.com/photo-1506806732259-39c2d0268443?auto=format&fit=crop&w=900&q=80'
+    },
+    {
+      title: 'Pasta Mie Instan 5kg',
+      supplier: 'PT. Mie Cepat',
+      location: 'Malang',
+      price: 'Rp 120.000',
+      minimum: '3 Dus',
+      category: 'Makanan',
+      label: 'Grosir',
+      image: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=900&q=80'
+    },
+    {
+      title: 'Produk Elektronik Display 10pcs',
+      supplier: 'ElectroTech',
+      location: 'Jakarta',
+      price: 'Rp 4.950.000',
+      minimum: '10 Unit',
+      category: 'Elektronik',
+      label: 'Promo',
+      image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=80'
+    }
+  ];
+
+  const categories = ['Semua', ...new Set(products.map((product) => product.category))];
+  let activeCategory = 'Semua';
+
+  function normalize(value) {
+    return value.toLowerCase();
+  }
+
+  function renderCategories() {
+    categoryList.innerHTML = categories
+      .map((category) => `
+        <button type="button" data-category="${category}" class="rounded-full px-4 py-2 border text-sm font-medium transition ${category === activeCategory ? 'bg-primary-container text-white border-primary-container' : 'border-outline-variant bg-white dark:bg-slate-900 text-on_surface dark:text-slate-100 hover:border-primary-container dark:hover:text-brand-400'}">
+          ${category}
+        </button>
+      `)
+      .join('');
+
+    activeCategoryLabel.textContent = activeCategory === 'Semua' ? 'Semua Kategori' : activeCategory;
+  }
+
+  function filterProducts(query) {
+    const q = normalize(query || '');
+
+    return products.filter((item) => {
+      const matchesCategory = activeCategory === 'Semua' || item.category === activeCategory;
+      const matchesSearch =
+        !q ||
+        normalize(item.title).includes(q) ||
+        normalize(item.supplier).includes(q) ||
+        normalize(item.category).includes(q) ||
+        normalize(item.location).includes(q);
+
+      return matchesCategory && matchesSearch;
+    });
+  }
+
+  function renderProducts(list) {
+    productGrid.innerHTML = list
+      .map(
+        (product) => `
+          <a href="#" class="bg-surface-container-lowest dark:bg-slate-800 rounded-xl border border-outline-variant dark:border-slate-700 overflow-hidden shadow-sm hover:shadow-md hover:border-primary-container dark:hover:border-brand-500 transition-all group flex flex-col h-full">
+            <div class="relative aspect-square w-full bg-surface-container-low dark:bg-slate-700 overflow-hidden">
+              <img src="${product.image}" alt="${product.title}" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105" />
+              <div class="absolute top-2 left-2 bg-tertiary-container text-on-tertiary px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider">${product.label}</div>
+            </div>
+            <div class="p-4 flex flex-col flex-1">
+              <h3 class="font-body-sm text-body-sm text-on_surface dark:text-slate-100 line-clamp-2 mb-2 group-hover:text-primary-container dark:group-hover:text-brand-400 transition-colors">${product.title}</h3>
+              <p class="font-label-sm text-label-sm text-secondary dark:text-slate-400 flex items-center gap-1 mb-3">
+                <span class="material-symbols-outlined text-[14px]">storefront</span>
+                ${product.supplier} · ${product.location}
+              </p>
+              <div class="mt-auto">
+                <div class="font-headline-sm text-headline-sm font-bold text-primary-container dark:text-brand-400 mb-1">${product.price}</div>
+                <div class="inline-flex items-center bg-surface-container-low dark:bg-slate-700 text-on-surface-variant dark:text-slate-300 font-label-sm text-label-sm px-2 py-1 rounded">
+                  Min. Pesanan: ${product.minimum}
+                </div>
+              </div>
+            </div>
+          </a>
+        `
+      )
+      .join('');
+
+    resultsCount.textContent = `Menampilkan ${list.length} produk`;
+    noResults.classList.toggle('hidden', list.length > 0);
+  }
+
+  searchInput.addEventListener('input', () => {
+    renderProducts(filterProducts(searchInput.value));
+  });
+
+  categoryList.addEventListener('click', (event) => {
+    const button = event.target.closest('button[data-category]');
+    if (!button) return;
+
+    activeCategory = button.dataset.category;
+    renderCategories();
+    renderProducts(filterProducts(searchInput.value));
+  });
+
+  themeToggle.addEventListener('click', () => {
+    html.classList.toggle('dark');
+    localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+  });
+
+  renderCategories();
+  renderProducts(products);
+</script>
+</body>
+</html>
