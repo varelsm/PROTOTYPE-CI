@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>GASPOLL Supplier Dashboard - Order Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<script>
+  (function() {
+    const saved = localStorage.getItem('theme');
+    if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    }
+  })();
+</script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "brand": {
+                          "50": "#fff7ed",
+                          "100": "#ffedd5",
+                          "200": "#fed7aa",
+                          "300": "#fdba74",
+                          "400": "#fb923c",
+                          "500": "#f97316",
+                          "600": "#ea580c",
+                          "700": "#c2410c",
+                          "800": "#a33a0f",
+                          "900": "#7c2d12"
+                        },
+                        "secondary-fixed": "#d8e3fb",
+                        "on-surface-variant": "#5a4136",
+                        "primary": "#a04100",
+                        "tertiary-fixed": "#99f89d",
+                        "secondary-container": "#d5e0f8",
+                        "on-tertiary-fixed-variant": "#00531a",
+                        "on-surface": "#0b1c30",
+                        "on-error-container": "#93000a",
+                        "surface-container-low": "#eff4ff",
+                        "on-background": "#0b1c30",
+                        "on-secondary": "#ffffff",
+                        "on-primary-container": "#572000",
+                        "inverse-primary": "#ffb693",
+                        "surface-container": "#e5eeff",
+                        "on-secondary-fixed": "#111c2d",
+                        "surface-container-highest": "#d3e4fe",
+                        "inverse-on-surface": "#eaf1ff",
+                        "tertiary-fixed-dim": "#7edb83",
+                        "surface": "#f8f9ff",
+                        "outline": "#8e7164",
+                        "tertiary-container": "#51ac5a",
+                        "background": "#f8f9ff",
+                        "tertiary": "#006e25",
+                        "surface-dim": "#cbdbf5",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-fixed-variant": "#3c475a",
+                        "secondary": "#545f73",
+                        "on-error": "#ffffff",
+                        "surface-tint": "#a04100",
+                        "on-primary-fixed-variant": "#7a3000",
+                        "on-primary": "#ffffff",
+                        "surface-container-high": "#dce9ff",
+                        "on-primary-fixed": "#351000",
+                        "surface-variant": "#d3e4fe",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-bright": "#f8f9ff",
+                        "secondary-fixed-dim": "#bcc7de",
+                        "outline-variant": "#e2bfb0",
+                        "on-secondary-container": "#586377",
+                        "on-tertiary-fixed": "#002106",
+                        "primary-fixed": "#ffdbcc",
+                        "error": "#ba1a1a",
+                        "inverse-surface": "#213145",
+                        "primary-container": "#ff6b00",
+                        "primary-fixed-dim": "#ffb693",
+                        "on-tertiary-container": "#003a10",
+                        "error-container": "#ffdad6"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-desktop": "32px",
+                        "margin-mobile": "16px",
+                        "unit": "8px",
+                        "gutter": "24px",
+                        "container-max": "1280px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "headline-xl-mobile": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "headline-xl": ["Inter"],
+                        "headline-sm": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-xl-mobile": ["28px", { "lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "label-md": ["14px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "headline-xl": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-sm": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "headline-lg": ["30px", { "lineHeight": "38px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "label-sm": ["12px", { "lineHeight": "14px", "fontWeight": "500" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .sun-icon { display: block; }
+        html.dark .sun-icon { display: none; }
+        .moon-icon { display: none; }
+        html.dark .moon-icon { display: block; }
+        .order-table-row:hover {
+            background-color: #eff4ff;
+        }
+        html.dark .order-table-row:hover {
+            background-color: #1f2937;
+        }
+    </style>
+</head>
+<body class="bg-background dark:bg-slate-950 text-on-background dark:text-slate-100 font-body-md antialiased selection:bg-primary-container selection:text-white transition-colors duration-300 min-h-screen flex">
+<!-- SideNavBar (WEB) -->
+<nav class="hidden md:flex flex-col h-screen left-0 w-64 fixed bg-surface-container-low dark:bg-slate-900 border-r border-outline-variant dark:border-slate-700 gap-2 z-50">
+<!-- Brand / Header -->
+<div class="px-6 py-6 mb-4">
+<h1 class="font-headline-sm text-headline-sm font-black text-primary dark:text-brand-500 mb-1">GASPOLL Supplier</h1>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary-container dark:text-green-400 text-sm" data-weight="fill">verified</span>
+<p class="font-body-sm text-body-sm text-secondary dark:text-slate-400">Verified Supplier</p>
+</div>
+</div>
+<!-- Main Navigation -->
+<div class="flex-1 px-4 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-secondary dark:text-slate-400 hover:text-primary dark:hover:text-brand-400 hover:bg-surface-container-highest dark:hover:bg-slate-800 rounded-full transition-all duration-150 ease-in-out" href="suppOverview.html">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-md text-label-md">Overview</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary dark:text-slate-400 hover:text-primary dark:hover:text-brand-400 hover:bg-surface-container-highest dark:hover:bg-slate-800 rounded-full transition-all duration-150 ease-in-out" href="suppProd.html">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="font-label-md text-label-md">Products</span>
+</a>
+<!-- Active Tab: Orders -->
+<a class="flex items-center gap-3 px-4 py-3 bg-secondary-container dark:bg-blue-500/30 text-on-secondary-container dark:text-blue-200 rounded-full transition-all duration-150 ease-in-out" href="suppOrders.html">
+<span class="material-symbols-outlined" data-weight="fill">shopping_cart</span>
+<span class="font-label-md text-label-md">Orders</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary dark:text-slate-400 hover:text-primary dark:hover:text-brand-400 hover:bg-surface-container-highest dark:hover:bg-slate-800 rounded-full transition-all duration-150 ease-in-out" href="suppAnalitics.html">
+<span class="material-symbols-outlined">bar_chart</span>
+<span class="font-label-md text-label-md">Analytics</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary dark:text-slate-400 hover:text-primary dark:hover:text-brand-400 hover:bg-surface-container-highest dark:hover:bg-slate-800 rounded-full transition-all duration-150 ease-in-out" href="settings.html">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</div>
+
+<!-- Footer Navigation -->
+<div class="px-4 pb-6 mt-auto space-y-1 border-t border-outline-variant dark:border-slate-700 pt-4 mx-2">
+<a class="flex items-center gap-3 px-4 py-2 text-secondary dark:text-slate-400 hover:text-primary dark:hover:text-brand-400 hover:bg-surface-container-highest dark:hover:bg-slate-800 rounded-full transition-all duration-150 ease-in-out" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="font-label-md text-label-md">Help Center</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-error dark:text-red-400 hover:bg-error-container dark:hover:bg-red-500/20 rounded-full transition-all duration-150 ease-in-out" href="../../LOGIN/loginPage.html" id="logout-link">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-label-md text-label-md">Logout</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 md:ml-64 flex flex-col min-h-screen overflow-x-hidden">
+<!-- TopNavBar -->
+<header class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop h-16 z-40 bg-surface-container-lowest dark:bg-slate-900 sticky top-0 shadow-sm border-b border-outline-variant dark:border-slate-700 transition-all duration-200">
+<!-- Mobile Menu Toggle -->
+<button class="md:hidden p-2 text-secondary dark:text-slate-400 hover:bg-surface-container-low dark:hover:bg-slate-800 rounded-full">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<!-- Brand Logo Mobile -->
+<h2 class="md:hidden font-headline-md text-headline-md font-bold text-primary dark:text-brand-500">GASPOLL</h2>
+<!-- Actions -->
+<div class="flex items-center gap-2">
+<button class="p-2 text-secondary dark:text-slate-400 hover:bg-surface-container-low dark:hover:bg-slate-800 rounded-full transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-primary dark:bg-brand-500 rounded-full"></span>
+</button>
+<button class="p-2 text-secondary dark:text-slate-400 hover:bg-surface-container-low dark:hover:bg-slate-800 rounded-full transition-colors">
+<span class="material-symbols-outlined">shopping_bag</span>
+</button>
+<div class="h-6 w-px bg-outline-variant dark:bg-slate-700 mx-2 hidden md:block"></div>
+<button class="hidden md:flex items-center gap-2 p-1 pr-3 hover:bg-surface-container-low dark:hover:bg-slate-800 rounded-full transition-colors border border-transparent hover:border-outline-variant dark:hover:border-slate-700">
+<img alt="Supplier Profile Avatar" class="w-8 h-8 rounded-full object-cover border border-outline-variant dark:border-slate-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDeiZxWwnD2vI9TjwC9O14zMleJZ-UYHeRhFf1tsHIrOFmnKcJdd0VZmZrKgCsTn0YHZILBPpC5it3_5m3xRG-3Nv12x29xZWPWhsK-Xy1TiSvyRTnvijC2tViJQD2wAxAwUCxuRvoXjLP0eHd1ynLDLOkIKIPaUrZYLISJFKLVZO0QjQ4E8gv6DzGq5mfqncLhwPcXxP7XzIqsR8CVpmPO6-4SJLuocgk20EemFjgye5_Gv8tcEpx_a30qyMROspib2LOwebBH5lM">
+<span class="font-label-md text-label-md text-secondary dark:text-slate-400">Profile</span>
+<span class="material-symbols-outlined text-secondary dark:text-slate-400 text-sm">expand_more</span>
+</button>
+</div>
+</header>
+<!-- Theme Toggle -->
+<button id="theme-toggle" class="fixed top-4 right-4 z-50 p-2 rounded-full bg-surface-container-lowest dark:bg-slate-900 hover:bg-surface-container-low dark:hover:bg-slate-800 hover:shadow-md transition-colors shadow-md" aria-label="Toggle dark mode">
+<svg class="sun-icon w-5 h-5 text-primary dark:text-brand-400" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="5"></circle><line x1="12" x2="12" y1="1" y2="3"></line><line x1="12" x2="12" y1="21" y2="23"></line><line x1="4.22" x2="5.64" y1="4.22" y2="5.64"></line><line x1="18.36" x2="19.78" y1="18.36" y2="19.78"></line><line x1="1" x2="3" y1="12" y2="12"></line><line x1="21" x2="23" y1="12" y2="12"></line><line x1="4.22" x2="5.64" y1="19.78" y2="18.36"></line><line x1="18.36" x2="19.78" y1="5.64" y2="4.22"></line></svg>
+<svg class="moon-icon w-5 h-5 text-brand-400 fill-current" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+</button>
+<!-- Canvas / Dashboard Content -->
+<div class="p-margin-mobile md:p-margin-desktop max-w-[1280px] mx-auto w-full space-y-8">
+<!-- Header Section -->
+<div class="flex justify-between items-end">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface dark:text-slate-100">Order Management</h2>
+<p class="font-body-md text-body-md text-on-surface-variant dark:text-slate-400 mt-1">Manage bulk orders from your UMKM partners efficiently.</p>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center gap-2 px-4 py-2 border border-outline-variant dark:border-slate-600 rounded-lg font-label-md text-label-md text-on-surface-variant dark:text-slate-400 hover:bg-surface-container-low dark:hover:bg-slate-800 transition-colors">
+<span class="material-symbols-outlined">file_download</span>
+                        Export CSV
+                    </button>
+<button class="flex items-center gap-2 px-4 py-2 bg-primary dark:bg-brand-500 text-on-primary dark:text-white rounded-lg font-label-md text-label-md hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined">print</span>
+                        Print Labels
+                    </button>
+</div>
+</div>
+<!-- Tabs & Filters Section -->
+<div class="border-b border-outline-variant dark:border-slate-700 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+<div class="flex gap-8">
+<button class="tab-btn text-primary dark:text-brand-400 font-bold border-b-2 border-primary dark:border-brand-400 pb-3 font-label-md text-label-md transition-all" data-tab="all">
+                        Semua Pesanan
+                    </button>
+<button class="tab-btn text-on-surface-variant dark:text-slate-400 hover:text-primary dark:hover:text-brand-400 pb-3 font-label-md text-label-md transition-all flex items-center gap-2" data-tab="pending">
+                        Perlu Diproses
+                        <span class="bg-primary dark:bg-brand-500 text-on-primary dark:text-white text-[10px] px-2 py-0.5 rounded-full count-badge">12</span>
+</button>
+<button class="tab-btn text-on-surface-variant dark:text-slate-400 hover:text-primary dark:hover:text-brand-400 pb-3 font-label-md text-label-md transition-all flex items-center gap-2" data-tab="shipped">
+                        Dikirim
+                        <span class="bg-surface-container dark:bg-blue-500/20 text-on-secondary-container dark:text-blue-300 text-[10px] px-2 py-0.5 rounded-full count-badge">8</span>
+</button>
+<button class="tab-btn text-on-surface-variant dark:text-slate-400 hover:text-primary dark:hover:text-brand-400 pb-3 font-label-md text-label-md transition-all flex items-center gap-2" data-tab="completed">
+                        Selesai
+                        <span class="bg-tertiary-container/20 dark:bg-green-500/20 text-on-tertiary-container dark:text-green-300 text-[10px] px-2 py-0.5 rounded-full count-badge">147</span>
+</button>
+</div>
+<div class="flex items-center gap-3">
+<div class="relative">
+<input type="text" id="searchOrders" placeholder="Cari Order ID atau Toko..." class="w-64 pl-10 pr-4 py-2 border border-outline-variant dark:border-slate-600 rounded-lg bg-surface dark:bg-slate-800 text-on-surface dark:text-slate-100 text-label-md placeholder-on-surface-variant dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-primary dark:focus:ring-brand-500 transition-all">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant dark:text-slate-500 text-sm">search</span>
+</div>
+<select id="filterPayment" class="px-3 py-2 border border-outline-variant dark:border-slate-600 rounded-lg bg-surface dark:bg-slate-800 text-on-surface dark:text-slate-100 text-label-md focus:outline-none focus:ring-2 focus:ring-primary dark:focus:ring-brand-500 transition-all appearance-none cursor-pointer">
+<option value="all">Semua Pembayaran</option>
+<option value="paid">Paid</option>
+<option value="checking">Checking</option>
+</select>
+</div>
+</div>
+<!-- Order Table Container -->
+<div class="bg-surface-container-lowest dark:bg-slate-800 rounded-xl border border-outline-variant dark:border-slate-700 shadow-sm overflow-hidden">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low dark:bg-slate-700/50 border-b border-outline-variant dark:border-slate-700">
+<th class="px-6 py-4 font-label-md text-label-md text-on-surface-variant dark:text-slate-400 uppercase tracking-wider">Order ID</th>
+<th class="px-6 py-4 font-label-md text-label-md text-on-surface-variant dark:text-slate-400 uppercase tracking-wider">Customer (UMKM)</th>
+<th class="px-6 py-4 font-label-md text-label-md text-on-surface-variant dark:text-slate-400 uppercase tracking-wider">Order Date</th>
+<th class="px-6 py-4 font-label-md text-label-md text-on-surface-variant dark:text-slate-400 uppercase tracking-wider">Status</th>
+<th class="px-6 py-4 font-label-md text-label-md text-on-surface-variant dark:text-slate-400 uppercase tracking-wider">Logistics</th>
+<th class="px-6 py-4 font-label-md text-label-md text-on-surface-variant dark:text-slate-400 uppercase tracking-wider">Payment</th>
+<th class="px-6 py-4 font-label-md text-label-md text-on-surface-variant dark:text-slate-400 uppercase tracking-wider">Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant dark:divide-slate-700">
+<!-- Row 1 - Pending -->
+<tr class="order-table-row dark:hover:bg-slate-700/30 transition-colors" data-status="pending" data-payment="paid" data-order="#GSP-92831">
+<td class="px-6 py-4">
+<span class="font-bold text-primary dark:text-brand-400">#GSP-92831</span>
+</td>
+<td class="px-6 py-4">
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-on-surface dark:text-slate-100">Toko Kelontong Ibu Siti</span>
+<span class="text-label-sm text-label-sm text-on-surface-variant dark:text-slate-400">Sidoarjo, Jawa Timur</span>
+</div>
+</td>
+<td class="px-6 py-4 text-on-surface-variant dark:text-slate-400">
+                                    24 Oct 2023
+                                </td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 bg-red-100 dark:bg-red-500/20 text-red-700 dark:text-red-400 rounded-full text-label-sm font-bold">
+<span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
+                                    Perlu Diproses
+                                </span>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-on-surface-variant dark:text-slate-400">local_shipping</span>
+<span class="font-medium text-on-surface dark:text-slate-100">Kargo JTR</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 bg-tertiary-container/20 dark:bg-green-500/20 text-on-tertiary-container dark:text-green-300 rounded-full text-label-sm font-bold">
+<span class="w-2 h-2 rounded-full bg-tertiary dark:bg-green-400"></span>
+                                        Paid Transfer
+                                    </span>
+</td>
+<td class="px-6 py-4">
+<div class="flex gap-2">
+<button class="px-3 py-1.5 text-primary dark:text-brand-400 border border-primary dark:border-brand-500 rounded-lg text-label-sm font-bold hover:bg-primary/5 dark:hover:bg-brand-500/20 transition-colors detail-btn">Lihat Detail</button>
+<button class="px-3 py-1.5 bg-primary dark:bg-brand-500 text-on-primary dark:text-white rounded-lg text-label-sm font-bold hover:opacity-90 transition-opacity update-btn">Update Resi</button>
+</div>
+</td>
+</tr>
+<!-- Row 2 - Shipped -->
+<tr class="order-table-row dark:hover:bg-slate-700/30 transition-colors" data-status="shipped" data-payment="checking" data-order="#GSP-92832">
+<td class="px-6 py-4">
+<span class="font-bold text-primary dark:text-brand-400">#GSP-92832</span>
+</td>
+<td class="px-6 py-4">
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-on-surface dark:text-slate-100">Warung Grosir Berkah</span>
+<span class="text-label-sm text-label-sm text-on-surface-variant dark:text-slate-400">Gresik, Jawa Timur</span>
+</div>
+</td>
+<td class="px-6 py-4 text-on-surface-variant dark:text-slate-400">
+                                    24 Oct 2023
+                                </td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 bg-surface-container dark:bg-blue-500/20 text-on-secondary-container dark:text-blue-300 rounded-full text-label-sm font-bold">
+<span class="material-symbols-outlined text-sm animate-bounce" style="animation-duration: 2s;">local_shipping</span>
+                                    Dikirim
+                                </span>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-on-surface-variant dark:text-slate-400">local_shipping</span>
+<span class="font-medium text-on-surface dark:text-slate-100">SiCepat GOKIL</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 bg-secondary-container dark:bg-blue-500/20 text-on-secondary-container dark:text-blue-300 rounded-full text-label-sm font-bold">
+<span class="w-2 h-2 rounded-full bg-secondary dark:bg-blue-400"></span>
+                                        Checking
+                                    </span>
+</td>
+<td class="px-6 py-4">
+<div class="flex gap-2">
+<button class="px-3 py-1.5 text-primary dark:text-brand-400 border border-primary dark:border-brand-500 rounded-lg text-label-sm font-bold hover:bg-primary/5 dark:hover:bg-brand-500/20 transition-colors detail-btn">Lihat Detail</button>
+<button class="px-3 py-1.5 bg-surface-variant dark:bg-slate-600 text-on-surface-variant dark:text-slate-400 rounded-lg text-label-sm font-bold cursor-not-allowed opacity-50">Update Resi</button>
+</div>
+</td>
+</tr>
+<!-- Row 3 - Completed -->
+<tr class="order-table-row dark:hover:bg-slate-700/30 transition-colors" data-status="completed" data-payment="paid" data-order="#GSP-92835">
+<td class="px-6 py-4">
+<span class="font-bold text-primary dark:text-brand-400">#GSP-92835</span>
+</td>
+<td class="px-6 py-4">
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-on-surface dark:text-slate-100">Mini Market Sentosa</span>
+<span class="text-label-sm text-label-sm text-on-surface-variant dark:text-slate-400">Malang, Jawa Timur</span>
+</div>
+</td>
+<td class="px-6 py-4 text-on-surface-variant dark:text-slate-400">
+                                    23 Oct 2023
+                                </td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 bg-tertiary-container/20 dark:bg-green-500/20 text-on-tertiary-container dark:text-green-300 rounded-full text-label-sm font-bold">
+<span class="w-2 h-2 rounded-full bg-tertiary dark:bg-green-400"></span>
+                                    Selesai
+                                </span>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-on-surface-variant dark:text-slate-400">local_shipping</span>
+<span class="font-medium text-on-surface dark:text-slate-100">Indah Cargo</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 bg-tertiary-container/20 dark:bg-green-500/20 text-on-tertiary-container dark:text-green-300 rounded-full text-label-sm font-bold">
+<span class="w-2 h-2 rounded-full bg-tertiary dark:bg-green-400"></span>
+                                        Paid Transfer
+                                    </span>
+</td>
+<td class="px-6 py-4">
+<div class="flex gap-2">
+<button class="px-3 py-1.5 text-primary dark:text-brand-400 border border-primary dark:border-brand-500 rounded-lg text-label-sm font-bold hover:bg-primary/5 dark:hover:bg-brand-500/20 transition-colors detail-btn">Lihat Detail</button>
+<button class="px-3 py-1.5 bg-surface-variant dark:bg-slate-600 text-on-surface-variant dark:text-slate-400 rounded-lg text-label-sm font-bold cursor-not-allowed opacity-50">Update Resi</button>
+</div>
+</td>
+</tr>
+<!-- Row 4 - Pending -->
+<tr class="order-table-row dark:hover:bg-slate-700/30 transition-colors" data-status="pending" data-payment="paid" data-order="#GSP-92840">
+<td class="px-6 py-4">
+<span class="font-bold text-primary dark:text-brand-400">#GSP-92840</span>
+</td>
+<td class="px-6 py-4">
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-on-surface dark:text-slate-100">Toko Maju Jaya</span>
+<span class="text-label-sm text-label-sm text-on-surface-variant dark:text-slate-400">Surabaya, Jawa Timur</span>
+</div>
+</td>
+<td class="px-6 py-4 text-on-surface-variant dark:text-slate-400">
+                                    25 Oct 2023
+                                </td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 bg-red-100 dark:bg-red-500/20 text-red-700 dark:text-red-400 rounded-full text-label-sm font-bold">
+<span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
+                                    Perlu Diproses
+                                </span>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-on-surface-variant dark:text-slate-400">local_shipping</span>
+<span class="font-medium text-on-surface dark:text-slate-100">Pos Indonesia</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 bg-tertiary-container/20 dark:bg-green-500/20 text-on-tertiary-container dark:text-green-300 rounded-full text-label-sm font-bold">
+<span class="w-2 h-2 rounded-full bg-tertiary dark:bg-green-400"></span>
+                                        Paid COD
+                                    </span>
+</td>
+<td class="px-6 py-4">
+<div class="flex gap-2">
+<button class="px-3 py-1.5 text-primary dark:text-brand-400 border border-primary dark:border-brand-500 rounded-lg text-label-sm font-bold hover:bg-primary/5 dark:hover:bg-brand-500/20 transition-colors detail-btn">Lihat Detail</button>
+<button class="px-3 py-1.5 bg-primary dark:bg-brand-500 text-on-primary dark:text-white rounded-lg text-label-sm font-bold hover:opacity-90 transition-opacity update-btn">Update Resi</button>
+</div>
+</td>
+</tr>
+<!-- Row 5 - Shipped -->
+<tr class="order-table-row dark:hover:bg-slate-700/30 transition-colors" data-status="shipped" data-payment="paid" data-order="#GSP-92845">
+<td class="px-6 py-4">
+<span class="font-bold text-primary dark:text-brand-400">#GSP-92845</span>
+</td>
+<td class="px-6 py-4">
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-on-surface dark:text-slate-100">Bakarl Mart Abadi</span>
+<span class="text-label-sm text-label-sm text-on-surface-variant dark:text-slate-400">Jember, Jawa Timur</span>
+</div>
+</td>
+<td class="px-6 py-4 text-on-surface-variant dark:text-slate-400">
+                                    22 Oct 2023
+                                </td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 bg-surface-container dark:bg-blue-500/20 text-on-secondary-container dark:text-blue-300 rounded-full text-label-sm font-bold">
+<span class="material-symbols-outlined text-sm animate-bounce" style="animation-duration: 2s;">local_shipping</span>
+                                    Dikirim
+                                </span>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-on-surface-variant dark:text-slate-400">local_shipping</span>
+<span class="font-medium text-on-surface dark:text-slate-100">JNE Express</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 bg-tertiary-container/20 dark:bg-green-500/20 text-on-tertiary-container dark:text-green-300 rounded-full text-label-sm font-bold">
+<span class="w-2 h-2 rounded-full bg-tertiary dark:bg-green-400"></span>
+                                        Paid Transfer
+                                    </span>
+</td>
+<td class="px-6 py-4">
+<div class="flex gap-2">
+<button class="px-3 py-1.5 text-primary dark:text-brand-400 border border-primary dark:border-brand-500 rounded-lg text-label-sm font-bold hover:bg-primary/5 dark:hover:bg-brand-500/20 transition-colors detail-btn">Lihat Detail</button>
+<button class="px-3 py-1.5 bg-surface-variant dark:bg-slate-600 text-on-surface-variant dark:text-slate-400 rounded-lg text-label-sm font-bold cursor-not-allowed opacity-50">Update Resi</button>
+</div>
+</td>
+</tr>
+<!-- Row 6 - Completed -->
+<tr class="order-table-row dark:hover:bg-slate-700/30 transition-colors" data-status="completed" data-payment="paid" data-order="#GSP-92850">
+<td class="px-6 py-4">
+<span class="font-bold text-primary dark:text-brand-400">#GSP-92850</span>
+</td>
+<td class="px-6 py-4">
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-on-surface dark:text-slate-100">Toko Bersama Makmur</span>
+<span class="text-label-sm text-label-sm text-on-surface-variant dark:text-slate-400">Bondowoso, Jawa Timur</span>
+</div>
+</td>
+<td class="px-6 py-4 text-on-surface-variant dark:text-slate-400">
+                                    20 Oct 2023
+                                </td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 bg-tertiary-container/20 dark:bg-green-500/20 text-on-tertiary-container dark:text-green-300 rounded-full text-label-sm font-bold">
+<span class="w-2 h-2 rounded-full bg-tertiary dark:bg-green-400"></span>
+                                    Selesai
+                                </span>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-on-surface-variant dark:text-slate-400">local_shipping</span>
+<span class="font-medium text-on-surface dark:text-slate-100">Tiki Indonesia</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 bg-tertiary-container/20 dark:bg-green-500/20 text-on-tertiary-container dark:text-green-300 rounded-full text-label-sm font-bold">
+<span class="w-2 h-2 rounded-full bg-tertiary dark:bg-green-400"></span>
+                                        Paid Transfer
+                                    </span>
+</td>
+<td class="px-6 py-4">
+<div class="flex gap-2">
+<button class="px-3 py-1.5 text-primary dark:text-brand-400 border border-primary dark:border-brand-500 rounded-lg text-label-sm font-bold hover:bg-primary/5 dark:hover:bg-brand-500/20 transition-colors detail-btn">Lihat Detail</button>
+<button class="px-3 py-1.5 bg-surface-variant dark:bg-slate-600 text-on-surface-variant dark:text-slate-400 rounded-lg text-label-sm font-bold cursor-not-allowed opacity-50">Update Resi</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination -->
+<div class="px-6 py-4 border-t border-outline-variant dark:border-slate-700 flex justify-between items-center bg-surface-container-lowest dark:bg-slate-800">
+<span class="font-body-sm text-body-sm text-on-surface-variant dark:text-slate-400" id="showingText">Showing 1 to 6 of 6 orders</span>
+<div class="flex gap-2">
+<button class="w-10 h-10 flex items-center justify-center border border-outline-variant dark:border-slate-600 rounded-lg hover:bg-surface-container-low dark:hover:bg-slate-700 transition-colors">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center bg-primary dark:bg-brand-500 text-on-primary dark:text-white rounded-lg font-bold">1</button>
+<button class="w-10 h-10 flex items-center justify-center border border-outline-variant dark:border-slate-600 rounded-lg hover:bg-surface-container-low dark:hover:bg-slate-700 transition-colors font-bold text-on-surface dark:text-slate-100">2</button>
+<button class="w-10 h-10 flex items-center justify-center border border-outline-variant dark:border-slate-600 rounded-lg hover:bg-surface-container-low dark:hover:bg-slate-700 transition-colors font-bold text-on-surface dark:text-slate-100">3</button>
+<button class="w-10 h-10 flex items-center justify-center border border-outline-variant dark:border-slate-600 rounded-lg hover:bg-surface-container-low dark:hover:bg-slate-700 transition-colors">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+<!-- No results message -->
+<div class="hidden px-6 py-12 text-center" id="noResults">
+<span class="material-symbols-outlined text-5xl text-on-surface-variant dark:text-slate-600 mb-2">search_off</span>
+<p class="font-body-md text-body-md text-on-surface-variant dark:text-slate-500">Tidak ada pesanan yang cocok dengan filter</p>
+</div>
+</div>
+<!-- Order Detail Modal -->
+<div id="orderModal" class="fixed inset-0 z-[100] hidden">
+<div class="absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity"></div>
+<div class="absolute inset-0 flex items-center justify-center p-4">
+<div class="bg-surface dark:bg-slate-800 rounded-2xl shadow-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto transform transition-all scale-100">
+<div class="p-6">
+<div class="flex justify-between items-start mb-6">
+<div>
+<h3 class="font-headline-md text-headline-md font-bold text-primary dark:text-brand-400" id="modalOrderId">#GSP-00000</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant dark:text-slate-400 mt-1">Detail Pesanan</p>
+</div>
+<button class="modal-close p-1 hover:bg-surface-container-low dark:hover:bg-slate-700 rounded-full transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant dark:text-slate-400">close</span>
+</button>
+</div>
+<div class="space-y-4">
+<div class="grid grid-cols-2 gap-4">
+<div class="bg-surface-container-low dark:bg-slate-700/50 p-3 rounded-lg">
+<p class="text-label-sm text-on-surface-variant dark:text-slate-400 mb-1">Customer</p>
+<p class="font-headline-sm text-headline-sm text-on-surface dark:text-slate-100" id="modalCustomer">-</p>
+</div>
+<div class="bg-surface-container-low dark:bg-slate-700/50 p-3 rounded-lg">
+<p class="text-label-sm text-on-surface-variant dark:text-slate-400 mb-1">Tujuan</p>
+<p class="font-headline-sm text-headline-sm text-on-surface dark:text-slate-100" id="modalDate">-</p>
+</div>
+<div class="bg-surface-container-low dark:bg-slate-700/50 p-3 rounded-lg">
+<p class="text-label-sm text-on-surface-variant dark:text-slate-400 mb-1">Status</p>
+<div class="mt-1" id="modalStatus">-</div>
+</div>
+<div class="bg-surface-container-low dark:bg-slate-700/50 p-3 rounded-lg">
+<p class="text-label-sm text-on-surface-variant dark:text-slate-400 mb-1">Pembayaran</p>
+<div class="mt-1" id="modalPayment">-</div>
+</div>
+</div>
+<div class="bg-surface-container-low dark:bg-slate-700/50 p-3 rounded-lg">
+<p class="text-label-sm text-on-surface-variant dark:text-slate-400 mb-2">Produk Dipesan</p>
+<div class="space-y-2" id="modalProducts">
+<div class="flex justify-between items-center py-2 border-b border-outline-variant/30 dark:border-slate-600/30">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-primary/10 dark:bg-brand-500/20 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-primary dark:text-brand-400 text-sm">inventory_2</span>
+</div>
+<div>
+<p class="font-body-sm text-on-surface dark:text-slate-100">Beras Premium 5kg</p>
+<p class="text-label-sm text-on-surface-variant dark:text-slate-400">x2</p>
+</div>
+</div>
+<p class="font-headline-sm text-headline-sm text-primary dark:text-brand-400">Rp 120.000</p>
+</div>
+<div class="flex justify-between items-center py-2 border-b border-outline-variant/30 dark:border-slate-600/30">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-primary/10 dark:bg-brand-500/20 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-primary dark:text-brand-400 text-sm">inventory_2</span>
+</div>
+<div>
+<p class="font-body-sm text-on-surface dark:text-slate-100">Minyak Goreng 2L</p>
+<p class="text-label-sm text-on-surface-variant dark:text-slate-400">x5</p>
+</div>
+</div>
+<p class="font-headline-sm text-headline-sm text-primary dark:text-brand-400">Rp 175.000</p>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-low dark:bg-slate-700/50 p-3 rounded-lg">
+<div class="flex justify-between items-center">
+<span class="font-label-md text-label-md text-on-surface-variant dark:text-slate-400">Total</span>
+<span class="font-headline-md text-headline-md font-bold text-primary dark:text-brand-400">Rp 295.000</span>
+</div>
+</div>
+</div>
+<div class="flex gap-3 mt-6">
+<button class="flex-1 py-2.5 border border-outline-variant dark:border-slate-600 rounded-lg font-label-md text-label-md text-on-surface-variant dark:text-slate-400 hover:bg-surface-container-low dark:hover:bg-slate-700 transition-colors modal-close">Tutup</button>
+<button class="flex-1 py-2.5 bg-primary dark:bg-brand-500 text-on-primary dark:text-white rounded-lg font-label-md text-label-md hover:opacity-90 transition-opacity">Kirim Notifikasi</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Dashboard Insight Cards (Asymmetric Layout) -->
+<div class="grid grid-cols-12 gap-gutter">
+<div class="col-span-12 lg:col-span-8 bg-surface-container-low dark:bg-slate-800 p-6 rounded-xl border border-outline-variant dark:border-slate-700 flex items-center justify-between">
+<div class="flex gap-8">
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant dark:text-slate-400 uppercase tracking-widest mb-1">Total Revenue (MTD)</p>
+<h3 class="font-headline-md text-headline-md text-primary dark:text-brand-400">Rp 142.500.000</h3>
+</div>
+<div class="h-12 w-[1px] bg-outline-variant dark:bg-slate-700"></div>
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant dark:text-slate-400 uppercase tracking-widest mb-1">Avg. Order Value</p>
+<h3 class="font-headline-md text-headline-md text-on-surface dark:text-slate-100">Rp 3.400.000</h3>
+</div>
+</div>
+<div class="flex items-center gap-2 text-tertiary dark:text-green-400">
+<span class="material-symbols-outlined">trending_up</span>
+<span class="font-bold text-label-md">+12.4% vs last month</span>
+</div>
+</div>
+<div class="col-span-12 lg:col-span-4 bg-primary dark:bg-brand-500 text-on-primary dark:text-white p-6 rounded-xl flex items-center justify-center gap-4 cursor-pointer hover:shadow-lg transition-shadow">
+<span class="material-symbols-outlined text-4xl">inventory</span>
+<div>
+<p class="font-label-sm text-label-sm opacity-80 uppercase tracking-widest">Restock Needed</p>
+<h3 class="font-headline-md text-headline-md leading-none">5 Products</h3>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<script>
+       // Theme toggle
+        document.getElementById('theme-toggle').addEventListener('click', function() {
+            const html = document.documentElement;
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+            } else {
+                html.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            }
+        });
+
+        // Tab filtering
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const rows = document.querySelectorAll('.order-table-row');
+        const searchInput = document.getElementById('searchOrders');
+        const filterPayment = document.getElementById('filterPayment');
+        const noResults = document.getElementById('noResults');
+        const showingText = document.getElementById('showingText');
+        let activeTab = 'all';
+
+        function filterOrders() {
+            let visibleCount = 0;
+            rows.forEach(row => {
+                const status = row.dataset.status;
+                const payment = row.dataset.payment;
+                const orderText = row.dataset.order.toLowerCase();
+                const customerText = row.querySelector('.font-headline-sm')?.textContent.toLowerCase() || '';
+                const searchTerm = searchInput.value.toLowerCase();
+                
+                const tabMatch = activeTab === 'all' || status === activeTab;
+                const paymentMatch = filterPayment.value === 'all' || payment === filterPayment.value;
+                const searchMatch = !searchTerm || orderText.includes(searchTerm) || customerText.includes(searchTerm);
+                
+                if (tabMatch && paymentMatch && searchMatch) {
+                    row.classList.remove('hidden');
+                    row.style.display = '';
+                    visibleCount++;
+                } else {
+                    row.classList.add('hidden');
+                    row.style.display = 'none';
+                }
+            });
+            
+            showingText.textContent = `Showing ${visibleCount} of ${rows.length} orders`;
+            
+            if (visibleCount === 0) {
+                noResults.classList.remove('hidden');
+                noResults.style.display = '';
+            } else {
+                noResults.classList.add('hidden');
+                noResults.style.display = 'none';
+            }
+        }
+
+        tabBtns.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabBtns.forEach(t => {
+                    t.classList.remove('text-primary', 'dark:text-brand-400', 'font-bold', 'border-b-2', 'border-primary', 'dark:border-brand-400');
+                    t.classList.add('text-on-surface-variant', 'dark:text-slate-400');
+                });
+                tab.classList.remove('text-on-surface-variant', 'dark:text-slate-400');
+                tab.classList.add('text-primary', 'dark:text-brand-400', 'font-bold', 'border-b-2', 'border-primary', 'dark:border-brand-400');
+                activeTab = tab.dataset.tab;
+                filterOrders();
+            });
+        });
+
+        searchInput.addEventListener('input', filterOrders);
+        filterPayment.addEventListener('change', filterOrders);
+
+        // Row hover effect
+        document.querySelectorAll('.order-table-row').forEach(row => {
+            row.addEventListener('click', () => {
+                row.classList.add('bg-primary-fixed');
+                setTimeout(() => {
+                    row.classList.remove('bg-primary-fixed');
+                }, 200);
+            });
+        });
+
+        // Detail modal
+        const modal = document.getElementById('orderModal');
+        const modalCloseBtns = document.querySelectorAll('.modal-close');
+
+        document.querySelectorAll('.detail-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const row = btn.closest('.order-table-row');
+                document.getElementById('modalOrderId').textContent = row.dataset.order;
+                document.getElementById('modalCustomer').textContent = row.querySelector('.font-headline-sm')?.textContent || '-';
+                const locText = row.querySelector('.text-label-sm.text-on-surface-variant')?.textContent?.trim() || '-';
+                document.getElementById('modalDate').textContent = locText;
+                
+                const statusEl = row.querySelectorAll('td')[3];
+                const statusBadge = statusEl.querySelector('.inline-flex');
+                document.getElementById('modalStatus').innerHTML = statusBadge ? statusBadge.cloneNode(true).outerHTML : '-';
+                
+                const paymentEl = row.querySelectorAll('td')[5];
+                const paymentBadge = paymentEl.querySelector('.inline-flex');
+                document.getElementById('modalPayment').innerHTML = paymentBadge ? paymentBadge.cloneNode(true).outerHTML : '-';
+                
+                modal.classList.remove('hidden');
+            });
+        });
+
+        modalCloseBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                modal.classList.add('hidden');
+            });
+        });
+
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal || e.target.classList.contains('absolute')) {
+                modal.classList.add('hidden');
+            }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+                modal.classList.add('hidden');
+            }
+        });
+    </script>
+</body>
+</html>

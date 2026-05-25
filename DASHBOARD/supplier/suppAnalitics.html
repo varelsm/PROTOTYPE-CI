@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>GASPOLL Supplier Dashboard - Analytics</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<script>
+  (function() {
+    const saved = localStorage.getItem('theme');
+    if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    }
+  })();
+</script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "brand": {
+                          "50": "#fff7ed",
+                          "100": "#ffedd5",
+                          "200": "#fed7aa",
+                          "300": "#fdba74",
+                          "400": "#fb923c",
+                          "500": "#f97316",
+                          "600": "#ea580c",
+                          "700": "#c2410c",
+                          "800": "#a33a0f",
+                          "900": "#7c2d12"
+                        },
+                        "secondary-fixed": "#d8e3fb",
+                        "on-surface-variant": "#5a4136",
+                        "primary": "#a04100",
+                        "tertiary-fixed": "#99f89d",
+                        "secondary-container": "#d5e0f8",
+                        "on-tertiary-fixed-variant": "#00531a",
+                        "on-surface": "#0b1c30",
+                        "on-error-container": "#93000a",
+                        "surface-container-low": "#eff4ff",
+                        "on-background": "#0b1c30",
+                        "on-secondary": "#ffffff",
+                        "on-primary-container": "#572000",
+                        "inverse-primary": "#ffb693",
+                        "surface-container": "#e5eeff",
+                        "on-secondary-fixed": "#111c2d",
+                        "surface-container-highest": "#d3e4fe",
+                        "inverse-on-surface": "#eaf1ff",
+                        "tertiary-fixed-dim": "#7edb83",
+                        "surface": "#f8f9ff",
+                        "outline": "#8e7164",
+                        "tertiary-container": "#51ac5a",
+                        "background": "#f8f9ff",
+                        "tertiary": "#006e25",
+                        "surface-dim": "#cbdbf5",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-fixed-variant": "#3c475a",
+                        "secondary": "#545f73",
+                        "on-error": "#ffffff",
+                        "surface-tint": "#a04100",
+                        "on-primary-fixed-variant": "#7a3000",
+                        "on-primary": "#ffffff",
+                        "surface-container-high": "#dce9ff",
+                        "on-primary-fixed": "#351000",
+                        "surface-variant": "#d3e4fe",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-bright": "#f8f9ff",
+                        "secondary-fixed-dim": "#bcc7de",
+                        "outline-variant": "#e2bfb0",
+                        "on-secondary-container": "#586377",
+                        "on-tertiary-fixed": "#002106",
+                        "primary-fixed": "#ffdbcc",
+                        "error": "#ba1a1a",
+                        "inverse-surface": "#213145",
+                        "primary-container": "#ff6b00",
+                        "primary-fixed-dim": "#ffb693",
+                        "on-tertiary-container": "#003a10",
+                        "error-container": "#ffdad6"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-desktop": "32px",
+                        "margin-mobile": "16px",
+                        "unit": "8px",
+                        "gutter": "24px",
+                        "container-max": "1280px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "headline-xl-mobile": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "headline-xl": ["Inter"],
+                        "headline-sm": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-xl-mobile": ["28px", { "lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "label-md": ["14px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "headline-xl": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-sm": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "headline-lg": ["30px", { "lineHeight": "38px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "label-sm": ["12px", { "lineHeight": "14px", "fontWeight": "500" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .sun-icon { display: block; }
+        html.dark .sun-icon { display: none; }
+        .moon-icon { display: none; }
+        html.dark .moon-icon { display: block; }
+        .chart-grid-line {
+            stroke: #e2bfb0;
+            stroke-dasharray: 4 4;
+        }
+        html.dark .chart-grid-line {
+            stroke: #475569;
+        }
+    </style>
+</head>
+<body class="bg-background dark:bg-slate-950 text-on-background dark:text-slate-100 font-body-md antialiased selection:bg-primary-container selection:text-white transition-colors duration-300 min-h-screen flex">
+<!-- SideNavBar (WEB) -->
+<nav class="hidden md:flex flex-col h-screen left-0 w-64 fixed bg-surface-container-low dark:bg-slate-900 border-r border-outline-variant dark:border-slate-700 gap-2 z-50">
+<!-- Brand / Header -->
+<div class="px-6 py-6 mb-4">
+<h1 class="font-headline-sm text-headline-sm font-black text-primary dark:text-brand-500 mb-1">GASPOLL Supplier</h1>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary-container dark:text-green-400 text-sm" data-weight="fill">verified</span>
+<p class="font-body-sm text-body-sm text-secondary dark:text-slate-400">Verified Supplier</p>
+</div>
+</div>
+<!-- Main Navigation -->
+<div class="flex-1 px-4 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-secondary dark:text-slate-400 hover:text-primary dark:hover:text-brand-400 hover:bg-surface-container-highest dark:hover:bg-slate-800 rounded-full transition-all duration-150 ease-in-out" href="suppOverview.html">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-md text-label-md">Overview</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary dark:text-slate-400 hover:text-primary dark:hover:text-brand-400 hover:bg-surface-container-highest dark:hover:bg-slate-800 rounded-full transition-all duration-150 ease-in-out" href="suppProd.html">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="font-label-md text-label-md">Products</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary dark:text-slate-400 hover:text-primary dark:hover:text-brand-400 hover:bg-surface-container-highest dark:hover:bg-slate-800 rounded-full transition-all duration-150 ease-in-out" href="suppOrders.html">
+<span class="material-symbols-outlined">shopping_cart</span>
+<span class="font-label-md text-label-md">Orders</span>
+</a>
+<!-- Active State: Analytics -->
+<a class="flex items-center gap-3 px-4 py-3 bg-secondary-container dark:bg-blue-500/30 text-on-secondary-container dark:text-blue-200 rounded-full transition-all duration-150 ease-in-out" href="suppAnalitics.html">
+<span class="material-symbols-outlined" data-weight="fill">bar_chart</span>
+<span class="font-label-md text-label-md">Analytics</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary dark:text-slate-400 hover:text-primary dark:hover:text-brand-400 hover:bg-surface-container-highest dark:hover:bg-slate-800 rounded-full transition-all duration-150 ease-in-out" href="settings.html">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</div>
+
+<!-- Footer Navigation -->
+<div class="px-4 pb-6 mt-auto space-y-1 border-t border-outline-variant dark:border-slate-700 pt-4 mx-2">
+<a class="flex items-center gap-3 px-4 py-2 text-secondary dark:text-slate-400 hover:text-primary dark:hover:text-brand-400 hover:bg-surface-container-highest dark:hover:bg-slate-800 rounded-full transition-all duration-150 ease-in-out" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="font-label-md text-label-md">Help Center</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-error dark:text-red-400 hover:bg-error-container dark:hover:bg-red-500/20 rounded-full transition-all duration-150 ease-in-out" href="../../LOGIN/loginPage.html" id="logout-link">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-label-md text-label-md">Logout</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 md:ml-64 flex flex-col min-h-screen overflow-x-hidden">
+<!-- TopNavBar -->
+<header class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop h-16 z-40 bg-surface-container-lowest dark:bg-slate-900 sticky top-0 shadow-sm border-b border-outline-variant dark:border-slate-700 transition-all duration-200">
+<!-- Mobile Menu Toggle -->
+<button class="md:hidden p-2 text-secondary dark:text-slate-400 hover:bg-surface-container-low dark:hover:bg-slate-800 rounded-full">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<!-- Brand Logo Mobile -->
+<h2 class="md:hidden font-headline-md text-headline-md font-bold text-primary dark:text-brand-500">GASPOLL</h2>
+<!-- Actions -->
+<div class="flex items-center gap-2">
+<button class="p-2 text-secondary dark:text-slate-400 hover:bg-surface-container-low dark:hover:bg-slate-800 rounded-full transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-primary dark:bg-brand-500 rounded-full"></span>
+</button>
+<button class="p-2 text-secondary dark:text-slate-400 hover:bg-surface-container-low dark:hover:bg-slate-800 rounded-full transition-colors">
+<span class="material-symbols-outlined">shopping_bag</span>
+</button>
+<div class="h-6 w-px bg-outline-variant dark:bg-slate-700 mx-2 hidden md:block"></div>
+<button class="hidden md:flex items-center gap-2 p-1 pr-3 hover:bg-surface-container-low dark:hover:bg-slate-800 rounded-full transition-colors border border-transparent hover:border-outline-variant dark:hover:border-slate-700">
+<img alt="Supplier Profile Avatar" class="w-8 h-8 rounded-full object-cover border border-outline-variant dark:border-slate-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDeiZxWwnD2vI9TjwC9O14zMleJZ-UYHeRhFf1tsHIrOFmnKcJdd0VZmZrKgCsTn0YHZILBPpC5it3_5m3xRG-3Nv12x29xZWPWhsK-Xy1TiSvyRTnvijC2tViJQD2wAxAwUCxuRvoXjLP0eHd1ynLDLOkIKIPaUrZYLISJFKLVZO0QjQ4E8gv6DzGq5mfqncLhwPcXxP7XzIqsR8CVpmPO6-4SJLuocgk20EemFjgye5_Gv8tcEpx_a30qyMROspib2LOwebBH5lM">
+<span class="font-label-md text-label-md text-secondary dark:text-slate-400">Profile</span>
+<span class="material-symbols-outlined text-secondary dark:text-slate-400 text-sm">expand_more</span>
+</button>
+</div>
+</header>
+<!-- Theme Toggle -->
+<button id="theme-toggle" class="fixed top-4 right-4 z-50 p-2 rounded-full bg-surface-container-lowest dark:bg-slate-900 hover:bg-surface-container-low dark:hover:bg-slate-800 hover:shadow-md transition-colors shadow-md" aria-label="Toggle dark mode">
+<svg class="sun-icon w-5 h-5 text-primary dark:text-brand-400" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="5"></circle><line x1="12" x2="12" y1="1" y2="3"></line><line x1="12" x2="12" y1="21" y2="23"></line><line x1="4.22" x2="5.64" y1="4.22" y2="5.64"></line><line x1="18.36" x2="19.78" y1="18.36" y2="19.78"></line><line x1="1" x2="3" y1="12" y2="12"></line><line x1="21" x2="23" y1="12" y2="12"></line><line x1="4.22" x2="5.64" y1="19.78" y2="18.36"></line><line x1="18.36" x2="19.78" y1="5.64" y2="4.22"></line></svg>
+<svg class="moon-icon w-5 h-5 text-brand-400 fill-current" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+</button>
+<!-- Canvas / Dashboard Content -->
+<div class="p-margin-mobile md:p-margin-desktop max-w-[1280px] mx-auto w-full space-y-8">
+<!-- Page Header -->
+<div class="flex justify-between items-end">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface dark:text-slate-100">Analytics Overview</h2>
+<p class="font-body-md text-body-md text-on-surface-variant dark:text-slate-400 mt-1">Real-time performance metrics for your supplier account.</p>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center gap-2 px-4 py-2 bg-surface-container-lowest dark:bg-slate-800 border border-outline-variant dark:border-slate-600 rounded-lg font-label-md text-label-md text-on-surface dark:text-slate-100 hover:bg-surface-container-low dark:hover:bg-slate-700 transition-all">
+<span class="material-symbols-outlined">calendar_today</span>
+                        Last 30 Days
+                    </button>
+<button class="flex items-center gap-2 px-4 py-2 bg-primary dark:bg-brand-500 text-on-primary dark:text-white rounded-lg font-label-md text-label-md hover:opacity-90 transition-all">
+<span class="material-symbols-outlined">download</span>
+                        Export Report
+                    </button>
+</div>
+</div>
+<!-- Dashboard Bento Grid -->
+<div class="grid grid-cols-12 gap-gutter">
+<!-- Main Revenue Performance Chart -->
+<div class="col-span-12 lg:col-span-8 bg-surface-container-lowest dark:bg-slate-800 border border-outline-variant dark:border-slate-700 rounded-xl p-6 shadow-sm">
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface dark:text-slate-100">Revenue Performance</h3>
+<p class="text-on-surface-variant dark:text-slate-400 text-body-sm">Gross volume vs. target growth</p>
+</div>
+<div class="text-right">
+<p class="font-headline-sm text-headline-sm font-bold text-primary dark:text-brand-400">Rp 428.500.000</p>
+<p class="text-tertiary dark:text-green-400 font-label-md text-label-md flex items-center justify-end">
+<span class="material-symbols-outlined text-[16px] mr-1">trending_up</span>
+                                +12.4% vs prev. month
+                            </p>
+</div>
+</div>
+<!-- Chart Placeholder -->
+<div class="relative h-[320px] w-full rounded-lg bg-surface-container-low/50 dark:bg-slate-700/50 border border-dashed border-outline-variant dark:border-slate-600 flex items-end justify-between px-4 pb-8">
+<svg class="absolute inset-0 w-full h-full p-8" preserveaspectratio="none">
+<!-- Grid lines -->
+<line class="chart-grid-line" x1="0" x2="100%" y1="20%" y2="20%"></line>
+<line class="chart-grid-line" x1="0" x2="100%" y1="40%" y2="40%"></line>
+<line class="chart-grid-line" x1="0" x2="100%" y1="60%" y2="60%"></line>
+<line class="chart-grid-line" x1="0" x2="100%" y1="80%" y2="80%"></line>
+<!-- Line Chart Placeholder Path -->
+<path class="drop-shadow-lg" d="M0,250 Q100,200 200,220 T400,100 T600,150 T800,50 T1000,80" fill="none" stroke="#a04100" stroke-linecap="round" stroke-width="4"></path>
+</svg>
+<!-- Month labels -->
+<span class="text-label-sm text-label-sm text-on-surface-variant dark:text-slate-400">Jan</span>
+<span class="text-label-sm text-label-sm text-on-surface-variant dark:text-slate-400">Feb</span>
+<span class="text-label-sm text-label-sm text-on-surface-variant dark:text-slate-400">Mar</span>
+<span class="text-label-sm text-label-sm text-on-surface-variant dark:text-slate-400">Apr</span>
+<span class="text-label-sm text-label-sm text-on-surface-variant dark:text-slate-400">May</span>
+<span class="text-label-sm text-label-sm text-on-surface-variant dark:text-slate-400">Jun</span>
+</div>
+</div>
+<!-- Sales by Category Breakdown -->
+<div class="col-span-12 lg:col-span-4 bg-surface-container-lowest dark:bg-slate-800 border border-outline-variant dark:border-slate-700 rounded-xl p-6 shadow-sm flex flex-col">
+<h3 class="font-headline-sm text-headline-sm text-on-surface dark:text-slate-100 mb-6">Sales by Category</h3>
+<div class="space-y-6 flex-1">
+<div>
+<div class="flex justify-between mb-2">
+<span class="font-label-md text-label-md text-on-surface dark:text-slate-100">Staple Goods</span>
+<span class="text-on-surface-variant dark:text-slate-400 text-label-md text-label-md">45%</span>
+</div>
+<div class="w-full bg-surface-container dark:bg-slate-700 rounded-full h-2">
+<div class="bg-primary-container dark:bg-brand-500/20 h-2 rounded-full" style="width: 45%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between mb-2">
+<span class="font-label-md text-label-md text-on-surface dark:text-slate-100">Beverages</span>
+<span class="text-on-surface-variant dark:text-slate-400 text-label-md text-label-md">28%</span>
+</div>
+<div class="w-full bg-surface-container dark:bg-slate-700 rounded-full h-2">
+<div class="bg-primary dark:bg-brand-500 h-2 rounded-full" style="width: 28%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between mb-2">
+<span class="font-label-md text-label-md text-on-surface dark:text-slate-100">Snacks &amp; Biscuits</span>
+<span class="text-on-surface-variant dark:text-slate-400 text-label-md text-label-md">15%</span>
+</div>
+<div class="w-full bg-surface-container dark:bg-slate-700 rounded-full h-2">
+<div class="bg-on-primary-container dark:bg-brand-500/20 h-2 rounded-full" style="width: 15%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between mb-2">
+<span class="font-label-md text-label-md text-on-surface dark:text-slate-100">Personal Care</span>
+<span class="text-on-surface-variant dark:text-slate-400 text-label-md text-label-md">12%</span>
+</div>
+<div class="w-full bg-surface-container dark:bg-slate-700 rounded-full h-2">
+<div class="bg-outline dark:bg-slate-500 h-2 rounded-full" style="width: 12%"></div>
+</div>
+</div>
+</div>
+<div class="mt-8 pt-6 border-t border-outline-variant dark:border-slate-700 text-center">
+<button class="text-primary dark:text-brand-400 font-label-md text-label-md hover:underline">View Detailed Report</button>
+</div>
+</div>
+<!-- Customer Demographics -->
+<div class="col-span-12 lg:col-span-4 bg-surface-container-lowest dark:bg-slate-800 border border-outline-variant dark:border-slate-700 rounded-xl p-6 shadow-sm">
+<div class="flex items-center gap-3 mb-6">
+<div class="w-10 h-10 bg-secondary-container dark:bg-blue-500/20 rounded-lg flex items-center justify-center text-on-secondary-container dark:text-blue-300">
+<span class="material-symbols-outlined">group</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface dark:text-slate-100">Customer Profile</h3>
+</div>
+<div class="space-y-4">
+<div class="p-4 bg-surface dark:bg-slate-700 rounded-lg flex items-center justify-between border border-outline-variant dark:border-slate-600">
+<div>
+<p class="text-label-sm text-label-sm text-on-surface-variant dark:text-slate-400 uppercase tracking-wider">Top Region</p>
+<p class="font-headline-sm text-headline-sm text-on-surface dark:text-slate-100">Jawa Barat</p>
+</div>
+<div class="text-right">
+<p class="font-bold text-primary dark:text-brand-400">38%</p>
+<p class="text-[10px] text-tertiary dark:text-green-400">Market Share</p>
+</div>
+</div>
+<div class="p-4 bg-surface dark:bg-slate-700 rounded-lg flex items-center justify-between border border-outline-variant dark:border-slate-600">
+<div>
+<p class="text-label-sm text-label-sm text-on-surface-variant dark:text-slate-400 uppercase tracking-wider">Avg. Business Size</p>
+<p class="font-headline-sm text-headline-sm text-on-surface dark:text-slate-100">Micro (UMKM)</p>
+</div>
+<div class="text-right">
+<p class="font-bold text-primary dark:text-brand-400">Rp 1.2M</p>
+<p class="text-[10px] text-on-surface-variant dark:text-slate-400">Order Value</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Performance Insights Section -->
+<div class="col-span-12 lg:col-span-8 grid grid-cols-2 gap-gutter">
+<!-- Fulfillment Rate Card -->
+<div class="bg-tertiary-container/10 dark:bg-green-500/10 border border-tertiary-container/30 dark:border-green-500/30 rounded-xl p-6 relative overflow-hidden group">
+<div class="relative z-10">
+<div class="flex items-center justify-between mb-4">
+<span class="text-tertiary dark:text-green-400 font-bold uppercase tracking-widest text-label-sm text-label-md">Supply Chain Health</span>
+<span class="material-symbols-outlined text-tertiary dark:text-green-400">check_circle</span>
+</div>
+<p class="font-label-md text-label-md text-on-surface-variant dark:text-slate-400">Order Fulfillment Rate</p>
+<h4 class="font-[48px] font-black text-on-surface dark:text-slate-100 leading-none my-2">98.4%</h4>
+<p class="text-body-sm text-on-surface-variant dark:text-slate-400">Excellent. You are meeting almost all demand within the 24-hour SLA.</p>
+</div>
+<div class="absolute -right-8 -bottom-8 w-32 h-32 bg-tertiary-container/20 dark:bg-green-500/20 rounded-full blur-3xl transition-transform group-hover:scale-150"></div>
+</div>
+<!-- Return Rate Card -->
+<div class="bg-error-container/10 dark:bg-red-500/10 border border-error-container/30 dark:border-red-500/30 rounded-xl p-6 relative overflow-hidden group">
+<div class="relative z-10">
+<div class="flex items-center justify-between mb-4">
+<span class="text-error dark:text-red-400 font-bold uppercase tracking-widest text-label-sm text-label-md">Quality Control</span>
+<span class="material-symbols-outlined text-error dark:text-red-400">assignment_return</span>
+</div>
+<p class="font-label-md text-label-md text-on-surface-variant dark:text-slate-400">Return Rate</p>
+<h4 class="font-[48px] font-black text-on-surface dark:text-slate-100 leading-none my-2">0.2%</h4>
+<p class="text-body-sm text-on-surface-variant dark:text-slate-400">Decreased by 0.5% this month. Quality consistency is improving.</p>
+</div>
+<div class="absolute -right-8 -bottom-8 w-32 h-32 bg-error-container/20 dark:bg-red-500/20 rounded-full blur-3xl transition-transform group-hover:scale-150"></div>
+</div>
+</div>
+<!-- Recent Performance Insights -->
+<div class="col-span-12 bg-inverse-surface dark:bg-slate-800 text-on-tertiary dark:text-slate-100 rounded-xl p-8 flex flex-col md:flex-row items-center gap-8 overflow-hidden relative">
+<div class="md:w-1/3">
+<h3 class="font-headline-lg text-headline-lg text-on-surface dark:text-slate-100 mb-4">Smart Insight</h3>
+<p class="opacity-80 font-body-md text-body-md mb-6 dark:text-slate-400">Our AI detected a rising trend in "Healthy Snacks" among your B2B customers in Semarang. Increasing stock levels by 15% could boost next month's revenue by up to Rp 12.000.000.</p>
+<button class="bg-primary-container dark:bg-brand-500 text-on-primary dark:text-white px-6 py-3 rounded-lg font-label-md text-label-md hover:opacity-90 transition-colors">Apply Strategy</button>
+</div>
+<div class="md:w-2/3 grid grid-cols-3 gap-6">
+<div class="bg-white/10 dark:bg-slate-700/50 backdrop-blur-md p-6 rounded-lg border border-white/10 dark:border-slate-600">
+<span class="material-symbols-outlined text-primary-fixed-dim dark:text-brand-400">trending_up</span>
+<p class="text-label-sm text-label-sm uppercase mt-4 opacity-60 dark:text-slate-400">Projected Growth</p>
+<p class="font-headline-sm text-headline-sm font-bold dark:text-slate-100">+8.4%</p>
+</div>
+<div class="bg-white/10 dark:bg-slate-700/50 backdrop-blur-md p-6 rounded-lg border border-white/10 dark:border-slate-600">
+<span class="material-symbols-outlined text-tertiary-fixed-dim dark:text-green-400">inventory</span>
+<p class="text-label-sm text-label-sm uppercase mt-4 opacity-60 dark:text-slate-400">Stock Health</p>
+<p class="font-headline-sm text-headline-sm font-bold text-tertiary-fixed-dim dark:text-green-400">Optimal</p>
+</div>
+<div class="bg-white/10 dark:bg-slate-700/50 backdrop-blur-md p-6 rounded-lg border border-white/10 dark:border-slate-600">
+<span class="material-symbols-outlined text-primary-fixed-dim dark:text-brand-400">stars</span>
+<p class="text-label-sm text-label-sm uppercase mt-4 opacity-60 dark:text-slate-400">Supplier Rating</p>
+<div class="flex items-center gap-1">
+<p class="font-headline-sm text-headline-sm font-bold dark:text-slate-100">4.9</p>
+<span class="material-symbols-outlined text-[16px] dark:text-brand-400" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<script>
+        // Theme toggle
+        document.getElementById('theme-toggle').addEventListener('click', function() {
+            const html = document.documentElement;
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+            } else {
+                html.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            }
+        });
+
+        document.querySelectorAll('.group').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-2px)';
+                card.style.transition = 'all 0.3s ease-out';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0)';
+            });
+        });
+    </script>
+</body>
+</html>

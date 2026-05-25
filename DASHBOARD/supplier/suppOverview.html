@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>GASPOLL Supplier Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<script>
+  (function() {
+    const saved = localStorage.getItem('theme');
+    if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    }
+  })();
+</script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "brand": {
+                          "50": "#fff7ed",
+                          "100": "#ffedd5",
+                          "200": "#fed7aa",
+                          "300": "#fdba74",
+                          "400": "#fb923c",
+                          "500": "#f97316",
+                          "600": "#ea580c",
+                          "700": "#c2410c",
+                          "800": "#a33a0f",
+                          "900": "#7c2d12"
+                        },
+                        "secondary-fixed": "#d8e3fb",
+                        "on-surface-variant": "#5a4136",
+                        "primary": "#a04100",
+                        "tertiary-fixed": "#99f89d",
+                        "secondary-container": "#d5e0f8",
+                        "on-tertiary-fixed-variant": "#00531a",
+                        "on-surface": "#0b1c30",
+                        "on-error-container": "#93000a",
+                        "surface-container-low": "#eff4ff",
+                        "on-background": "#0b1c30",
+                        "on-secondary": "#ffffff",
+                        "on-primary-container": "#572000",
+                        "inverse-primary": "#ffb693",
+                        "surface-container": "#e5eeff",
+                        "on-secondary-fixed": "#111c2d",
+                        "surface-container-highest": "#d3e4fe",
+                        "inverse-on-surface": "#eaf1ff",
+                        "tertiary-fixed-dim": "#7edb83",
+                        "surface": "#f8f9ff",
+                        "outline": "#8e7164",
+                        "tertiary-container": "#51ac5a",
+                        "background": "#f8f9ff",
+                        "tertiary": "#006e25",
+                        "surface-dim": "#cbdbf5",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-fixed-variant": "#3c475a",
+                        "secondary": "#545f73",
+                        "on-error": "#ffffff",
+                        "surface-tint": "#a04100",
+                        "on-primary-fixed-variant": "#7a3000",
+                        "on-primary": "#ffffff",
+                        "surface-container-high": "#dce9ff",
+                        "on-primary-fixed": "#351000",
+                        "surface-variant": "#d3e4fe",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-bright": "#f8f9ff",
+                        "secondary-fixed-dim": "#bcc7de",
+                        "outline-variant": "#e2bfb0",
+                        "on-secondary-container": "#586377",
+                        "on-tertiary-fixed": "#002106",
+                        "primary-fixed": "#ffdbcc",
+                        "error": "#ba1a1a",
+                        "inverse-surface": "#213145",
+                        "primary-container": "#ff6b00",
+                        "primary-fixed-dim": "#ffb693",
+                        "on-tertiary-container": "#003a10",
+                        "error-container": "#ffdad6"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-desktop": "32px",
+                        "margin-mobile": "16px",
+                        "unit": "8px",
+                        "gutter": "24px",
+                        "container-max": "1280px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "headline-xl-mobile": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "headline-xl": ["Inter"],
+                        "headline-sm": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-xl-mobile": ["28px", { "lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "label-md": ["14px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "headline-xl": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-sm": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "headline-lg": ["30px", { "lineHeight": "38px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "label-sm": ["12px", { "lineHeight": "14px", "fontWeight": "500" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .sun-icon { display: block; }
+        html.dark .sun-icon { display: none; }
+        .moon-icon { display: none; }
+        html.dark .moon-icon { display: block; }
+        .dot-pattern {
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCI+CjxwYXRoIGQ9Ik0wIDBoMjB2MjBIMHoiIGZpbGw9Im5vbmUiLz4KPGNpcmNsZSBjeD0iMiIgY3k9IjIiIHI9IjIiIGZpbGw9IiNhMDQxMDAiLz4KPC9zdmc+');
+          pointer-events: none;
+        }
+        html.dark .dot-pattern {
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCI+CjxwYXRoIGQ9Ik0wIDBoMjB2MjBIMHoiIGZpbGw9Im5vbmUiLz4KPGNpcmNsZSBjeD0iMiIgY3k9IjIiIHI9IjIiIGZpbGw9IiNmZjk4MDAiLz4KPC9zdmc+');
+        }
+        .chart-gradient {
+            background: linear-gradient(180deg, rgba(249, 115, 22, 0.1) 0%, rgba(249, 115, 22, 0) 100%);
+        }
+    </style>
+</head>
+<body class="bg-background dark:bg-slate-950 text-on-background dark:text-slate-100 font-body-md antialiased selection:bg-primary-container selection:text-white transition-colors duration-300 min-h-screen flex">
+<!-- SideNavBar (WEB) -->
+<nav class="hidden md:flex flex-col h-screen left-0 w-64 fixed bg-surface-container-low dark:bg-slate-900 border-r border-outline-variant dark:border-slate-700 gap-2 z-50">
+<!-- Brand / Header -->
+<div class="px-6 py-6 mb-4">
+<h1 class="font-headline-sm text-headline-sm font-black text-primary dark:text-brand-500 mb-1">GASPOLL Supplier</h1>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary-container dark:text-green-400 text-sm" data-weight="fill">verified</span>
+<p class="font-body-sm text-body-sm text-secondary dark:text-slate-400">Verified Supplier</p>
+</div>
+</div>
+<!-- Main Navigation -->
+<div class="flex-1 px-4 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 bg-secondary-container dark:bg-blue-500/30 text-on-secondary-container dark:text-blue-200 rounded-full transition-all duration-150 ease-in-out" href="suppOverview.html">
+<span class="material-symbols-outlined" data-weight="fill">dashboard</span>
+<span class="font-label-md text-label-md">Overview</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary dark:text-slate-400 hover:text-primary dark:hover:text-brand-400 hover:bg-surface-container-highest dark:hover:bg-slate-800 rounded-full transition-all duration-150 ease-in-out" href="suppProd.html">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="font-label-md text-label-md">Products</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary dark:text-slate-400 hover:text-primary dark:hover:text-brand-400 hover:bg-surface-container-highest dark:hover:bg-slate-800 rounded-full transition-all duration-150 ease-in-out" href="suppOrders.html">
+<span class="material-symbols-outlined">shopping_cart</span>
+<span class="font-label-md text-label-md">Orders</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary dark:text-slate-400 hover:text-primary dark:hover:text-brand-400 hover:bg-surface-container-highest dark:hover:bg-slate-800 rounded-full transition-all duration-150 ease-in-out" href="suppAnalitics.html">
+<span class="material-symbols-outlined">bar_chart</span>
+<span class="font-label-md text-label-md">Analytics</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary dark:text-slate-400 hover:text-primary dark:hover:text-brand-400 hover:bg-surface-container-highest dark:hover:bg-slate-800 rounded-full transition-all duration-150 ease-in-out" href="settings.html">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</div>
+
+<!-- Footer Navigation -->
+<div class="px-4 pb-6 mt-auto space-y-1 border-t border-outline-variant dark:border-slate-700 pt-4 mx-2">
+<a class="flex items-center gap-3 px-4 py-2 text-secondary dark:text-slate-400 hover:text-primary dark:hover:text-brand-400 hover:bg-surface-container-highest dark:hover:bg-slate-800 rounded-full transition-all duration-150 ease-in-out" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="font-label-md text-label-md">Help Center</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-error dark:text-red-400 hover:bg-error-container dark:hover:bg-red-500/20 rounded-full transition-all duration-150 ease-in-out" href="../../LOGIN/loginPage.html" id="logout-link">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-label-md text-label-md">Logout</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 md:ml-64 flex flex-col min-h-screen overflow-x-hidden">
+<!-- TopNavBar -->
+<header class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop h-16 z-40 bg-surface-container-lowest dark:bg-slate-900 sticky top-0 shadow-sm border-b border-outline-variant dark:border-slate-700 transition-all duration-200">
+<!-- Mobile Menu Toggle -->
+<button class="md:hidden p-2 text-secondary dark:text-slate-400 hover:bg-surface-container-low dark:hover:bg-slate-800 rounded-full">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<!-- Brand Logo Mobile -->
+<h2 class="md:hidden font-headline-md text-headline-md font-bold text-primary dark:text-brand-500">GASPOLL</h2>
+<!-- Actions -->
+<div class="flex items-center gap-2">
+<button class="p-2 text-secondary dark:text-slate-400 hover:bg-surface-container-low dark:hover:bg-slate-800 rounded-full transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-primary dark:bg-brand-500 rounded-full"></span>
+</button>
+<button class="p-2 text-secondary dark:text-slate-400 hover:bg-surface-container-low dark:hover:bg-slate-800 rounded-full transition-colors">
+<span class="material-symbols-outlined">shopping_bag</span>
+</button>
+<div class="h-6 w-px bg-outline-variant dark:bg-slate-700 mx-2 hidden md:block"></div>
+<button class="hidden md:flex items-center gap-2 p-1 pr-3 hover:bg-surface-container-low dark:hover:bg-slate-800 rounded-full transition-colors border border-transparent hover:border-outline-variant dark:hover:border-slate-700">
+<img alt="Supplier Profile Avatar" class="w-8 h-8 rounded-full object-cover border border-outline-variant dark:border-slate-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDeiZxWwnD2vI9TjwC9O14zMleJZ-UYHeRhFf1tsHIrOFmnKcJdd0VZmZrKgCsTn0YHZILBPpC5it3_5m3xRG-3Nv12x29xZWPWhsK-Xy1TiSvyRTnvijC2tViJQD2wAxAwUCxuRvoXjLP0eHd1ynLDLOkIKIPaUrZYLISJFKLVZO0QjQ4E8gv6DzGq5mfqncLhwPcXxP7XzIqsR8CVpmPO6-4SJLuocgk20EemFjgye5_Gv8tcEpx_a30qyMROspib2LOwebBH5lM">
+<span class="font-label-md text-label-md text-secondary dark:text-slate-400">Profile</span>
+<span class="material-symbols-outlined text-secondary dark:text-slate-400 text-sm">expand_more</span>
+</button>
+</div>
+</header>
+<!-- Theme Toggle -->
+<button id="theme-toggle" class="fixed top-4 right-4 z-50 p-2 rounded-full bg-surface-container-lowest dark:bg-slate-900 hover:bg-surface-container-low dark:hover:bg-slate-800 hover:shadow-md transition-colors shadow-md" aria-label="Toggle dark mode">
+<svg class="sun-icon w-5 h-5 text-primary dark:text-brand-400" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="5"></circle><line x1="12" x2="12" y1="1" y2="3"></line><line x1="12" x2="12" y1="21" y2="23"></line><line x1="4.22" x2="5.64" y1="4.22" y2="5.64"></line><line x1="18.36" x2="19.78" y1="18.36" y2="19.78"></line><line x1="1" x2="3" y1="12" y2="12"></line><line x1="21" x2="23" y1="12" y2="12"></line><line x1="4.22" x2="5.64" y1="19.78" y2="18.36"></line><line x1="18.36" x2="19.78" y1="5.64" y2="4.22"></line></svg>
+<svg class="moon-icon w-5 h-5 text-brand-400 fill-current" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+</button>
+<!-- Canvas / Dashboard Content -->
+<div class="p-margin-mobile md:p-margin-desktop max-w-[1280px] mx-auto w-full space-y-8">
+<!-- Summary Cards -->
+<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+<div class="bg-surface-container-lowest dark:bg-slate-800 rounded-xl shadow-sm border border-outline-variant dark:border-slate-700 p-6 hover:shadow-md hover:border-primary dark:hover:border-brand-500 transition-all">
+<div class="flex justify-between items-start mb-4">
+<div class="p-3 bg-primary-fixed dark:bg-brand-500/20 rounded-lg text-primary dark:text-brand-400">
+<span class="material-symbols-outlined">payments</span>
+</div>
+<span class="text-tertiary-container dark:text-green-300 flex items-center text-sm font-label-sm bg-tertiary-container/10 dark:bg-green-500/20 px-2 py-1 rounded">
+<span class="material-symbols-outlined text-[16px] mr-1">trending_up</span> 12%</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary dark:text-slate-400 mb-1">Total Penjualan (MTD)</p>
+<h3 class="font-headline-md text-headline-md text-on-surface dark:text-slate-100">Rp 142.8M</h3>
+</div>
+<div class="bg-surface-container-lowest dark:bg-slate-800 rounded-xl shadow-sm border border-outline-variant dark:border-slate-700 p-6 hover:shadow-md hover:border-primary dark:hover:border-brand-500 transition-all">
+<div class="flex justify-between items-start mb-4">
+<div class="p-3 bg-secondary-fixed dark:bg-blue-500/20 rounded-lg text-secondary dark:text-blue-300">
+<span class="material-symbols-outlined">shopping_cart</span>
+</div>
+<span class="text-tertiary-container dark:text-green-300 flex items-center text-sm font-label-sm bg-tertiary-container/10 dark:bg-green-500/20 px-2 py-1 rounded">
+<span class="material-symbols-outlined text-[16px] mr-1">trending_up</span> 8%</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary dark:text-slate-400 mb-1">Total Pesanan</p>
+<h3 class="font-headline-md text-headline-md text-on-surface dark:text-slate-100">1,284</h3>
+</div>
+<div class="bg-surface-container-lowest dark:bg-slate-800 rounded-xl shadow-sm border border-outline-variant dark:border-slate-700 p-6 hover:shadow-md hover:border-primary dark:hover:border-brand-500 transition-all">
+<div class="flex justify-between items-start mb-4">
+<div class="p-3 bg-tertiary-fixed dark:bg-green-500/20 rounded-lg text-tertiary dark:text-green-300">
+<span class="material-symbols-outlined">inventory</span>
+</div>
+<span class="text-secondary dark:text-slate-400 flex items-center text-sm font-label-sm px-2 py-1 rounded">
+<span class="material-symbols-outlined text-[16px] mr-1">horizontal_rule</span> Steady</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary dark:text-slate-400 mb-1">Produk Aktif</p>
+<h3 class="font-headline-md text-headline-md text-on-surface dark:text-slate-100">452</h3>
+</div>
+<div class="bg-surface-container-lowest dark:bg-slate-800 rounded-xl shadow-sm border border-outline-variant dark:border-slate-700 p-6 hover:shadow-md hover:border-tertiary-container dark:hover:border-green-500 transition-all relative overflow-hidden">
+<div class="absolute -right-4 -top-4 opacity-10 dark:opacity-20 text-tertiary-container dark:text-green-500 transform rotate-12">
+<span class="material-symbols-outlined text-[100px]" data-weight="fill">workspace_premium</span>
+</div>
+<div class="flex justify-between items-start mb-4 relative z-10">
+<div class="p-3 bg-primary-fixed dark:bg-brand-500/20 rounded-lg text-primary dark:text-brand-400">
+<span class="material-symbols-outlined">star</span>
+</div>
+</div>
+<p class="font-body-sm text-body-sm text-secondary dark:text-slate-400 mb-1 relative z-10">Rating Rata-rata</p>
+<h3 class="font-headline-md text-headline-md text-on-surface dark:text-slate-100 relative z-10">4.8 <span class="text-body-md font-body-md text-secondary dark:text-slate-400">/ 5.0</span></h3>
+</div>
+</section>
+<!-- Main Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<!-- Left: Sales Chart & Orders -->
+<section class="lg:col-span-2 space-y-8">
+<!-- Sales Chart -->
+<div class="bg-surface-container-lowest dark:bg-slate-800 rounded-xl shadow-sm border border-outline-variant dark:border-slate-700 p-6">
+<div class="flex justify-between items-center mb-6">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface dark:text-slate-100">Pendapatan</h3>
+<p class="text-secondary dark:text-slate-400 text-body-sm">Performa penjualan mingguan</p>
+</div>
+<div class="flex gap-2">
+<button class="px-4 py-1.5 rounded-full border border-outline-variant dark:border-slate-600 text-label-md text-on-surface-variant dark:text-slate-400 hover:bg-surface-container dark:hover:bg-slate-700 transition-colors">Mingguan</button>
+<button class="px-4 py-1.5 rounded-full bg-primary-container dark:bg-brand-500 text-on-primary dark:text-white text-label-md">Bulanan</button>
+</div>
+</div>
+<div class="h-56 w-full relative flex items-end gap-3 overflow-hidden border-b border-outline-variant dark:border-slate-600 pb-2">
+<div class="chart-gradient absolute inset-0"></div>
+<div class="flex-1 bg-primary/20 dark:bg-brand-500/30 rounded-t-lg h-[40%] transition-all hover:bg-primary/40 dark:hover:bg-brand-500/50"></div>
+<div class="flex-1 bg-primary/20 dark:bg-brand-500/30 rounded-t-lg h-[65%] transition-all hover:bg-primary/40 dark:hover:bg-brand-500/50"></div>
+<div class="flex-1 bg-primary/20 dark:bg-brand-500/30 rounded-t-lg h-[50%] transition-all hover:bg-primary/40 dark:hover:bg-brand-500/50"></div>
+<div class="flex-1 bg-primary/20 dark:bg-brand-500/30 rounded-t-lg h-[85%] transition-all hover:bg-primary/40 dark:hover:bg-brand-500/50"></div>
+<div class="flex-1 bg-primary/20 dark:bg-brand-500/30 rounded-t-lg h-[60%] transition-all hover:bg-primary/40 dark:hover:bg-brand-500/50"></div>
+<div class="flex-1 bg-primary/20 dark:bg-brand-500/30 rounded-t-lg h-[95%] transition-all hover:bg-primary/40 dark:hover:bg-brand-500/50"></div>
+<div class="flex-1 bg-primary/20 dark:bg-brand-500/30 rounded-t-lg h-[75%] transition-all hover:bg-primary/40 dark:hover:bg-brand-500/50"></div>
+</div>
+<div class="flex justify-between mt-3 text-label-sm text-on-surface-variant dark:text-slate-400">
+<span>Sen</span><span>Sel</span><span>Rab</span><span>Kam</span><span>Jum</span><span>Sab</span><span>Min</span>
+</div>
+</div>
+<!-- Recent Orders -->
+<div class="bg-surface-container-lowest dark:bg-slate-800 rounded-xl shadow-sm border border-outline-variant dark:border-slate-700 p-6">
+<div class="flex justify-between items-end mb-4">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface dark:text-slate-100">Pesanan Terbaru</h3>
+<p class="font-body-sm text-body-sm text-secondary dark:text-slate-400">Transaksi terakhir masuk</p>
+</div>
+<button class="text-primary dark:text-brand-400 font-label-sm text-label-sm flex items-center gap-1 hover:underline">
+Export CSV <span class="material-symbols-outlined text-[16px]">download</span>
+</button>
+</div>
+<div class="space-y-3">
+<!-- Order 1 -->
+<div class="bg-surface-container-lowest dark:bg-slate-700/50 p-4 rounded-lg border border-outline-variant dark:border-slate-600 hover:border-primary dark:hover:border-brand-500 transition-colors">
+<div class="flex flex-col md:flex-row justify-between gap-3">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-secondary-container dark:bg-blue-500/20 flex items-center justify-center text-xs font-bold text-on-secondary-container dark:text-blue-300 shrink-0">TJ</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface dark:text-slate-100 font-medium">Toko Jaya Abadi</p>
+<p class="text-body-sm text-secondary dark:text-slate-400">#ORD-28491</p>
+</div>
+</div>
+<div class="md:text-right flex flex-col justify-between items-start md:items-end">
+<p class="font-label-md text-label-md text-on-surface dark:text-slate-100">Rp 12.450.000</p>
+<span class="px-2 py-0.5 rounded-full bg-primary-fixed dark:bg-brand-500/20 text-on-primary-fixed-variant dark:text-brand-300 text-[10px] font-bold uppercase tracking-wider border border-primary-fixed dark:border-brand-500/20">Processing</span>
+</div>
+</div>
+</div>
+<!-- Order 2 -->
+<div class="bg-surface-container-lowest dark:bg-slate-700/50 p-4 rounded-lg border border-outline-variant dark:border-slate-600 hover:border-primary dark:hover:border-brand-500 transition-colors">
+<div class="flex flex-col md:flex-row justify-between gap-3">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest dark:bg-slate-600 flex items-center justify-center text-xs font-bold dark:text-slate-300 shrink-0">WM</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface dark:text-slate-100 font-medium">Warung Makmur</p>
+<p class="text-body-sm text-secondary dark:text-slate-400">#ORD-28490</p>
+</div>
+</div>
+<div class="md:text-right flex flex-col justify-between items-start md:items-end">
+<p class="font-label-md text-label-md text-on-surface dark:text-slate-100">Rp 5.820.000</p>
+<span class="px-2 py-0.5 rounded-full bg-tertiary-fixed dark:bg-green-500/20 text-on-tertiary-fixed-variant dark:text-green-300 text-[10px] font-bold uppercase tracking-wider border border-tertiary-fixed dark:border-green-500/20">Shipped</span>
+</div>
+</div>
+</div>
+<!-- Order 3 -->
+<div class="bg-surface-container-lowest dark:bg-slate-700/50 p-4 rounded-lg border border-outline-variant dark:border-slate-600 hover:border-primary dark:hover:border-brand-500 transition-colors">
+<div class="flex flex-col md:flex-row justify-between gap-3">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary-fixed dark:bg-brand-500/20 flex items-center justify-center text-xs font-bold text-on-primary-fixed dark:text-brand-300 shrink-0">CS</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface dark:text-slate-100 font-medium">Cahaya Swalayan</p>
+<p class="text-body-sm text-secondary dark:text-slate-400">#ORD-28489</p>
+</div>
+</div>
+<div class="md:text-right flex flex-col justify-between items-start md:items-end">
+<p class="font-label-md text-label-md text-on-surface dark:text-slate-100">Rp 42.100.000</p>
+<span class="px-2 py-0.5 rounded-full bg-tertiary-fixed dark:bg-green-500/20 text-on-tertiary-fixed-variant dark:text-green-300 text-[10px] font-bold uppercase tracking-wider border border-tertiary-fixed dark:border-green-500/20">Shipped</span>
+</div>
+</div>
+</div>
+<!-- Order 4 -->
+<div class="bg-surface-container-lowest dark:bg-slate-700/50 p-4 rounded-lg border border-outline-variant dark:border-slate-600 hover:border-primary dark:hover:border-brand-500 transition-colors">
+<div class="flex flex-col md:flex-row justify-between gap-3">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-secondary-container dark:bg-blue-500/20 flex items-center justify-center text-xs font-bold text-on-secondary-container dark:text-blue-300 shrink-0">BM</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface dark:text-slate-100 font-medium">Berkah Mandiri</p>
+<p class="text-body-sm text-secondary dark:text-slate-400">#ORD-28488</p>
+</div>
+</div>
+<div class="md:text-right flex flex-col justify-between items-start md:items-end">
+<p class="font-label-md text-label-md text-on-surface dark:text-slate-100">Rp 8.900.000</p>
+<span class="px-2 py-0.5 rounded-full bg-primary-fixed dark:bg-brand-500/20 text-on-primary-fixed-variant dark:text-brand-300 text-[10px] font-bold uppercase tracking-wider border border-primary-fixed dark:border-brand-500/20">Processing</span>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-4 pt-4 border-t border-outline-variant dark:border-slate-600 text-center">
+<button class="text-on-surface-variant dark:text-slate-400 font-label-sm text-label-sm hover:text-primary dark:hover:text-brand-400 transition-colors">Lihat Semua Transaksi</button>
+</div>
+</div>
+</section>
+<!-- Right: Top Products & Suppliers -->
+<section class="space-y-8">
+<!-- Top Selling -->
+<div class="bg-surface-container-lowest dark:bg-slate-800 rounded-xl shadow-sm border border-outline-variant dark:border-slate-700 p-6">
+<h3 class="font-headline-sm text-headline-sm text-on-surface dark:text-slate-100 mb-6">Terlaris</h3>
+<div class="space-y-5">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-lg bg-surface-container-high dark:bg-slate-700 overflow-hidden flex-shrink-0">
+<img alt="Product" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDHkdQ-LLUrdPWg4NxEfFDaTVNboIl8B4Y7tXGcQeWobm7dE1HLogC2DQyizWr2RisP6qdu1LFZtEUDWxBtLSQZHpE-s1Pt6MbJ_S-TUdP6d7UfI-NuQouM1KFnWOKUiYEPaU885YIsoT_jEIdFSWNe3lUJZERoF8-VQoMndzcS0_DtVWKM3Q1LzDbqOQZSX9oYIaLAt-W-_ziej4z_wD8ngfevz1KKJbrCJK5jTBEa2Ba7gSEPVImNstf7_XGAa3jk4UFM4K8N-zg">
+</div>
+<div class="flex-1 min-w-0">
+<p class="font-label-md text-label-md text-on-surface dark:text-slate-100 truncate">Premium Running Gear</p>
+<p class="text-body-sm text-secondary dark:text-slate-400">432 unit terjual</p>
+</div>
+<p class="font-label-md text-label-md text-primary dark:text-brand-400 shrink-0">Rp 4.2M</p>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-lg bg-surface-container-high dark:bg-slate-700 overflow-hidden flex-shrink-0">
+<img alt="Product" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuChaoH_JXSFeJoU40yHzvNm05k5oCeZ9oEFuk_pdAOg8wVyLk9-ePRggrKmdlcEYnnl0pj2YT8qgjT46qStfvPLER894r6QUVwB8gEbLbXwKHq3bunz8PhtOwqeJ7adHwS_6oJg8C-ZDQ0kPFzJ_tsGWj7aU7XvJgktBqY1dBQvdj9dtAKxNSLvHl6DFTGD_fc0nuobGT36RrnXh189eOHOn09yWjmScaDZPqb9pIMVDAeAV1SNqJOsqQgZkYPjFQkcQq5l9XcE-qI">
+</div>
+<div class="flex-1 min-w-0">
+<p class="font-label-md text-label-md text-on-surface dark:text-slate-100 truncate">Smart Quartz Z-10</p>
+<p class="text-body-sm text-secondary dark:text-slate-400">311 unit terjual</p>
+</div>
+<p class="font-label-md text-label-md text-primary dark:text-brand-400 shrink-0">Rp 3.8M</p>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-lg bg-surface-container-high dark:bg-slate-700 overflow-hidden flex-shrink-0">
+<img alt="Product" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCyQcS9-i2zm0BrFFKD57Ybl0WU8xBBRvpFChM1TugRyt6WywCAFukavOJmxkpyxZLj0R9iqwu0negcf3j1dPR29mSgldkEHTW3GdzaUf94F67Yz5oCBc0vZpZVSxxMzGk_d3VakPasCAhxQY0g0RVqslrl1pMpBy6DK3pyY7v3BGoSAej75QwQTplMFZkQOcSG4RU3d9LG6h_zcXH4QkFzN2h2XkLIuSQTSEELQEoO3FPMFULAB1nUqEHhrP--2nPkabbYq-B-xtg">
+</div>
+<div class="flex-1 min-w-0">
+<p class="font-label-md text-label-md text-on-surface dark:text-slate-100 truncate">AudioPro Wireless</p>
+<p class="text-body-sm text-secondary dark:text-slate-400">285 unit terjual</p>
+</div>
+<p class="font-label-md text-label-md text-primary dark:text-brand-400 shrink-0">Rp 2.9M</p>
+</div>
+<button class="w-full py-2 text-primary dark:text-brand-400 font-label-sm text-label-sm border border-outline-variant dark:border-slate-600 rounded-lg hover:bg-surface-container dark:hover:bg-slate-700 transition-colors">Lihat Semua Produk</button>
+</div>
+</div>
+<!-- Top Customers -->
+<div class="bg-surface-container-lowest dark:bg-slate-800 rounded-xl shadow-sm border border-outline-variant dark:border-slate-700 p-6">
+<h3 class="font-label-md text-label-md text-on-surface dark:text-slate-100 mb-4">Customer Teratas</h3>
+<div class="space-y-3">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container-high dark:bg-slate-700 flex items-center justify-center text-primary dark:text-brand-400 font-bold">TJ</div>
+<div class="flex-1">
+<p class="font-label-sm text-label-sm text-on-surface dark:text-slate-100">Toko Jaya Abadi</p>
+<p class="text-[10px] text-secondary dark:text-slate-500">Order terakhir: 2 hari lalu</p>
+</div>
+<button class="text-primary dark:text-brand-400 hover:bg-primary-fixed dark:hover:bg-brand-500/20 p-1 rounded transition-colors">
+<span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container-high dark:bg-slate-700 flex items-center justify-center text-secondary dark:text-blue-300 font-bold">CS</div>
+<div class="flex-1">
+<p class="font-label-sm text-label-sm text-on-surface dark:text-slate-100">Cahaya Swalayan</p>
+<p class="text-[10px] text-secondary dark:text-slate-500">Order terakhir: 3 hari lalu</p>
+</div>
+<button class="text-primary dark:text-brand-400 hover:bg-primary-fixed dark:hover:bg-brand-500/20 p-1 rounded transition-colors">
+<span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container-high dark:bg-slate-700 flex items-center justify-center text-tertiary dark:text-green-400 font-bold">WM</div>
+<div class="flex-1">
+<p class="font-label-sm text-label-sm text-on-surface dark:text-slate-100">Warung Makmur</p>
+<p class="text-[10px] text-secondary dark:text-slate-500">Order terakhir: 5 hari lalu</p>
+</div>
+<button class="text-primary dark:text-brand-400 hover:bg-primary-fixed dark:hover:bg-brand-500/20 p-1 rounded transition-colors">
+<span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+</div>
+</div>
+</main>
+<script>
+        // Theme toggle
+        document.getElementById('theme-toggle').addEventListener('click', function() {
+            const html = document.documentElement;
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+            } else {
+                html.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            }
+        });
+        
+        // Micro-interaction for active links
+        document.querySelectorAll('.active\\:scale-95').forEach(button => {
+            button.addEventListener('mousedown', () => button.style.transform = 'scale(0.95)');
+            button.addEventListener('mouseup', () => button.style.transform = 'scale(1)');
+            button.addEventListener('mouseleave', () => button.style.transform = 'scale(1)');
+        });
+
+        // Simple search highlight effect
+        const searchInput = document.querySelector('input[type="text"]');
+        if (searchInput) {
+            searchInput.addEventListener('focus', () => {
+                searchInput.parentElement.classList.add('shadow-md');
+            });
+            searchInput.addEventListener('blur', () => {
+                searchInput.parentElement.classList.remove('shadow-md');
+            });
+        }
+    </script>
+</body>
+</html>
